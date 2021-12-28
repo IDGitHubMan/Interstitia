@@ -77,7 +77,7 @@ def pageUpdate():
                                 concentration = 0
                             
                             #add values to array storing data for csv
-                            csvrow = [concentration,d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0],d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],row["lat"],row["long"],updTime,row["country"]]
+                            csvrow = [concentration,d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0],d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],row["lat"],row["long"],d["default"]["trendingSearchesDays"][0]["formattedDate"],row["country"]]
                             csvRows.append(csvrow)
                             f2.close()
                         break

@@ -5,15 +5,12 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager import chrome
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
 import csv
 import time
 import json
 from datetime import datetime
-from geojson import Feature,Point, geometry
+from geojson import Feature,Point, FeatureCollection, dump
 from mapbox import Datasets, Uploader
 import re
 
@@ -21,6 +18,7 @@ import re
 key = "sk.eyJ1IjoiaWRnZW92aXN1YWxpemVyIiwiYSI6ImNreHF0MWQxNTc3d2gydm11cXNsa2tuNHIifQ.4wjsfxEGq_St-YDjXjikcA"
 datasets = Datasets(key)
 datasetID = "ckxp9qrur5qmn21n2afc85i73"
+features = []
 #Define function to be accessible in other scripts
 def pageUpdate():
     # open CSV with request URLS.
@@ -88,5 +86,14 @@ def pageUpdate():
                             #Generate and export GEOjson to mapbox.
                             p = Point((float(row["long"]),float(row["lat"])))
                             f = Feature(geometry=p,properties={"concentration":concentration,"traffic":traffic,"query":d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],"date":d["default"]["trendingSearchesDays"][0]["formattedDate"]})
-                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)    
+                            features.append(f)
+                            os.environ['MAPBOX_ACCESS_TOKEN']=key
+                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
+    col = FeatureCollection(features)
+    file = open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/f.geojson","w")
+    dump(col,file)
+    file.close()
+    os.system('tilesets upload-source idgeovisualizer daily /Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/f.geojson')
+    os.system('tilesets create idgeovisualizer.Google_Trends_Daily --recipe /Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/recipe.json --name "Google Daily Trends"')
+    os.system("tilesets publish idgeovisualizer.Google_Trends_Daily")
 pageUpdate()

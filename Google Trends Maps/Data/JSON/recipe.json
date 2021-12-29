@@ -1,0 +1,10 @@
+{
+    "version": 1,
+    "layers": {
+        "my_new_layer": {
+            "source": "mapbox://tileset-source/{username}/{id}",
+            "minzoom": 0,
+            "maxzoom": 7
+        }
+    }
+}

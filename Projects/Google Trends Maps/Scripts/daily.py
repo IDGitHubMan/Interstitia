@@ -9,9 +9,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import csv
 import time
 import json
-from datetime import datetime
-from geojson import Feature,Point, FeatureCollection, dump
-from mapbox import Datasets, Uploader
+from geojson import Feature,Point
+from mapbox import Datasets
 import re
 
 #MAPBOX dataset uploader
@@ -81,19 +80,19 @@ def pageUpdate():
                                 concentration/=len(thing)
                             except IndexError or ZeroDivisionError:
                                 concentration = 0
-                            traffic = re.sub('\D','',d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0])
-
+                            trafficNum = re.sub('\D','',d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0])
+                            trafficChar = re.sub('\d','',d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0])
+                            if ("K" in trafficChar):
+                                traffic = float(trafficNum)*1000
+                            elif ("M" in trafficChar):
+                                traffic = float(trafficNum)*1000000
+                            else:
+                                traffic = trafficNum
                             #Generate and export GEOjson to mapbox.
                             p = Point((float(row["long"]),float(row["lat"])))
                             f = Feature(geometry=p,properties={"concentration":concentration,"traffic":traffic,"query":d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],"date":d["default"]["trendingSearchesDays"][0]["formattedDate"]})
+                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
+                            datasets.update_feature("ckxs37g8z0u8v21qnfefkfft6",row["country"],f)
                             features.append(f)
                             os.environ['MAPBOX_ACCESS_TOKEN']=key
-                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
-    col = FeatureCollection(features)
-    file = open("/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/f.geojson","w")
-    dump(col,file)
-    file.close()
-    os.system('tilesets upload-source idgeovisualizer daily /Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/f.geojson')
-    os.system('tilesets create idgeovisualizer.Google_Trends_Daily --recipe /Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/recipe.json --name "Google Daily Trends"')
-    os.system("tilesets publish idgeovisualizer.Google_Trends_Daily")
 pageUpdate()

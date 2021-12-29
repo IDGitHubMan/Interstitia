@@ -22,21 +22,21 @@ features = []
 #Define function to be accessible in other scripts
 def pageUpdate():
     # open CSV with request URLS.
-    with open('/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/CSV/durls.csv','r') as readFile:
+    with open('/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/CSV/durls.csv','r') as readFile:
 
         #Begin processing urls
         reader = csv.DictReader(readFile,delimiter=',')
         for row in reader:
             chrome_options = Options()
             chrome_options.add_argument('--headless')
-            chrome_options.add_experimental_option("prefs", {"download.default_directory": "/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily","download.prompt_for_download": False})
+            chrome_options.add_experimental_option("prefs", {"download.default_directory": "/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/daily","download.prompt_for_download": False})
             s=Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=s,options=chrome_options)
             driver.get(row["url"])
             time.sleep(1) #Necessary to let json.txt download
 
             #Open and parse json.txt
-            with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily/json.txt",'r+') as f:
+            with open("/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/daily/json.txt",'r+') as f:
                 l = f.readlines()
                 t = ""
                 for i in range(1,len(l)):
@@ -60,7 +60,7 @@ def pageUpdate():
                         #Reinitialize driver and reset download settings to avoid confusion of json.txt files
                         chrome_options = Options()
                         chrome_options.add_argument('--headless')
-                        chrome_options.add_experimental_option("prefs", {"download.default_directory": "/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily/graphs","download.prompt_for_download": False})
+                        chrome_options.add_experimental_option("prefs", {"download.default_directory": "/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/daily/graphs","download.prompt_for_download": False})
                         s=Service(ChromeDriverManager().install())
                         driver = webdriver.Chrome(service=s,options=chrome_options)
                         driver.get(obj["name"])
@@ -68,7 +68,7 @@ def pageUpdate():
                         driver.quit()
 
                         #Retrieve values from second json.txt
-                        with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily/graphs/json.txt","r+") as f2:
+                        with open("/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/daily/graphs/json.txt","r+") as f2:
                             l2 = f2.readlines()
                             t2 = ""
                             for i2 in range(1,len(l2)):
@@ -90,10 +90,10 @@ def pageUpdate():
                             os.environ['MAPBOX_ACCESS_TOKEN']=key
                             datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
     col = FeatureCollection(features)
-    file = open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/f.geojson","w")
+    file = open("/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/f.geojson","w")
     dump(col,file)
     file.close()
-    os.system('tilesets upload-source idgeovisualizer daily /Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/f.geojson')
-    os.system('tilesets create idgeovisualizer.Google_Trends_Daily --recipe /Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/recipe.json --name "Google Daily Trends"')
+    os.system('tilesets upload-source idgeovisualizer daily /Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/f.geojson')
+    os.system('tilesets create idgeovisualizer.Google_Trends_Daily --recipe /Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/JSON/recipe.json --name "Google Daily Trends"')
     os.system("tilesets publish idgeovisualizer.Google_Trends_Daily")
 pageUpdate()

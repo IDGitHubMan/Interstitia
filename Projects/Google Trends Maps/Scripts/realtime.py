@@ -19,7 +19,7 @@ driver.get("https://trends.google.com/trends/trendingsearches/realtime?geo=US&ca
 res = driver.execute_script("return performance.getEntriesByType('resource')")
 print(res)
 def rtCollector():
-    with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/CSV/durls.csv","r") as f:
+    with open("/Users/idesrosiers/Documents/Interstitia/Projects/Google Trends Maps/Data/CSV/durls.csv","r") as f:
         reader = csv.DictReader(f,delimiter=',')
         for row in reader:
             chrome_options = Options()

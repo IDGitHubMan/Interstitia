@@ -1,6 +1,7 @@
 #This script would be run each day at 11:59 PM, EST to retrieve trends for the day
 
 #Imports
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -12,14 +13,18 @@ import csv
 import time
 import json
 from datetime import datetime
+from geojson import Feature,Point, geometry
+from mapbox import Datasets, Uploader
+import re
 
+#MAPBOX dataset uploader
+key = "sk.eyJ1IjoiaWRnZW92aXN1YWxpemVyIiwiYSI6ImNreHF0MWQxNTc3d2gydm11cXNsa2tuNHIifQ.4wjsfxEGq_St-YDjXjikcA"
+datasets = Datasets(key)
+datasetID = "ckxp9qrur5qmn21n2afc85i73"
 #Define function to be accessible in other scripts
 def pageUpdate():
     # open CSV with request URLS.
     with open('/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/CSV/durls.csv','r') as readFile:
-
-        #Set headers for generated CSV. Will change to GeoJSON for mapbox sometime soon.
-        csvRows = [["concentration","traffic","query","lat","long","time","country"]]
 
         #Begin processing urls
         reader = csv.DictReader(readFile,delimiter=',')
@@ -65,7 +70,7 @@ def pageUpdate():
                         driver.quit()
 
                         #Retrieve values from second json.txt
-                        with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily/graphs/json.txt") as f2:
+                        with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/JSON/daily/graphs/json.txt","r+") as f2:
                             l2 = f2.readlines()
                             t2 = ""
                             for i2 in range(1,len(l2)):
@@ -73,19 +78,17 @@ def pageUpdate():
                             d2 = json.loads(t2)
                             try:
                                 concentration = d2["default"]["timelineData"][-1]["value"][0]
-                            except IndexError:
+                                for thing in d2["default"]["timelineData"]:
+                                    concentration+=thing["value"][0]
+                                concentration/=len(thing)
+                            except IndexError or ZeroDivisionError:
                                 concentration = 0
-                            
+                            traffic = re.sub('\D','',d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0])
                             #add values to array storing data for csv
-                            csvrow = [concentration,d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0],d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],row["lat"],row["long"],d["default"]["trendingSearchesDays"][0]["formattedDate"],row["country"]]
-                            csvRows.append(csvrow)
-                            f2.close()
-                        break
-    #actually write the csv
-    with open("/Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data/CSV","w+") as out:
-        for r in csvRows:
-            writer = csv.writer(out,delimiter=',',quotechar='"')
-            writer.writerow(r)
-            print(r)
-        print(out)
-        out.close()
+                            p = Point((float(row["long"]),float(row["lat"])))
+                            f = Feature(geometry=p,properties={"concentration":concentration,"traffic":traffic,"query":d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],"date":d["default"]["trendingSearchesDays"][0]["formattedDate"]})
+                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
+    commandStr = "mapbox datasets create-tileset " + datasetID + " idgeovisualizer.Google_Daily_Trends"
+    os.system("export MAPBOX_ACCESS_TOKEN="+key)
+    os.system(commandStr)
+pageUpdate()

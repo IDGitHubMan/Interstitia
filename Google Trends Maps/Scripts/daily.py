@@ -84,11 +84,9 @@ def pageUpdate():
                             except IndexError or ZeroDivisionError:
                                 concentration = 0
                             traffic = re.sub('\D','',d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["formattedTraffic"].split("K")[0])
-                            #add values to array storing data for csv
+
+                            #Generate and export GEOjson to mapbox.
                             p = Point((float(row["long"]),float(row["lat"])))
                             f = Feature(geometry=p,properties={"concentration":concentration,"traffic":traffic,"query":d["default"]["trendingSearchesDays"][0]["trendingSearches"][0]["title"]["query"],"date":d["default"]["trendingSearchesDays"][0]["formattedDate"]})
-                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)
-    commandStr = "mapbox datasets create-tileset " + datasetID + " idgeovisualizer.Google_Daily_Trends"
-    os.system("export MAPBOX_ACCESS_TOKEN="+key)
-    os.system(commandStr)
+                            datasets.update_feature(datasetID,row["country"] + " " + d["default"]["trendingSearchesDays"][0]["formattedDate"],f)    
 pageUpdate()

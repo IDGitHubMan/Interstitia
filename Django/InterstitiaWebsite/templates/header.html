@@ -1,4 +1,13 @@
 <div>
-    <span><a href="{{index_url}}">Interstitia Studios</a></span>
-    <span>Exploring the spaces between disciplines with interactive and explorative projects.</span>
+    {% url 'index' as index_url %}
+    <div>
+        <span><a href="{{index_url}}">Interstitia Studios</a></span>
+        <span>Exploring the spaces between disciplines with interactive and explorative projects.</span>
+    </div>
+    <div>
+        <span><a>Home</a></span>
+        <span><a>Collection</a></span>
+        <span><a>Contact</a></span>
+        <span><a>About</a></span>
+    </div>
 </div>

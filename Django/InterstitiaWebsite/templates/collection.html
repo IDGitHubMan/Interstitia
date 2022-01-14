@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Collection{% endblock title %}
+
+{% block extraSrcs %}
+    <link rel="stylesheet" href="/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/CSS/collection.css">
+{% endblock extraSrcs %}
+    
+
+
+{% block content %}
+    {% for key,value in collect.items %}
+        <a>
+            <div class="{{value.tags}} collectionDisplay">
+                <h3>{{key}}</h3>
+                <h4>{{value.maker}}</h4>
+                <p>{{value.description}}</p>
+            </div>
+        </a>
+    {% endfor %}
+{% endblock content %}
+    
+    

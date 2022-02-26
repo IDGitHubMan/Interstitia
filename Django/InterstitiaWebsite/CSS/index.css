@@ -1,0 +1,17 @@
+.topBody {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#centralDisplay {
+    background-image: url("/Users/idesrosiers/Documents/Interstitia/Projects/AudioVisualization/Screen Shot 2022-02-16 at 8.59.01 PM.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    align-items: stretch;
+}
+
+.overlay {
+    background-color: #00ff0080;
+    flex-grow: 1;
+}

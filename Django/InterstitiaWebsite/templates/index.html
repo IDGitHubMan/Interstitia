@@ -1,10 +1,17 @@
 {% extends 'base.html' %} 
 {% block title %} Interstitia Studios {% endblock title %}
 
+{% block extraSrcs %}
+    <link rel="stylesheet" href="/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/CSS/index.css">
+{% endblock extraSrcs %}
+
 {% block content %}
-    <h1 id="title">Interstitia Studios</h1>
-    <div id="centralDisplay">
-        <h3>"Welcome!"</h3>
+    <div class="topBody">
+        <div id="centralDisplay">
+            <div class="overlay">
+                <h3>Welcome!</h3>
+            </div>
+        </div>
     </div>
     <div class="bodySection">
         <p>Interstitia is a small team of multipotential students who want to share what they make, whatever that may be, for others' enjoyment and betterment. Each project hopes to cross between disciplines, concepts and ideas with thoughtful connections.</p>
@@ -23,4 +30,3 @@
         </a>
     </div>
 {% endblock content %}
-        

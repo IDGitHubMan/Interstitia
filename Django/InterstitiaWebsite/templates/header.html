@@ -1,13 +1,15 @@
 <div>
     {% url 'index' as index_url %}
+    {% url 'collection' as col_url %}
+    {% url 'about' as about_url %}
     <div>
         <span><a href="{{index_url}}">Interstitia Studios</a></span>
         <span>Exploring the spaces between disciplines with interactive and explorative projects.</span>
     </div>
     <div>
-        <span><a>Home</a></span>
-        <span><a>Collection</a></span>
+        <span><a href="{{index_url}}">Home</a></span>
+        <span><a href="{{col_url}}">Collection</a></span>
         <span><a>Contact</a></span>
-        <span><a>About</a></span>
+        <span><a href="{{about_url}}">About</a></span>
     </div>
 </div>

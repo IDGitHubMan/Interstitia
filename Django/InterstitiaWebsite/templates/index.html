@@ -1,8 +1,9 @@
+{% load static %}
 {% extends 'base.html' %} 
 {% block title %} Interstitia Studios {% endblock title %}
 
 {% block extraSrcs %}
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/IDGitHubMan/Interstitia/master/Django/InterstitiaWebsite/CSS/index.css?token=GHSAT0AAAAAABQCAO5RGPBPJBGZVAOJELWWYQ2XCSQ">
+    <link rel="stylesheet" href="{% static 'CSS/index.css' %}">
 {% endblock extraSrcs %}
 
 {% block content %}

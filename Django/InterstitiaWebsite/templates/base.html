@@ -1,9 +1,11 @@
+{% load static  %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <title>{% block title %}Interstitia Studios{% endblock title %}</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
     {% block extraSrcs %}{% endblock extraSrcs%}
 </head>
 

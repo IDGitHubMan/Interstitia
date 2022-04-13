@@ -1,5 +1,6 @@
 body {
-    background-color: #131366;
+    background-color: #000066;
+    color: white;
 }
 
 .topBody {
@@ -16,6 +17,5 @@ body {
 }
 
 .overlay {
-    background-color: #00ff0080;
     flex-grow: 1;
 }

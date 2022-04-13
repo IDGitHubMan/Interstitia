@@ -1,9 +1,15 @@
+{% load static %}
 <div>
     {% url 'index' as index_url %}
     {% url 'collection' as col_url %}
     {% url 'about' as about_url %}
-    <div>
-        <span><a href="{{index_url}}">Interstitia Studios</a></span>
+    <div id="logo">
+        <a href="{{index_url}}" id="logoLink">
+            <div>
+                <img src="{% static 'images/favicon/logoBase.svg' %}" width="100"/>
+                <p>Interstitia Studios</p>
+            </div>
+        </a>
         <span>Exploring the spaces between disciplines with interactive and explorative projects.</span>
     </div>
     <div>

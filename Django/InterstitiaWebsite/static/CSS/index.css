@@ -3,6 +3,17 @@ body {
     color: white;
 }
 
+#logoLink {
+    color: white;
+    text-decoration: none;
+}
+
+#logo {
+    display: flex;
+    justify-content: start;
+    vertical-align: middle;
+}
+
 .topBody {
     display: flex;
     justify-content: center;

@@ -3,6 +3,16 @@ body {
     color: white;
 }
 
+#centralDisplay {
+    width: 100%;
+    height: 25%;
+}
+
+#motto {
+    vertical-align: middle;
+    text-align: center;
+}
+
 #logoLink {
     color: white;
     text-decoration: none;

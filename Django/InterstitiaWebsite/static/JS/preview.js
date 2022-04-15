@@ -22,8 +22,8 @@ class Node {
         }
     }
     show() {
-        this.nP.fill(100, 40);
-        this.nP.stroke(this.col, 50);
+        this.nP.fill(255, 10);
+        this.nP.noStroke();
         this.nP.ellipse(this.loc.x, this.loc.y, this.range * 2, this.range * 2);
         this.nP.fill(this.col, 255);
         this.nP.ellipse(this.loc.x, this.loc.y, 10, 10);
@@ -208,7 +208,16 @@ function mousePressed() {
         }
     } else {
         for (var i = 0; i < f.flows.length; i++) {
-            f.flows[i].mouse += 1;
+            for (var i = 0; i < 100; i++) {
+                mouse += 1;
+            }
         }
+    }
+}
+
+function plusSlides(increment) {
+    bitOption += increment;
+    if (bitOption >= 2) {
+        bitOption = 0;
     }
 }

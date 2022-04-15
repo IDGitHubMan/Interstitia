@@ -1,5 +1,5 @@
 body {
-    background-color: #000066;
+    background-color: #000042;
     color: white;
 }
 
@@ -31,7 +31,6 @@ body {
 }
 
 #centralDisplay {
-    background-image: url("https://raw.githubusercontent.com/IDGitHubMan/Interstitia/master/Projects/AudioVisualization/Screen%20Shot%202022-02-16%20at%208.59.01%20PM.png?token=GHSAT0AAAAAABQCAO5RIFXO3CBUIW22EFMKYQ2XELQ");
     background-size: contain;
     background-repeat: no-repeat;
     align-items: stretch;

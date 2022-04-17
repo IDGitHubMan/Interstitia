@@ -1,0 +1,31 @@
+body {
+    background-color: #000042;
+    color: white;
+}
+
+.head {
+    display: flex;
+    justify-content: space-around;
+}
+
+#motto {
+    vertical-align: middle;
+    text-align: center;
+}
+
+#logoLink {
+    color: white;
+    text-decoration: none;
+}
+
+#logo {
+    display: flex;
+    justify-content: start;
+    vertical-align: middle;
+}
+
+.topBody {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

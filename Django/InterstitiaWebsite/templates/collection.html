@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Collection{% endblock title %}
 
 {% block extraSrcs %}
-    <link rel="stylesheet" href="/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/CSS/collection.css">
+    <link rel="stylesheet" href="{% static 'CSS/collection.css' %}">
 {% endblock extraSrcs %}
     
 

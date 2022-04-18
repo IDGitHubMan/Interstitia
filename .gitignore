@@ -1,7 +1,7 @@
 **/.DS_Store
 /Users/idesrosiers/Documents/Interstitia/Google Trends Maps/Data**
-/Users/idesrosiers/Documents/Interstitia/Django/projects.csv
-/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/views.py
+projects.csv
+views.py
 
 # Django #
 *.log

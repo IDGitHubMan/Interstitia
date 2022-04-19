@@ -71,3 +71,4 @@ for file in g:
     f.write("\ndef " + file[90:len(file) - 5] + "(request):")
     f.write('\n\treturn render(request,"' + file + '")')
     urlpatterns.append(path('collection/'+file[90:len(file) - 5],getattr(views,file[90:len(file) - 5]),name=file[90:len(file) - 5]))
+f.close()

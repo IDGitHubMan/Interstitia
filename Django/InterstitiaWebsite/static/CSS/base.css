@@ -1,11 +1,32 @@
+a {
+    text-decoration: none;
+}
+
 body {
     background-color: #000042;
     color: white;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .head {
     display: flex;
-    justify-content: space-around;
+    background-color: #0077FF;
+}
+
+.navButton {
+    background-color: #0077FF;
+    transition: 0.5s ease;
+    padding: 5px;
+    flex: 1;
+    text-align: center;
+}
+
+.navButton:hover {
+    background-color: #00B7FF;
+}
+
+.navLink {
+    color: black;
 }
 
 #motto {

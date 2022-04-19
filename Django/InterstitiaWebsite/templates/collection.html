@@ -11,9 +11,8 @@
 
 {% block content %}
     {% for key,value in collect.items %}
-        {% for string in value.tags %}
-        {% endfor %}
-        <a href="">
+    {% url key as key_url%}
+        <a href="{{key_url}}">
             <div class="{{value.tags}} collectionDisplay">
                 <h3>{{key}}</h3>
                 <h4>{{value.maker}}</h4>

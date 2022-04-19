@@ -9,6 +9,8 @@
 {% endblock extraSrcs %}
 
 {% block content %}
+    {% url 'collection' as col_url %}
+    {% url 'about' as about_url %}
     <div class="topBody">
         <div id="centralDisplay" oncontextmenu="return false;">
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -16,16 +18,18 @@
         </div>
     </div>
     <div class="bodySection">
-        <p>Interstitia is a small team of multipotential students who want to share what they make, whatever that may be, for others' enjoyment and betterment. Each project hopes to cross between disciplines, concepts and ideas with thoughtful connections.</p>
-        <a href="">
-            <div class="buttonLink">
-                <p>View Our Collection</p>
-            </div>
-        </a>
+        <div class="bodyText">
+            <p>Interstitia is a small team of multipotential students who want to share what they make, whatever that may be, for others' enjoyment and betterment. Each project hopes to cross between disciplines, concepts and ideas with thoughtful connections.</p>
+            <a href="{{col_url}}" target="_self">
+                <div class="buttonLink">
+                    <p>View Our Collection</p>
+                </div>
+            </a>
+        </div>
     </div>
     <div class="bodySection">
         <p>Our team has people from different backgrounds, each with their own stories and ideas to tell and share.</p>
-        <a href="">
+        <a href="{{about_url}}" target="_self">
             <div class="buttonLink">
                 <p>Learn About Our Team</p>
             </div>

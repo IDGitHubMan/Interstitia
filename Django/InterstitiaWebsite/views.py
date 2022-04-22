@@ -30,6 +30,8 @@ def collection(request):
 					html.close()
 					css = open(cssString,"wb")
 					css.close()
+					directoryString = "/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/static/images/" + row[0]
+					os.mkdir(directoryString)
 	collection = {"collect":collect}
 	return render(request,"collection.html",collection)
 def Nodes(request):

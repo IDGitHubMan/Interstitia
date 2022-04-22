@@ -18,13 +18,6 @@ from django.urls import path
 from . import views
 import glob
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',views.index,name='index'),
-    path('about',views.about,name='about'),
-    path('collection',views.collection,name='collection')
-]
-
 f = open("/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/views.py","w+")
 f.write("from django.shortcuts import render\n")
 f.write("import requests\n")
@@ -58,13 +51,17 @@ f.write('\t\t\t\t\thtml.write(res.content)\n')
 f.write('\t\t\t\t\thtml.close()\n')
 f.write('\t\t\t\t\tcss = open(cssString,"wb")\n')
 f.write('\t\t\t\t\tcss.close()\n')
+f.write('\t\t\t\t\tdirectoryString = "/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/static/images/" + row[0]\n')
+f.write('\t\t\t\t\tos.mkdir(directoryString)\n')
 f.write('\tcollection = {"collect":collect}\n')
 f.write('\treturn render(request,"collection.html",collection)')
 
-
-
-
-
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',views.index,name='index'),
+    path('about',views.about,name='about'),
+    path('collection',views.collection,name='collection')
+]
 
 g = glob.glob("/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")
 for file in g:

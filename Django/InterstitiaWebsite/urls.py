@@ -55,6 +55,7 @@ f.write('\t\t\t\t\tdirectoryString = "/Users/idesrosiers/Documents/Interstitia/D
 f.write('\t\t\t\t\tos.mkdir(directoryString)\n')
 f.write('\tcollection = {"collect":collect}\n')
 f.write('\treturn render(request,"collection.html",collection)')
+f.close()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -65,7 +66,8 @@ urlpatterns = [
 
 g = glob.glob("/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")
 for file in g:
+    f = open("/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/views.py","a+")
     f.write("\ndef " + file[90:len(file) - 5] + "(request):")
     f.write('\n\treturn render(request,"' + file + '")')
+    f.close()
     urlpatterns.append(path('collection/'+file[90:len(file) - 5],getattr(views,file[90:len(file) - 5]),name=file[90:len(file) - 5]))
-f.close()

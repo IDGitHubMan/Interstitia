@@ -10,16 +10,19 @@
 
 
 {% block content %}
+    <div class="collection">
     {% for key,value in collect.items %}
-    {% url key as key_url%}
-        <a href="{{key_url}}">
-            <div class="{{value.tags}} collectionDisplay">
-                <h3>{{key}}</h3>
-                <h4>{{value.maker}}</h4>
-                <p>{{value.description}}</p>
-            </div>
-        </a>
-    {% endfor %}
+        {% url key as key_url%}
+                <a href="{{key_url}}"  class="collectionDisplay">
+                    <div class="{{value.tags}} thumb">
+                        <h3>{{key}}</h3>
+                        <h4>{{value.maker}}</h4>
+                        <p>{{value.description}}</p>
+                        <p>{{key_url}}</p>
+                    </div>
+                </a>
+        {% endfor %}
+    </div>
 {% endblock content %}
     
     

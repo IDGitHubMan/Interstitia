@@ -279,11 +279,14 @@ var g, f, w, c;
 var lastWidth;
 
 function setup() {
-    c = createCanvas(windowWidth, 400);
-    nodesGraphic = createGraphics(windowWidth, 400);
+    let d = select("#centralDisplay")
+    dimens = d.size()
+    print(dimens)
+    c = createCanvas(dimens.width, 600);
+    nodesGraphic = createGraphics(dimens.width, 600);
     nodesGraphic.background(0, 0, 66);
-    flowsGraphic = createGraphics(windowWidth, 400);
-    webGraphic = createGraphics(windowWidth, 400);
+    flowsGraphic = createGraphics(dimens.width, 600);
+    webGraphic = createGraphics(dimens.width, 600);
     webGraphic.background(0, 0, 66);
     c.parent("centralDisplay");
     g = new Graph(nodesGraphic);
@@ -374,12 +377,14 @@ function plusSlides(increment) {
 
 function windowResized() {
     if (windowWidth != lastWidth) {
-        c = createCanvas(windowWidth, 400);
+        let d = select("#centralDisplay")
+        dimens = d.size()
+        c = createCanvas(dimens.width, 600);
         c.parent("centralDisplay");
-        nodesGraphic = createGraphics(windowWidth, 400);
+        nodesGraphic = createGraphics(dimens.width, 600);
         nodesGraphic.background(0, 0, 66);
-        flowsGraphic = createGraphics(windowWidth, 400);
-        webGraphic = createGraphics(windowWidth, 400);
+        flowsGraphic = createGraphics(dimens.width, 600);
+        webGraphic = createGraphics(dimens.width, 600);
         webGraphic.background(0, 0, 66);
         g = new Graph(nodesGraphic);
         f = new FlowSet(flowsGraphic);

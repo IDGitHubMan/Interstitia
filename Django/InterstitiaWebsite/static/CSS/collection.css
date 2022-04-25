@@ -1,0 +1,15 @@
+.collection {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.collectionDisplay {
+    width: 30%;
+    margin: 10px;
+}
+
+.thumb {
+    text-align: center;
+    vertical-align: middle;
+}

@@ -12,14 +12,14 @@
     {% url 'collection' as col_url %}
     {% url 'about' as about_url %}
     <div class="topBody">
-        <div id="centralDisplay" oncontextmenu="return false;">
+        <div id="centralDisplay" oncontextmenu="return false;" style="height: 50%;">
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
     </div>
     <div class="bodySection">
         <div class="bodyText">
-            <p> Interstitia has a growing collection projects, whether they be apps, games, comics, music, or essays, meant to be shared with anyone who wants access.</p>
+            <p class="text"> Interstitia seeks to explore the spaces between disciplines with interactive and exporative projects, whatever form that may take.</p>
             <a href="{{col_url}}" target="_self">
                 <div class="buttonLink">
                     <p>View Our Collection</p>
@@ -29,7 +29,7 @@
     </div>
     <div class="bodySection">
         <div class="bodyText">
-            <p>Interstitia is a small team of multipotential people from different backgrounds, each with their own stories and ideas to tell and share.</p>
+            <p class="text">We are a small team of multipotential people from different backgrounds, each with their own stories and ideas to tell and share.</p>
             <a href="{{about_url}}" target="_self">
             <div class="buttonLink">
                 <p>Learn About Our Team</p>

@@ -1,5 +1,13 @@
 a {
     text-decoration: none;
+    color: white;
+}
+
+.top {
+    display: flex;
+    color: white;
+    justify-content: center;
+    font-size: xx-large;
 }
 
 body {
@@ -10,7 +18,12 @@ body {
 
 .head {
     display: flex;
-    background-color: #0077FF;
+}
+
+.homeBTN {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navButton {
@@ -19,14 +32,13 @@ body {
     padding: 5px;
     flex: 1;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: black;
 }
 
 .navButton:hover {
     background-color: #00B7FF;
-}
-
-.navLink {
-    color: black;
 }
 
 #motto {

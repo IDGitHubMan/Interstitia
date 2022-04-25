@@ -3,17 +3,11 @@
     {% url 'index' as index_url %}
     {% url 'collection' as col_url %}
     {% url 'about' as about_url %}
-    <div id="logo">
-        <a href="{{index_url}}" id="logoLink">
-            <div>
-                <img src="{% static 'images/favicon/logoBase.svg' %}" width="100"/>
-                <p>Interstitia Studios</p>
-            </div>
-        </a>
-        <span id="motto">Exploring the spaces between disciplines with interactive and explorative projects.</span>
+    <div  class="top">
+        <p>Interstitia Studios</p>
     </div>
     <div class="head">
-        <a class="navButton" href="{{index_url}}"><div><p class="navLink">Home</p></div></a>
+        <a class="navButton" href="{{index_url}}"><div class="homeBTN"><img src="{% static 'images/favicon/logoBase.svg' %}" width="50"/><span>Home</span></div></a>
         <a class="navButton" href="{{col_url}}"><div><p class="navLink">Collection</p></div></a>
         <a  class="navButton" href="{{about_url}}"><div><p class="navLink">About</p></div></a>
     </div>

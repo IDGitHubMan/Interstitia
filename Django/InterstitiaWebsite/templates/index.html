@@ -1,26 +1,26 @@
-{% extends 'base.html' %} 
+{% extends "base.html" %} 
 {% load static %}
 {% block title %} Interstitia Studios {% endblock title %}
 
 {% block extraSrcs %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js" integrity="sha512-w1Bktzax55ZbjW5Mqjz8+mKz4KqRjEUU35Dpq/ath29yskKqIGwNIHiFNp03m/OiJWDXvdQ1/g6aV+l4PeVO7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{% static 'JS/preview.js' %}"></script>
-    <link rel="stylesheet"  type="text/css" href="{% static 'CSS/index.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'CSS/index.css' %}"/>
 {% endblock extraSrcs %}
 
 {% block content %}
     {% url 'collection' as col_url %}
     {% url 'about' as about_url %}
     <div class="topBody">
-        <div id="centralDisplay" oncontextmenu="return false;" style="height: 50%;">
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div id="centralDisplay" oncontextmenu="return false;">
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
         </div>
     </div>
     <div class="bodySection">
         <div class="bodyText">
             <p class="text"> Interstitia seeks to explore the spaces between disciplines with interactive and exporative projects, whatever form that may take.</p>
-            <a href="{{col_url}}" target="_self">
+            <a href="{{ col_url }}" target="_self">
                 <div class="buttonLink">
                     <p>View Our Collection</p>
                 </div>
@@ -30,7 +30,7 @@
     <div class="bodySection">
         <div class="bodyText">
             <p class="text">We are a small team of multipotential people from different backgrounds, each with their own stories and ideas to tell and share.</p>
-            <a href="{{about_url}}" target="_self">
+            <a href="{{ about_url }}" target="_self">
             <div class="buttonLink">
                 <p>Learn About Our Team</p>
             </div>

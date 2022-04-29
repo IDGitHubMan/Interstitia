@@ -1,0 +1,57 @@
+.pImg {
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.captionedImg {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: solid 2px rgb(119, 119, 255);
+    border-radius: 2px;
+}
+
+.sideText {
+    width: 47%;
+    margin: 10px;
+}
+
+.midBig {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 99vw;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.midBig>h2 {
+    font-size: 100pt;
+}
+
+.midBig>p>a {
+    color: gray;
+}
+
+.midBig>p {
+    font-size: x-small;
+    color: gray;
+    opacity: 0;
+    transition: ease-in 0.3s;
+    text-decoration: none;
+}
+
+.midBig:hover>p {
+    color: gray;
+    opacity: 1;
+    transition: ease-in 1s;
+    text-decoration: none;
+}

@@ -1,28 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-
-{% block title %}Collection{% endblock title %}
-
+{% block title %}
+    Collection
+{% endblock title %}
 {% block extraSrcs %}
-    <link rel="stylesheet" href="{% static 'CSS/collection.css' %}">
+    <link rel="stylesheet" href="{% static 'CSS/collection.css' %}"/>
 {% endblock extraSrcs %}
-    
-
-
 {% block content %}
     <div class="collection">
-    {% for key,value in collect.items %}
-        {% url key as key_url%}
-                <a href="{{key_url}}"  class="collectionDisplay">
-                    <div class="{{value.tags}} thumb">
-                        <h3>{{key}}</h3>
-                        <h4>{{value.maker}}</h4>
-                        <p>{{value.description}}</p>
-                        <p>{{key_url}}</p>
+        {% for key,value in collect.items %}
+            {% url key as key_url %}
+            <a href="{{ key_url }}"  class="collectionDisplay">
+                <div class="{{ value.tags }} thumb">
+                    <h3 class="title">{{ key }}</h3>
+                    <div class="extra">
+                        <h4>{{ value.maker }}</h4>
+                        <p>
+                            {{ value.description }}
+                        </p>
                     </div>
-                </a>
+                </div>
+            </a>
         {% endfor %}
     </div>
 {% endblock content %}
-    
-    

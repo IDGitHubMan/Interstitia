@@ -1,17 +1,17 @@
-{% load static  %}
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet"/>
+    <meta charset="utf-8"/>
     <title>{% block title %}Interstitia Studios{% endblock title %}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon/favicon.ico' %}"/>
-    <link rel="stylesheet"  type="text/css" href="{% static 'CSS/base.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block extraSrcs %}{% endblock extraSrcs%}
+    <link rel="stylesheet"  type="text/css" href="{% static 'CSS/base.css' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=10"/>
+    {% block extraSrcs %}{% endblock extraSrcs %}
 </head>
 
 <body>

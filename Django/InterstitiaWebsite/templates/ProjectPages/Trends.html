@@ -9,12 +9,17 @@
           href="{% static 'CSS/projects/Trends.css' %}"/>
 {% endblock extraSrcs %}
 {% block content %}
-    <h2 id="title">Trends</h2>
+    <div class="title">
+        <img src="{% static 'images/Trends/Trend.png' %}" alt="Trends home page." width="100%" height="auto"/>
+        <div class="headText">
+            <h2>Trends</h2>
+            <p>
+                Google is a search engine so widely used and popular that it gained a verb form. There are other search engines of course, but they don't even come close to it's usage. So, why not explore that? See what the top searches are worldwide? And then, visualize that somehow in an interesting way?
+            </p>
+        </div>
+    </div>
     <div class="pImg">
         <div class="sideText">
-            <p>
-                Google. A search engine so widely used and popular that it gained a verb form. There are other search engines of course. Bing, Yahoo. But they don't even come close to Google usage. So, why not explore that usage? See what the top searches are worldwide? And then, visualize that somehow in an interesting way?
-            </p>
             <p>
             This project was inspired by Google Trends, which allows one to view all google search data from 2004 onwards. This record of now (as I'm writing) 18 years is massive, considering that Google (at least now) processes over 8 billion searches <em>daily</em>. That would essentially translate to each person alive on the planet googling something a little more than once a day. Google Trends handles this rather nicely. It presents you with a searchbox, where you search your term of interest. From there, you can easily apply a wide range of filters and options based on location, time, or type of search to explore. You could also compare 5 terms at once. What is incredible is how this dataset can be used to also chart history, as the web is where we go to talk about things, whether to learn about, discuss or share them.
         </p>
@@ -47,7 +52,7 @@
     </div>
     <div class="sideText">
         <p>
-            For all its worth though, I belive that Trends is lacking in one major aspect: The visualization of their data. If you wanted to view the interest over time of something, a line graph would be great. But considering the financing and power that google has, one would think they could do more than just a simple line, with point hovering. Lists are useful, but if you can have up to 500 datapoints, they're not really helpful for users. In addition, there is no engaging kind of animation or sound, which, might be only my opinion, but would make it all the nicer.
+            For all its worth though, I belive that Trends is lacking in one major aspect: The visualization of their data. If you wanted to view the interest over time of something, a line graph would be great. But considering the financing and power that google has, one would think they could do more than just a simple line, with point hovering. Maybe some kind of zoom, or a more detailed view of the line. Lists are useful, but if you can have up to 500 datapoints, they're not really helpful for users, and rather more cluttered and confusing. In addition, there is no engaging kind of animation, sound, or interactivity which, might be only my opinion, but would make it all the nicer. Imagine having the line be drawn out over time rather than simply plopped there.
         </p>
         <p>
             But my biggest gripe has to be the maps. One would think that with Google, owner of the interactive and ever-useful Google Maps, there could be some integration of the two. Having an interactive, draggable, zoomable map, with clear indicators of region or country and relevant data. But with Trends, there are only static images that have popups and links to other pages with smaller maps. The final map only does a little magnifying ring, and that only if you hover over a point! And there is no mapping of the realtime or daily trends, even though it would make for a much simpler and easier means of comparing trends and interest in events across the globe.

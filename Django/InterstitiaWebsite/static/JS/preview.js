@@ -232,7 +232,7 @@ class Flow {
     }
 
     update() {
-        var theta = map(noise(floor(this.loc.x / this.resolution) * this.xInc, floor(this.loc.y / this.resolution) * this.yInc, (millis() / 50000)), 0, 1, 0, TWO_PI)
+        var theta = map(noise(floor(this.loc.x / this.resolution) * this.xInc, floor(this.loc.y / this.resolution) * this.yInc, (millis() / 10000)), 0, 1, 0, TWO_PI)
         var flowForce = createVector(cos(theta), sin(theta));
         flowForce.mult(100);
         this.acc.add(flowForce);

@@ -4,7 +4,7 @@ class Node {
         this.nP = nP;
         this.driftDir = createVector(random(-2, 2), random(-2, 2));
         this.col = color(random(255), random(255), random(255));
-        this.range = random(40, 80);
+        this.range = random(40, 200);
         if (x == undefined || y == undefined || typeof x != "number") {
             this.loc = createVector(random(width), random(height));
         } else {
@@ -37,7 +37,7 @@ class Graph {
         this.nodeStore = [];
         this.locStore = [];
         this.driftStore = [];
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 60; i++) {
             let n = new Node(random(width), random(height), this.gP);
             this.nodeStore[i] = n;
             this.locStore[i] = n.loc;
@@ -113,7 +113,7 @@ class WebNode {
         this.nP = nP;
         this.driftDir = createVector(random(-2, 2), random(-2, 2));
         this.col = color(119, 119, 255);
-        this.range = random(40, 80);
+        this.range = random(40, 100);
         if (x == undefined || y == undefined || typeof x != "number") {
             this.loc = createVector(random(width), random(height));
         } else {
@@ -148,7 +148,7 @@ class WebGraph {
         this.nodeStore = [];
         this.locStore = [];
         this.driftStore = [];
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 60; i++) {
             let n = new WebNode(random(width), random(height), this.gP);
             this.nodeStore[i] = n;
             this.locStore[i] = n.loc;

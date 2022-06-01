@@ -5,6 +5,87 @@
 {% endblock title %}
 {% block extraSrcs %}
     <link rel="stylesheet" type="text/css" href="{% static 'CSS/projects/Trends.css' %}"/>
+    <style>
+        .pImg {
+            display: flex;
+            justify-content: left;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .captionedImg {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: solid 2px rgb(119, 119, 255);
+            border-radius: 2px;
+        }
+        
+        .sideText {
+            width: 47%;
+            margin: 10px;
+        }
+        
+        .midBig {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 99vw;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+        
+        .midBig>h2 {
+            font-size: 100pt;
+        }
+        
+        .midBig>p>a {
+            color: gray;
+        }
+        
+        .midBig>p {
+            font-size: x-small;
+            color: gray;
+            opacity: 0;
+            transition: ease-in 0.3s;
+            text-decoration: none;
+        }
+        
+        .midBig:hover>p {
+            color: gray;
+            opacity: 1;
+            transition: ease-in 1s;
+            text-decoration: none;
+        }
+        
+        .title {
+            position: relative;
+            text-align: left;
+            color: white;
+        }
+        
+        .headText {
+            display: flex;
+            flex-direction: column;
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+            position: absolute;
+            bottom: 0%;
+            min-height: 100%;
+            vertical-align: middle;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .headText>h2 {
+            font-size: 100pt;
+        }
+    </style>
 {% endblock extraSrcs %}
 {% block content %}
     <div class="title">
@@ -46,7 +127,13 @@
         <div class="sideText">
             <p>I decided to write a program. But what to write it in? Processing is one of my favorite programming languages because it's oriented around visuals and interactivity, much more so than others. Chance are you saw the interactives on the home page. Those were made with Processing's JS equivalent, p5js. But, while Processing can access web pages, it can't do it very quickly or cleanly. Visiting and reading through a page takes time and micromanaging that could lead to slow and inaccurate datasets. Additionally, I would have to start to learn NodeJS, which sounds like a good idea, except the fact that I was also submitting this as part of a project for class.</p>
             <p>Python was my second option, since it was one of the first languages I actually learned. I had previously used the BeautifulSoup module to get a massive list of <a>Dragon Ball Legends data from a couple of different websites</a> <span>(because I'm a crazy nerd)</span>, and knew that it could handle and interpolate the massive trove that is the trends data. But I had no way of generatin really good and appealing, interactivew programs since Python isn't really built for designing software for users. I could learn tkinter and other modules but again, I have a time limit.</p>
-            <p>But neither of them seems to have a good option for making Maps-style interactive maps. So after I at first tried to make the program with Python and Processing combined, I had a result, but it wasn't quite what I wanted. The points were meant to be centered on each country, and there is no interactivity. The real time updates are perfect though. Every 15 mins, the script that pulls the data is rerun, and the visuals, as shoddy as they are, update accordingly. But still, this looks horrible. I needed an actual mapping system. Eventually, I got to the program above. But before that, I'll explain how the code works.</p>
+            <p>But neither of them seems to have a good option for making Maps-style interactive maps. So after I at first tried to make the program with Python and Processing combined, I had a result, but it wasn't quite what I wanted. The points were meant to be centered on each country, and there is no interactivity. The real time updates are perfect though. Every 15 mins, the script that pulls the data is rerun, and the visuals, as shoddy as they are, update accordingly. But still, this looks horrible. I needed an actual mapping system. Eventually, I got to the program above. But before that, I'll explain how the code works, and the process.</p>
+        </div>
+    </div>
+    <div class="pImg">
+        <div class="sideText">
+            <p>A quick Google informed that there were nearly 200 countries in the World. I would assume Trends had real time data for each one. Additionally, the trends site can specify for categories, going from your basic All to focus on business, entertainment, health, sci/tech, sports, and top stories. These values could easily be added to the URL as parameters. (That would be the category=b for categories, and the geo=US for country.) Python allows for easy loops and string control, so finding a list of country codes and then iterating through it to generate all the unique URLs was easy. Thanks to <a href="https://www.kaggle.com/datasets/eidanch/counties-geographic-coordinates">this dataset, I had an easy list that also contained latitude and longitudes for the final visualization.</a></p>
+            <p>I was going to use BeautifulSoup to really rapidly read the data from the page, but that didn't work. I spent a while trying to figure it out when I found that BS can't handle the additional requests that might be made by a site. The Trends website utilizes Angular to display data that is retrieved from an under-the-hood trends API. SO I had to find another way to scrape the page or scrap the project. Thankfully, I found <a href="https://www.selenium.dev/">Selenium</a>, a tool that automates a browser - down to even clicks. I could then access the data, but it still wasn't exactly as clean as I liked. But I found that I could actually get the secondary requests and handle them myself, since Selenium can run javascript, and JS can pull a list of all secondary requests.</p>
         </div>
     </div>
 {% endblock content %}

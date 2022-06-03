@@ -7,7 +7,7 @@ a {
     display: flex;
     color: white;
     justify-content: center;
-    font-size: xx-large;
+    font-size: large;
 }
 
 body {
@@ -27,6 +27,7 @@ body {
 }
 
 .navButton {
+    min-height: 50px;
     background-color: #0077FF;
     transition: 0.5s ease;
     padding: 5px;

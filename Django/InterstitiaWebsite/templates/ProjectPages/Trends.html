@@ -3,102 +3,123 @@
 {% block title %}
     Trends
 {% endblock title %}
-{% block extraSrcs %}
-    <link rel="stylesheet" type="text/css" href="{% static 'CSS/projects/Trends.css' %}"/>
-    <style>
-        .pImg {
-            display: flex;
-            justify-content: left;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-top: 10px;
-        }
-        
-        .captionedImg {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: solid 2px rgb(119, 119, 255);
-            border-radius: 2px;
-        }
-        
-        .sideText {
-            width: 47%;
-            margin: 10px;
-        }
-        
-        .midBig {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            width: 99vw;
-            padding-top: 100px;
-            padding-bottom: 100px;
-        }
-        
-        .midBig>h2 {
-            font-size: 100pt;
-        }
-        
-        .midBig>p>a {
-            color: gray;
-        }
-        
-        .midBig>p {
-            font-size: x-small;
-            color: gray;
-            opacity: 0;
-            transition: ease-in 0.3s;
-            text-decoration: none;
-        }
-        
-        .midBig:hover>p {
-            color: gray;
-            opacity: 1;
-            transition: ease-in 1s;
-            text-decoration: none;
-        }
-        
-        .title {
-            position: relative;
-            text-align: left;
-            color: white;
-        }
-        
-        .headText {
-            display: flex;
-            flex-direction: column;
-            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-            position: absolute;
-            bottom: 0%;
-            min-height: 100%;
-            vertical-align: middle;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .headText>h2 {
-            font-size: 100pt;
-        }
-    </style>
-{% endblock extraSrcs %}
+{% block extraSrcs %}{% endblock extraSrcs %}
+{% block styling %}
+    #skip{
+        display: flex;
+        text-align: center;
+        font-size: 0.5em;
+        justify-content: center;
+    }
+
+    a{
+        text-decoration: underline solid transparent;
+        transition: text-decoration 1s ease;
+    }
+
+    a:hover{
+        text-decoration: underline;
+    }
+    .pImg {
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .captionedImg {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: solid 2px rgb(119, 119, 255);
+        border-radius: 2px;
+    }
+
+    .sideText {
+        width: 47%;
+        margin: 10px;
+    }
+
+    .midBig {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 99vw;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        background-image: url('{% static 'images/Trends/Map.png' %}'); 
+        background-size: 100%;
+    }
+
+    .midBig>h2 {
+        font-size: 100pt;
+    }
+
+    .midBig>p>a {
+        color: gray;
+    }
+
+    .midBig>p {
+        font-size: x-small;
+        color: gray;
+        opacity: 0;
+        transition: ease-in 0.3s;
+        padding-top: 25px;
+    }
+
+    .midBig:hover>p {
+        color: gray;
+        opacity: 1;
+        transition: ease-in 3s;
+        text-decoration: none;
+    }
+
+    .title {
+        position: relative;
+        color: white;
+        min-height: calc(100vh - 120px);
+        max-height: calc(100vh - 120px);
+        background-image: url({% static 'images/Trends/Trend.png' %});
+        background-size: 100%;
+    }
+
+    .headText {
+        display: flex;
+        flex-direction: column;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));
+        position: absolute;
+        bottom: 0%;
+        min-height: 100%;
+        vertical-align: middle;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .headText>h2 {
+        font-size: 100pt;
+    }
+{% endblock styling %}
 {% block content %}
     <div class="title">
-        <img src="{% static 'images/Trends/Trend.png' %}" alt="Trends home page." width="100%" height="auto"/>
         <div class="headText">
             <h2>Trends</h2>
-            <p>Google is a search engine so widely used and popular that it gained a verb form. There are other search engines of course, but they don't even come close to it's usage. So, why not explore that? See what the top searches are worldwide? And then, visualize that somehow in an interesting way?</p>
+            <p>Google is a search engine so widely used and popular that it gained a verb form. So, why not explore and then visualize the top searches somehow in an interesting way?</p>
+            <div id="skip">
+                <a href="">Skip all the reading.</a>
+            </div>
         </div>
     </div>
     <div class="pImg">
         <div class="sideText">
-            <p>This project was inspired by Google Trends, which allows one to view all google search data from 2004 onwards. This record of now (as I'm writing) 18 years is massive, considering that Google (at least now) processes over 8 billion searches <em>daily</em>. That would essentially translate to each person alive on the planet googling something a little more than once a day. Google Trends handles this rather nicely. It presents you with a searchbox, where you search your term of interest. From there, you can easily apply a wide range of filters and options based on location, time, or type of search to explore. You could also compare 5 terms at once. What is incredible is how this dataset can be used to also chart history, as the web is where we go to talk about things, whether to learn about, discuss or share them.</p>
-            <p>As if that weren't nice enough, Trends also records data from the day - both suummarily and in real time. One need only select a country and category, and voila! A list of the top 20 or so trends as of that moment. Additionally, it compiles searches that led to the same webpages, so as to prevent too much spread. So if some people serached for 'soccer' and some for 'FIFA' or 'World Cup', but all were lloking to see the latest results for the preliminaries, Trends automatically categorizes them together. Due to I believe the sheer mass of searches, it doesn't update automatically, but every time you reload the page, it pulls new data. Of course, you're not likely to see changes every second, but every minute or so, the whole list could be completely different. And to think it does this for every country! And I'm not even mentioning their year in search projects, insights, and stories. It's interactivity and usefulness is a high standard.</p>
+            <p>This project was inspired by Google Trends, which allows one to view a sample of all google search data from 2004 onwards. This record of now (as I'm writing) 18 years is massive, considering that Google (at least now) processes over 8 billion searches <em>daily</em>. That would essentially translate to each person alive on the planet googling something a little more than once a day. Google Trends handles this rather nicely. It presents you with a searchbox, where you search your term of interest. From there, you can easily apply a wide range of filters and options based on location, time, or type of search to explore. You could also compare 5 terms at once. What is incredible is how this dataset can be used to also chart history, as the web is where we go to talk about things, whether to learn about, discuss or share them.</p>
+            <p>As if that weren't nice enough, Trends also records data from the day - both suummarily and in real time. One need only select a country and category, and voila! A list of the top 20 or so trends as of that moment. Additionally, it compiles searches that led to the same webpages, so as to prevent too much spread. So if some people serached for 'soccer' and some for 'FIFA' or 'World Cup', but all were looking to see the latest results for the preliminaries, Trends automatically categorizes them together. Due to I believe the sheer mass of searches, it doesn't update automatically, but every time you reload the page, it pulls new data. Of course, you're not likely to see changes every second, but every minute or so, the whole list could be completely different. And to think it does this for every country! And I'm not even mentioning their year in search projects, insights, and stories. It's interactivity and usefulness is a high standard.</p>
         </div>
         <div class="captionedImg">
             <img class="side" src="{% static 'images/Trends/Screen Shot 2022-04-26 at 11.45.38 AM.png' %}" width="100%" height="auto" alt="Realtime trends for US as of 04/26/2022 at 11:45 AM EST"/>
@@ -107,7 +128,7 @@
     </div>
     <div class="pImg">
         <div class="captionedImg">
-            <img class="side" width="100%" height="auto" alt="Google Trends Mapping" alt="Google Trends' lame maps." src="{% static 'images/Trends/Maps.png' %}"/>
+            <img class="side" width="100%" height="auto" alt="Google Trends' lame maps." src="{% static 'images/Trends/Maps.png' %}"/>
             <p>Google Trends' mapping</p>
         </div>
         <div class="sideText">
@@ -115,25 +136,30 @@
             <p>But my biggest gripe has to be the maps. One would think that with Google, owner of the interactive and ever-useful Google Maps, there could be some integration of the two. Having an interactive, draggable, zoomable map, with clear indicators of region or country and relevant data. But with Trends, there are only static images that have popups and links to other pages with smaller maps. The final map only does a little magnifying ring, and that only if you hover over a point! And there is no mapping of the realtime or daily trends, even though it would make for a much simpler and easier means of comparing trends and interest in events across the globe.</p>
         </div>
     </div>
-    <div class="midBig" style="background-image: url('{% static 'images/Trends/Map.png' %}'); background-size: 100%" height="windowHeight">
+    <div class="midBig" height="windowHeight">
         <h2>So I decided to do one for myself.</h2>
         <p>It was tough, but fun. Google should definitely hire me. Or at least not <a>block</a> my program.</p>
     </div>
     <div class="pImg">
-        <div class="captionedImg">
-            <img class="side" width="100%" height="auto" alt="Google Trends Mapping" alt="Google Trends' lame maps." src="{% static 'images/Trends/failure.png' %}"/>
-            <p>My failed map</p>
-        </div>
         <div class="sideText">
             <p>I decided to write a program. But what to write it in? Processing is one of my favorite programming languages because it's oriented around visuals and interactivity, much more so than others. Chance are you saw the interactives on the home page. Those were made with Processing's JS equivalent, p5js. But, while Processing can access web pages, it can't do it very quickly or cleanly. Visiting and reading through a page takes time and micromanaging that could lead to slow and inaccurate datasets. Additionally, I would have to start to learn NodeJS, which sounds like a good idea, except the fact that I was also submitting this as part of a project for class.</p>
             <p>Python was my second option, since it was one of the first languages I actually learned. I had previously used the BeautifulSoup module to get a massive list of <a>Dragon Ball Legends data from a couple of different websites</a> <span>(because I'm a crazy nerd)</span>, and knew that it could handle and interpolate the massive trove that is the trends data. But I had no way of generatin really good and appealing, interactivew programs since Python isn't really built for designing software for users. I could learn tkinter and other modules but again, I have a time limit.</p>
             <p>But neither of them seems to have a good option for making Maps-style interactive maps. So after I at first tried to make the program with Python and Processing combined, I had a result, but it wasn't quite what I wanted. The points were meant to be centered on each country, and there is no interactivity. The real time updates are perfect though. Every 15 mins, the script that pulls the data is rerun, and the visuals, as shoddy as they are, update accordingly. But still, this looks horrible. I needed an actual mapping system. Eventually, I got to the program above. But before that, I'll explain how the code works, and the process.</p>
         </div>
+        <div class="captionedImg">
+            <img class="side" width="100%" height="auto" alt="Google Trends' lame maps." src="{% static 'images/Trends/failure.png' %}"/>
+            <p>My failed map</p>
+        </div>
     </div>
     <div class="pImg">
+        <div class="captionedImg">
+            <img class="side" width="100%" height="auto" alt="My Mapping" src="{% static 'images/Trends/requests.png' %}"/>
+            <p>Trends as of 6.1.2022, at 6:09 PM EST with requests viewed in Chrome Dev Tools</p>
+        </div>
         <div class="sideText">
-            <p>A quick Google informed that there were nearly 200 countries in the World. I would assume Trends had real time data for each one. Additionally, the trends site can specify for categories, going from your basic All to focus on business, entertainment, health, sci/tech, sports, and top stories. These values could easily be added to the URL as parameters. (That would be the category=b for categories, and the geo=US for country.) Python allows for easy loops and string control, so finding a list of country codes and then iterating through it to generate all the unique URLs was easy. Thanks to <a href="https://www.kaggle.com/datasets/eidanch/counties-geographic-coordinates">this dataset, I had an easy list that also contained latitude and longitudes for the final visualization.</a></p>
-            <p>I was going to use BeautifulSoup to really rapidly read the data from the page, but that didn't work. I spent a while trying to figure it out when I found that BS can't handle the additional requests that might be made by a site. The Trends website utilizes Angular to display data that is retrieved from an under-the-hood trends API. SO I had to find another way to scrape the page or scrap the project. Thankfully, I found <a href="https://www.selenium.dev/">Selenium</a>, a tool that automates a browser - down to even clicks. I could then access the data, but it still wasn't exactly as clean as I liked. But I found that I could actually get the secondary requests and handle them myself, since Selenium can run javascript, and JS can pull a list of all secondary requests.</p>
+            <p>A quick Google informed that there were nearly 200 countries in the World. I would assume Trends had real time data for each one. Additionally, the trends site can specify for categories, going from your basic All to focus on business, entertainment, health, sci/tech, sports, and top stories. These values could easily be added to the URL as query parameters. (That would be the category=b for categories, and the geo=US for country.) Python allows for easy loops and string control, so finding a list of country codes and then iterating through it to generate all the unique URLs was easy. Thanks to <a href="https://www.kaggle.com/datasets/eidanch/counties-geographic-coordinates" target="blank">this dataset</a>, I had an easy list that also contained latitude and longitudes for the final visualization.</p>
+            <p>I was going to use BeautifulSoup to really rapidly read the data from the page, but that didn't work. I spent a while trying to figure it out when I found that BS can't handle the additional requests that might be made by a site. The Trends website utilizes Angular to display data that is retrieved from an under-the-hood trends API. SO I had to find another way to scrape the page or scrap the project. Thankfully, I found <a href="https://www.selenium.dev/" target="blank">Selenium</a>, a tool that automates a browser - down to even clicks. I could then access the data, but it still wasn't exactly as clean as I liked. But I found that I could actually get the secondary requests and handle them myself, since Selenium can run javascript, and JS can pull a list of all secondary requests.</p>
+            <p>I finally discovered that there was a request that preceded all the others in timing and still produced data. This request is what is generated from the query parameters, and fetches a dense JSON file that is parsed for even more requests to gather a graph, image, and compiled data for each trending search. This was useful because once again, I could handle that query myself, and it was always the same for every possible combination of country and category.</p>
         </div>
     </div>
 {% endblock content %}

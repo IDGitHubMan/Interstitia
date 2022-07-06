@@ -22,9 +22,6 @@ class Node {
         }
     }
     show() {
-        this.nP.fill(255, 10);
-        this.nP.stroke(this.col, 255)
-        this.nP.ellipse(this.loc.x, this.loc.y, this.range * 2, this.range * 2);
         this.nP.fill(this.col, 255);
         this.nP.stroke(this.col);
         this.nP.ellipse(this.loc.x, this.loc.y, 5, 5);

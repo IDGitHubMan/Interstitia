@@ -55,7 +55,7 @@ ROOT_URLCONF = 'InterstitiaWebsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/templates'],
+        'DIRS': ['/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,7 +115,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-PROJECT_DIR = "/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite"
+PROJECT_DIR = "/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite"
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (

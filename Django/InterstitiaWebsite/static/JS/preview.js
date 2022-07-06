@@ -3,7 +3,7 @@ class Node {
     constructor(x, y, nP) {
         this.nP = nP;
         this.driftDir = createVector(random(-2, 2), random(-2, 2));
-        this.col = color(random(255), random(255), random(255));
+        this.col = color(random(0, 128.5), random(0, 255), 255);
         this.range = random(40, 200);
         if (x == undefined || y == undefined || typeof x != "number") {
             this.loc = createVector(random(width), random(height));
@@ -34,7 +34,7 @@ class Graph {
         this.nodeStore = [];
         this.locStore = [];
         this.driftStore = [];
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 100; i++) {
             let n = new Node(random(width), random(height), this.gP);
             this.nodeStore[i] = n;
             this.locStore[i] = n.loc;

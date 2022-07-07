@@ -34,7 +34,7 @@ class Graph {
         this.nodeStore = [];
         this.locStore = [];
         this.driftStore = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 125; i++) {
             let n = new Node(random(width), random(height), this.gP);
             this.nodeStore[i] = n;
             this.locStore[i] = n.loc;
@@ -109,8 +109,8 @@ class WebNode {
     constructor(x, y, nP) {
         this.nP = nP;
         this.driftDir = createVector(random(-2, 2), random(-2, 2));
-        this.col = color(119, 119, 255);
-        this.range = random(40, 100);
+        this.col = color(0, 119, 255);
+        this.range = random(40, 200);
         if (x == undefined || y == undefined || typeof x != "number") {
             this.loc = createVector(random(width), random(height));
         } else {
@@ -153,7 +153,9 @@ class WebGraph {
         }
     }
     update() {
-        //this.gP.background(0, 0, 66, 10, 30);
+        if (frameCount % 2 == 0) {
+            this.gP.background(0, 0, 66, 40);
+        }
         for (let i = 0; i < this.nodeStore.length; i++) {
             this.locStore[i] = this.nodeStore[i].loc;
             this.driftStore[i] = this.nodeStore[i].driftDir;
@@ -229,7 +231,7 @@ class Flow {
     }
 
     update() {
-        var theta = map(noise(floor(this.loc.x / this.resolution) * this.xInc, floor(this.loc.y / this.resolution) * this.yInc, (millis() / 10000)), 0, 1, 0, TWO_PI)
+        var theta = map(noise(floor(this.loc.x / this.resolution) * this.xInc, floor(this.loc.y / this.resolution) * this.yInc, (millis() / 10000)), 0, 1, -TWO_PI, TWO_PI)
         var flowForce = createVector(cos(theta), sin(theta));
         flowForce.mult(100);
         this.acc.add(flowForce);
@@ -250,7 +252,7 @@ class Flow {
         }
         this.acc.mult(0);
         this.fP.strokeWeight(1);
-        this.fP.stroke(119, 119, 255);
+        this.fP.stroke(0, 119, 255);
         this.fP.point(this.loc.x, this.loc.y);
     }
 }

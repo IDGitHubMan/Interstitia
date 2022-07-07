@@ -142,3 +142,4 @@ GitHub.sublime-settings
 .history
 Django/InterstitiaWebsite/views.py
 Django/projects.csv
+*.csv

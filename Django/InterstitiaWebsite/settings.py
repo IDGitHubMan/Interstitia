@@ -55,7 +55,7 @@ ROOT_URLCONF = 'InterstitiaWebsite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates'],
+        'DIRS': ['./InterstitiaWebsite/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

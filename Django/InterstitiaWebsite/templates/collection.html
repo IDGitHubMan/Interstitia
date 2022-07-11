@@ -99,7 +99,7 @@
             {% url key as key_url %}
             <a href="{{ key_url }}"  class="collectionDisplay">
                 {% if value.thumb %}
-                    <div class="{{ value.tags }} thumb" style="background: url({{ value.thumb }}) 100%;">
+                    <div class="{{ value.tags }} thumb" style="background: url({{ value.thumb }}) center; background-size: cover;">
                         <h3 class="title">{{ key }}</h3>
                         <div class="extra">
                             <h4>{{ value.maker }}</h4>

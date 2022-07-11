@@ -13,12 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from dataclasses import replace
 from django.contrib import admin
 from django.urls import path
 from . import views
 import glob
 
-f = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/views.py","w+")
+f = open("./InterstitiaWebsite/views.py","w+")
 f.write("from django.shortcuts import render\n")
 f.write("import requests\n")
 f.write("import csv\n")
@@ -30,7 +31,7 @@ f.write("def about(request):\n")
 f.write("\treturn render(request,'about.html')\n")
 f.write("def collection(request):\n")
 f.write('\tresponse = requests.get("https://docs.google.com/spreadsheets/d/1LUZkRxjjDxCkUxpn3UHiIscy5dvs3BBfcPNF8C8FRns/export?format=csv")\n')
-f.write('\tf = open("projects.csv", "wb")\n')
+f.write('\tf = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/projects.csv", "wb")\n')
 f.write('\tf.write(response.content)\n')
 f.write('\tf.close()\n')
 f.write('\twith open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/projects.csv") as f:\n')
@@ -42,13 +43,21 @@ f.write('\t\t\t\tline_count += 1\n')
 f.write('\t\t\telse:\n')
 f.write('\t\t\t\tcollect[row[0]] = {"maker":row[3],"description":row[1],"tags":row[7],"type":row[2],"contributors":row[4],"thumb":row[8]}\n')
 f.write('\t\t\t\tfileString = "/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/" + row[0] + ".html"\n')
-f.write('\t\t\t\tgetString = row[5][:len(row[5]) - 5] + "export?format=html"\n')
-f.write('\t\t\t\tif (not os.path.exists(fileString)):\n')
+f.write('\t\t\t\tif row[5] != "":\n')
+f.write('\t\t\t\t\tgetString = row[5][:len(row[5]) - 5] + "export?format=html?"\n')
 f.write('\t\t\t\t\tres = requests.get(getString)\n')
-f.write('\t\t\t\t\thtml = open(fileString,"wb")\n')
-f.write('\t\t\t\t\thtml.write(res.content)\n')
+f.write('\t\t\t\t\tif (not os.path.exists(fileString)):\n')
+f.write('\t\t\t\t\t\thtml = open(fileString,"wb")\n')
+f.write('\t\t\t\t\t\thtml.write(res.content)\n')
+f.write('\t\t\t\t\t\thtml.close()\n')
+f.write('\t\t\t\telse:\n')
+f.write('\t\t\t\t\thtml=open(fileString,"wb")\n')
+f.write('\t\t\t\t\tbase = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/base.html","r")\n')
+f.write('\t\t\t\t\tb = base.read()\n')
+f.write('\t\t\t\t\thtml.write(b.encode())\n')
 f.write('\t\t\t\t\thtml.close()\n')
-f.write('\t\t\t\t\tdirectoryString = "/Users/idesrosiers/Documents/Interstitia/Django/InterstitiaWebsite/static/images/" + row[0]\n')
+f.write('\t\t\t\tdirectoryString = "/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/static/images/" + row[0]\n')
+f.write('\t\t\t\tif not os.path.exists(directoryString):\n')
 f.write('\t\t\t\t\tos.mkdir(directoryString)\n')
 f.write('\tcollection = {"collect":collect}\n')
 f.write('\treturn render(request,"collection.html",collection)')
@@ -64,7 +73,11 @@ urlpatterns = [
 g = glob.glob("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")
 for file in g:
     f = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/views.py","a+")
-    f.write("\ndef " + file[99:len(file) - 5] + "(request):")
+    if (" " in file[99:len(file) - 5]):
+        s = file[99:len(file) - 5].replace(" ","_")
+    else:
+        s = file[99:len(file) - 5]
+    f.write("\ndef " + s + "(request):")
     f.write('\n\treturn render(request,"' + file + '")')
     f.close()
-    urlpatterns.append(path('collection/'+file[99:len(file) - 5],getattr(views,file[99:len(file) - 5]),name=file[99:len(file) - 5]))
+    urlpatterns.append(path('collection/'+s,getattr(views,s),name=s))

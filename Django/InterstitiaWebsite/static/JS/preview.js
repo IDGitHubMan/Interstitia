@@ -295,6 +295,7 @@ function setup() {
 }
 
 function draw() {
+    print("Running.");
     if (bitOption == 0) {
         image(nodesGraphic, 0, 0);
         g.update();
@@ -322,6 +323,7 @@ function draw() {
 }
 
 function mousePressed() {
+    print("INTERACTION!");
     if (bitOption == 2) {
         if (mouseButton == LEFT) {
             for (var i = 0; i < w.nodeStore.length; i++) {

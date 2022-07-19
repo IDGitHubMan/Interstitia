@@ -360,6 +360,14 @@
             }
 
             update(){
+                if (this.sketch.width != this.randomCounts.length){
+                    for (let i = 0; i < this.sketch.width; i++){
+                        this.randomCounts[i] = 0;
+                        this.gaussianCounts[i] = 0;
+                        this.monteCarloCounts[i] = 0;
+                        this.invMonteCarloCounts[i] = 0;
+                    }
+                }
                 this.sketch.background(0,0,66);
                 let rand = this.sketch.int(this.sketch.random(this.randomCounts.length));
                 let gauss = this.sketch.int(this.sketch.constrain(this.sketch.randomGaussian()*this.sketch.width/8 + this.sketch.width/2,0,this.sketch.width ));

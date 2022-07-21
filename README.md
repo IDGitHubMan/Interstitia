@@ -22,7 +22,7 @@ On the discord, there are instructions on how to become a contributor, but so fa
 At the moment, the website is not live yet, since websites are expensive, and the website is not fully built. It *will* be though, probably in a few months. Here is what it looks like so far:
 
 ![Home Page:](https://drive.google.com/uc?export=view&id=1up0rDeC3m1ASvGA16ZVnYjTPFXitt22v)
-![Collections Page:](https://drive.google.com/uc?export=view&id=1HawfoZqgskDrKroWwnRGiDe6Lq4FxKGo) 
+![Collections Page:](https://drive.google.com/uc?export=view&id=1HawfoZqgskDrKroWwnRGiDe6Lq4FxKGo)   
 It includes a bunch of cool animations too, made with [Processing](https://processing.org/). I personally like the dark, mysterious vibe. Contributors will be able to add projects to the website by filling out a really easy form. Thanks to Django/python, most of the process is automated!
 
 ## TO-DOS!

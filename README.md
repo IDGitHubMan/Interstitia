@@ -26,8 +26,8 @@ At the moment, the website is not live yet, since websites are expensive, and th
 It includes a bunch of cool animations too, made with [Processing](https://processing.org/). I personally like the dark, mysterious vibe. Contributors will be able to add projects to the website by filling out a really easy form. Thanks to Django/python, most of the process is automated!
 
 ## TO-DOS!
-- [ ] Go public
+- [ ] ***Go public***
 - [ ] Add project filter and search for collections page
 - [ ] Add demo reels to home page, and contributor slideshow
 - [ ] Build about page
-- [ ] Get hosted
+- [ ] ***Get hosted***

@@ -4,7 +4,7 @@ import csv
 import glob
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('/', views.index, name='colindex'),
 ]
 
 g = glob.glob("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")

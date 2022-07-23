@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index,name='index'),
     path('about',views.about,name='about'),
-    path('collection/', include('Collection.urls'))
+    path('collection', include('Collection.urls'),name="collection")
 ]
 
 g = glob.glob("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")

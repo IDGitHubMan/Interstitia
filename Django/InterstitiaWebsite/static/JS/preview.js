@@ -295,7 +295,6 @@ function setup() {
 }
 
 function draw() {
-    print("Running.");
     if (bitOption == 0) {
         image(nodesGraphic, 0, 0);
         g.update();

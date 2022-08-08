@@ -7,6 +7,31 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js" integrity="sha512-w1Bktzax55ZbjW5Mqjz8+mKz4KqRjEUU35Dpq/ath29yskKqIGwNIHiFNp03m/OiJWDXvdQ1/g6aV+l4PeVO7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock extraSrcs %}
 {% block styling %}
+    .filtReset{
+        display: none;
+    }
+    .filters{ 
+        border: solid 2px rgb(119, 119, 255);
+        border-radius: 5px;
+    }
+    .tag{
+        min-width: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .clickTag,.filtReset{
+        cursor: pointer;
+    }
+    .filtReset{
+        display: flex;
+        justify-content: center;
+    }
+    .list{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
     .collection {
         display: flex;
         justify-content: center;
@@ -26,6 +51,7 @@
         height: 200px;
         border: solid 2px rgb(119, 119, 255);
         border-radius: 5px;
+        position: relative;
     }
 
     @keyframes fadeIn {
@@ -397,13 +423,60 @@
 
             }
         }
+        let tagCollection = []
+        {% for tag in tagList %}
+            var tagToggle = {tag: "{{ tag }}", active: false}
+            tagCollection.push(tagToggle);
+        {% endfor %} 
+        function tagFilter(tag){
+            btn = document.getElementsByClassName("filtReset");
+            console.log("You clicked " + tag + ".");
+            thumbs = document.getElementsByClassName("collectionDisplay");
+            console.log(thumbs);
+            for (let item of thumbs){
+                if (item.classList.contains(tag)){
+                    item.style.display = "block";
+                }
+                else{
+                    item.style.display = "none";
+                }
+            }
+            btn[0].style.display = "flex";
+        }
+        function tagReset(){
+            thumbs = document.getElementsByClassName("collectionDisplay");
+            btn = document.getElementsByClassName("filtReset");
+            for (let item of thumbs){
+                item.style.display = "block";
+                btn[0].style.display = "none";
+            }
+        }
     </script>
+    <div class="filters">
+        <div class="list">
+            {% for tag in tagList %}
+                <div class="tag">
+                    <p class="clickTag" onclick="tagFilter('{{ tag }}')">{{ tag }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% comment %} <div class="list">
+            {% for maker in makeList %}
+                <div class="tag">
+                    <p>{{ maker }}</p>
+                </div>
+            {% endfor %}
+        </div> {% endcomment %}
+        <div class="filtReset" onclick="tagReset()">
+            <p>Reset filters</p>
+        </div>
+    </div>
     <div class="collection">
         {% for key,value in collect.items %}
             {% url key as key_url %}
-            <a href="{{ key_url }}"  class="collectionDisplay">
+            <a href="{{ key_url }}"  class="collectionDisplay {{ value.tags }}">
                 {% if value.thumb %}
-                    <div class="{{ value.tags }} thumb" style="background: url({{ value.thumb }}) center; background-size: cover;">
+                    <div class="thumb" style="background: url({{ value.thumb }}) center; background-size: cover;">
                         <h3 class="title">{{ key }}</h3>
                         <div class="extra">
                             <h4>{{ value.maker }}</h4>
@@ -413,7 +486,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="{{ value.tags }} thumb" id="imageless{{ value.formatted }}" style="position:relative">
+                    <div class="thumb" id="imageless{{ value.formatted }}">
                         <h3 class="title">{{ key }}</h3>
                             {% if " " in key %}
                                 <script>

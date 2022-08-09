@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class TalesConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Tales'
+class AmeliorusConfig(AppConfig):
+	default_auto_field = "django.db.models.BigAutoField"
+	name = "apps.Tales"

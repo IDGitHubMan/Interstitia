@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class SpaceagainsttimeConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'SpaceAgainstTime'
+class AmeliorusConfig(AppConfig):
+	default_auto_field = "django.db.models.BigAutoField"
+	name = "apps.SpaceAgainstTime"

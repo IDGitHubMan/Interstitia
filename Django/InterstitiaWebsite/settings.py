@@ -38,7 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Collection'
+    'apps.Collection',
+    'apps.Ameliorus',
+    'apps.Assistant',
+    'apps.ChoiceStories',
+    'apps.Cymatica',
+    'apps.Genera',
+    'apps.Randeville',
+    'apps.SimonSays',
+    'apps.SpaceAgainstTime',
+    'apps.Tales',
+    'apps.Trends',
 ]
 
 MIDDLEWARE = [

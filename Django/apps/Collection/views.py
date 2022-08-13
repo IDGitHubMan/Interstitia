@@ -4,10 +4,6 @@ import os
 import csv
 import glob
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Create your views here.
@@ -17,10 +13,10 @@ from django.http import HttpResponse
 
 
 collect = {}
-tags = []
-makers = []
 
 def index(request):
+    makers = []
+    tags = []
     response = requests.get("https://docs.google.com/spreadsheets/d/1LUZkRxjjDxCkUxpn3UHiIscy5dvs3BBfcPNF8C8FRns/export?format=csv")
     f = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/projects.csv", "wb")
     f.write(response.content)

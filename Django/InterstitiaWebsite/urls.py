@@ -17,7 +17,6 @@ from dataclasses import replace
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-import glob
 
 f = open("./InterstitiaWebsite/views.py","w+")
 f.write("from django.shortcuts import render\n")
@@ -37,5 +36,3 @@ urlpatterns = [
     path('about',views.about,name='about'),
     path('collection', include('apps.Collection.urls'),name="collection"),
 ]
-
-g = glob.glob("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")

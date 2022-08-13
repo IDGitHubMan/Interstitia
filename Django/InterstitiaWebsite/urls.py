@@ -28,7 +28,7 @@ f.write("collect = {}\n")
 f.write("def index(request):\n")
 f.write("\treturn render(request,'index.html')\n")
 f.write("def about(request):\n")
-f.write("\treturn render(request,'about.html')\n")
+f.write("\treturn render(request,'about.html')")
 f.close()
 
 urlpatterns = [
@@ -39,12 +39,3 @@ urlpatterns = [
 ]
 
 g = glob.glob("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")
-for file in g:
-    f = open("/Users/idesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/views.py","a+")
-    if (" " in file[99:len(file) - 5]):
-        s = file[99:len(file) - 5].replace(" ","_")
-    else:
-        s = file[99:len(file) - 5]
-    f.write("\ndef " + s + "(request):")
-    f.write('\n\treturn render(request,"' + file + '")')
-    f.close()

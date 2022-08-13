@@ -1,6 +1,7 @@
-from django.shortcuts import render
-import requests
 import csv
+
+import requests
+from django.shortcuts import render
 
 songList = {}
 def index(request):

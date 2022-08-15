@@ -23,6 +23,10 @@
         function draw(){
             ellipse(width/2,height/2,100,100);
         }
+        function fetchSong(url){
+            let postData = {"link":url,csrfmiddlewaretoken: "{% csrf_token %}"}
+            httpPost("/collection/Cymatica/song","json",postData);
+        }
     </script>
     <div class="title">
         <h1>Cymatica</h1>
@@ -30,5 +34,16 @@
     </div>
     <div id="sketchContainer">
     </div>
-    <table id="songList"></table>
+    <table id="songList">
+        <tr>
+            <th>Song</th>
+            <th>Maker</th>
+        </tr>
+        {% for key,value in songs.items %}
+            <tr>
+                <td onclick="fetchSong('{{ value.url }}')">{{ key }}</td>
+                <td>{{ value.maker }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}

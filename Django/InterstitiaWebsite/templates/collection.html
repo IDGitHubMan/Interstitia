@@ -430,9 +430,7 @@
         {% endfor %} 
         function tagFilter(tag){
             btn = document.getElementsByClassName("filtReset");
-            console.log("You clicked " + tag + ".");
             thumbs = document.getElementsByClassName("collectionDisplay");
-            console.log(thumbs);
             for (let item of thumbs){
                 if (item.classList.contains(tag)){
                     item.style.display = "block";

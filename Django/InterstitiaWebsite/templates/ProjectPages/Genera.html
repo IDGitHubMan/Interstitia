@@ -1,1 +1,175 @@
 {% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Genera
+{% endblock title %}
+{% block extraSrcs %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js" integrity="sha512-w1Bktzax55ZbjW5Mqjz8+mKz4KqRjEUU35Dpq/ath29yskKqIGwNIHiFNp03m/OiJWDXvdQ1/g6aV+l4PeVO7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock extraSrcs %}
+{% block styling %}
+    .title {
+        position: relative;
+        color: white;
+        min-height: calc(100vh - 120px);
+        max-height: calc(100vh - 120px);
+        background-image: url({% static 'images/genera.png' %});
+        background-size: 100%;
+    }
+
+    .headText {
+        display: flex;
+        flex-direction: column;
+        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+        position: absolute;
+        bottom: 0%;
+        min-height: 100%;
+        vertical-align: middle;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .headText>h2 {
+        font-size: 100pt;
+    }
+    .animBGText{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 200px;
+        border: solid 2px rgb(119, 119, 255);
+        border-radius: 5px;
+        position: relative;
+        height: fit-content;
+    }
+    .animBGText>p{
+        width: 50%;
+    }
+    
+{% endblock styling%}
+{% block content %}
+    <div class="title">
+        <div class="headText">
+            <h2>Genera</h2>
+            <p>Using programming tools and concepts to make live wallpapers.</p>
+            <p>Isaiah Desrosiers</p>
+        </div>
+    </div>
+    <div id="body">
+        <div id="anim1" class="animBGText">
+            <p>I first came across Processing in middle school when I decided to try out Khan Academy's programming tutorials. I obviously hated it, because Khan Academy's programming course at the time kind of sucked. But later, after spending a bit of time with Python and not really understanding tkinter, I was looking for a programming language or library that made visuals easy. I love it now, and though I'm no expert, I can make some pretty cool looking things.</p>
+        </div>
+        <script>
+            class Drifter {
+                constructor(s){
+                    this.sketch = s;
+                    this.points = [this.sketch.createVector(this.sketch.width/2-200,this.sketch.height/2),this.sketch.createVector(this.sketch.width/2+200,this.sketch.height/2)];
+                    this.acc = this.sketch.createVector(0,0);
+                    this.vel = this.sketch.createVector(0,0);
+                    this.loc = this.sketch.createVector(this.sketch.random(this.sketch.width),this.sketch.random(this.sketch.height));
+                }
+
+                update(){
+                    if (this.sketch.dist(this.sketch.width/2,this.sketch.height/2,this.loc.x,this.loc.y)<=5){
+                        let choiceDim = this.sketch.random(2);
+                        let choiceEdge = this.sketch.random(2);
+                        if (choiceDim <= 1) {
+                            let x = this.sketch.random(this.sketch.width);
+                            if (choiceEdge <= 1) {
+                                this.loc = this.sketch.createVector(x, 0);
+                            } else {
+                                this.loc = this.sketch.createVector(x, this.sketch.height);
+                            }
+                        } else{
+                            let y = this.sketch.random(this.sketch.height);
+                            if (choiceEdge <= 1) {
+                                this.loc = this.sketch.createVector(0, y);
+                                } else {
+                                this.loc = this.sketch.createVector(this.sketch.width, y);
+                                }
+                        }
+                    }
+                    let desired = p5.Vector.sub(this.sketch.createVector(this.sketch.width/2,this.sketch.height/2),this.loc);
+                        let factor = this.sketch.map(this.sketch.dist(this.sketch.width/2, this.sketch.height/2, this.loc.x, this.loc.y), 0, this.sketch.dist(0, 0, this.sketch.width, this.sketch.height), 5, 0);
+                        desired.normalize();
+                        desired.mult(factor);
+                        this.acc.add(desired);
+                    for (let point of this.points){
+                        if (this.sketch.dist(point.x,point.y,this.loc.x,this.loc.y)<=5){
+                            let choiceDim = this.sketch.random(2);
+                            let choiceEdge = this.sketch.random(2);
+                            if (choiceDim <= 1) {
+                                let x = this.sketch.random(this.sketch.width);
+                                if (choiceEdge <= 1) {
+                                  this.loc = this.sketch.createVector(x, 0);
+                                } else {
+                                  this.loc = this.sketch.createVector(x, this.sketch.height);
+                                }
+                            } else{
+                                let y = this.sketch.random(this.sketch.height);
+                                if (choiceEdge <= 1) {
+                                    this.loc = this.sketch.createVector(0, y);
+                                  } else {
+                                    this.loc = this.sketch.createVector(this.sketch.width, y);
+                                  }
+                            }
+                        }
+                        let orbTheta = this.sketch.atan((point.y-this.loc.y)/(point.x-this.loc.x));
+                        let r = this.sketch.dist(point.x, point.y, this.loc.x, this.loc.y);
+                        let target;
+                        if (point.x >= this.loc.x) {
+                            target = this.sketch.createVector(-r * this.sketch.cos(orbTheta + 0.01) + point.x, -r * this.sketch.sin(orbTheta + 0.01) + point.y);
+                        } else {
+                            target = this.sketch.createVector(r * this.sketch.cos(orbTheta + 0.01) + point.x, r * this.sketch.sin(orbTheta + 0.01) + point.y);
+                        }
+                        let desired = p5.Vector.sub(target,this.loc);
+                        let factor = this.sketch.map(this.sketch.dist(point.x, point.y, this.loc.x, this.loc.y), 0, this.sketch.dist(0, 0, this.sketch.width, this.sketch.height), 5, 0);
+                        desired.normalize();
+                        desired.mult(factor);
+                        this.acc.add(desired);
+                        if (this.loc.x > this.sketch.width || this.loc.x < 0 || this.loc.y > this.sketch.height || this.loc.y < 0){
+                            this.loc = this.sketch.createVector(this.sketch.random(this.sketch.width),this.sketch.random(this.sketch.height));
+                        }
+                        this.vel.add(this.acc);
+                        this.vel.limit(5);
+                        this.loc.add(this.vel);
+                        this.acc.mult(0);
+                        this.sketch.strokeWeight(2);
+                        this.sketch.stroke(0,119,255);
+                        this.sketch.point(this.loc.x,this.loc.y);
+                    }
+                }
+            }
+            const vortex = new p5(( sketch )  => {
+                let drifters = [];
+                let time = 0.0;
+                sketch.setup = () => {
+                    let c = sketch.createCanvas(sketch.windowWidth-10, 400);
+                    sketch.select('#anim1').size(sketch.windowWidth,400);
+                    c.parent('anim1');
+                    c.position(0,0,"abslute");
+                    c.style('z-index',-9999);
+                    for (let i = 0; i < 1000; i++){
+                        drifters.push(new Drifter(sketch));
+                    }
+                }
+                sketch.draw = () => {
+                    time += 0.01;
+                    sketch.background(0,0,66,5);
+                    for (let drift of drifters){
+                        drift.update();
+                    }
+                }
+                sketch.windowResized = () => {
+                    sketch.resizeCanvas(sketch.windowWidth-10, 400);
+                    sketch.select('#anim1').size(sketch.windowWidth,400);
+                    for (let drift of drifters){
+                        drift.points = [sketch.createVector(sketch.width/2-200,sketch.height/2),sketch.createVector(sketch.width/2+200,sketch.height/2)];
+                    }
+                }
+            });
+        </script>
+    </div>
+
+{% endblock content %}

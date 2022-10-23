@@ -54,9 +54,10 @@ def index(request):
                         html.write(res.content)
                         html.close()
                 else:
-                    html=open(fileString,"wb")
-                    html.write('{% extends "base.html" %}'.encode() )
-                    html.close()
+                    if (not os.path.exists(fileString)):
+                        html=open(fileString,"wb")
+                        html.write('{% extends "base.html" %}'.encode() )
+                        html.close()
                 tags = list(set(tags))
                 makers = list(set(makers))
     collection = {"collect":collect,"tagList":tags,"makeList":makers}

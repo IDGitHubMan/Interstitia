@@ -5,7 +5,7 @@ import os;
 
 urlpatterns = [
     path('', views.index, name='colindex'),
-    path('/Genera',include('apps.Genera.urls'),name='Genera')
+    path('Genera',include('apps.Genera.urls'),name='Genera')
 ]
 
 g = glob.glob("/Users/isaiahdesrosiers/Documents/Projects/Interstitia/Django/InterstitiaWebsite/templates/ProjectPages/*.html")

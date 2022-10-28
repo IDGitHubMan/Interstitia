@@ -38,14 +38,45 @@
         align-items: center;
         text-align: center;
         height: 200px;
-        border: solid 2px rgb(119, 119, 255);
-        border-radius: 5px;
         position: relative;
         height: fit-content;
     }
     .animBGText>p{
         width: 50%;
     }
+    .dualSection{
+        display: flex;
+        justify-content: left;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .sideText {
+        width: 47%;
+        margin: 10px;
+    }
+    .sideCanvas{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bodySection{
+        min-height: 100%;
+    }
+
+    .slider{
+        width: 100%;%
+    }
+
+    .optionHint{
+        display: flex;
+        justify-content: space-between;
+        font-size: small;
+    }
+
     
 {% endblock styling%}
 {% block content %}
@@ -57,21 +88,22 @@
         </div>
     </div>
     <div id="body">
-        <div id="anim1" class="animBGText">
+        <div id="anim1" class="animBGText bodySection">
             <p>I first came across Processing in middle school when I decided to try out Khan Academy's programming tutorials. I obviously hated it, because Khan Academy's programming course at the time kind of sucked. But later, after spending a bit of time with Python and not really understanding tkinter, I was looking for a programming language or library that made visuals easy. I love it now, and though I'm no expert, I can make some pretty cool looking things.</p>
         </div>
         <script>
             class Drifter {
                 constructor(s){
                     this.sketch = s;
-                    this.points = [this.sketch.createVector(this.sketch.width/2-200,this.sketch.height/2),this.sketch.createVector(this.sketch.width/2+200,this.sketch.height/2)];
+                    this.points;
                     this.acc = this.sketch.createVector(0,0);
                     this.vel = this.sketch.createVector(0,0);
                     this.loc = this.sketch.createVector(this.sketch.random(this.sketch.width),this.sketch.random(this.sketch.height));
                 }
 
                 update(){
-                    if (this.sketch.dist(this.sketch.width/2,this.sketch.height/2,this.loc.x,this.loc.y)<=5){
+                    this.points = [this.sketch.createVector(this.sketch.mouseX-50,this.sketch.mouseY),this.sketch.createVector(this.sketch.mouseX+50,this.sketch.mouseY)];
+                    if (this.sketch.dist(this.sketch.mouseX,this.sketch.mouseY,this.loc.x,this.loc.y)<=5){
                         let choiceDim = this.sketch.random(2);
                         let choiceEdge = this.sketch.random(2);
                         if (choiceDim <= 1) {
@@ -90,31 +122,12 @@
                                 }
                         }
                     }
-                    let desired = p5.Vector.sub(this.sketch.createVector(this.sketch.width/2,this.sketch.height/2),this.loc);
+                    let desired = p5.Vector.sub(this.sketch.createVector(this.sketch.mouseX,this.sketch.mouseY),this.loc);
                         let factor = this.sketch.map(this.sketch.dist(this.sketch.width/2, this.sketch.height/2, this.loc.x, this.loc.y), 0, this.sketch.dist(0, 0, this.sketch.width, this.sketch.height), 5, 0);
                         desired.normalize();
                         desired.mult(factor);
                         this.acc.add(desired);
                     for (let point of this.points){
-                        if (this.sketch.dist(point.x,point.y,this.loc.x,this.loc.y)<=5){
-                            let choiceDim = this.sketch.random(2);
-                            let choiceEdge = this.sketch.random(2);
-                            if (choiceDim <= 1) {
-                                let x = this.sketch.random(this.sketch.width);
-                                if (choiceEdge <= 1) {
-                                  this.loc = this.sketch.createVector(x, 0);
-                                } else {
-                                  this.loc = this.sketch.createVector(x, this.sketch.height);
-                                }
-                            } else{
-                                let y = this.sketch.random(this.sketch.height);
-                                if (choiceEdge <= 1) {
-                                    this.loc = this.sketch.createVector(0, y);
-                                  } else {
-                                    this.loc = this.sketch.createVector(this.sketch.width, y);
-                                  }
-                            }
-                        }
                         let orbTheta = this.sketch.atan((point.y-this.loc.y)/(point.x-this.loc.x));
                         let r = this.sketch.dist(point.x, point.y, this.loc.x, this.loc.y);
                         let target;
@@ -145,31 +158,279 @@
                 let drifters = [];
                 let time = 0.0;
                 sketch.setup = () => {
-                    let c = sketch.createCanvas(sketch.windowWidth-10, 400);
-                    sketch.select('#anim1').size(sketch.windowWidth,400);
+                    let c = sketch.createCanvas(sketch.windowWidth-10, sketch.windowHeight-120);
+                    sketch.select('#anim1').size(sketch.width,sketch.height);
                     c.parent('anim1');
                     c.position(0,0,"abslute");
                     c.style('z-index',-9999);
-                    for (let i = 0; i < 1000; i++){
+                    for (let i = 0; i < 5000; i++){
                         drifters.push(new Drifter(sketch));
                     }
                 }
                 sketch.draw = () => {
                     time += 0.01;
-                    sketch.background(0,0,66,5);
+                    sketch.background(0,0,66,50);
                     for (let drift of drifters){
                         drift.update();
                     }
                 }
                 sketch.windowResized = () => {
-                    sketch.resizeCanvas(sketch.windowWidth-10, 400);
-                    sketch.select('#anim1').size(sketch.windowWidth,400);
+                    sketch.resizeCanvas(sketch.windowWidth-10, sketch.windowHeight-120);
+                    sketch.select('#anim1').size(sketch.width,sketch.height);
                     for (let drift of drifters){
                         drift.points = [sketch.createVector(sketch.width/2-200,sketch.height/2),sketch.createVector(sketch.width/2+200,sketch.height/2)];
                     }
                 }
             });
         </script>
+        <div class="dualSection">
+            <div id="nodes1canvasContainer" class="sideCanvas"></div>
+            <script>
+                class Node{
+                    constructor(parent){
+                        this.p = parent;
+                        this.loc = this.p.sketch.createVector(this.p.sketch.random(this.p.sketch.width),this.p.sketch.random(this.p.sketch.height));
+                        this.vel = this.p.sketch.createVector(this.p.sketch.random(-1,1),this.p.sketch.random(-1,1));
+                        this.nodeColor =this.p.sketch.color(this.p.sketch.random(255),this.p.sketch.random(255),this.p.sketch.random(255));
+                        this.range = this.p.sketch.random(1);
+                    }
+
+                    update(){
+                        let actRange = this.p.sketch.map(this.range,0,1,this.p.minRange,this.p.maxRange);
+                        let drift = this.p.sketch.createVector(this.vel.x*this.p.driftLimit,this.vel.y*this.p.driftLimit);
+                        this.loc.x = this.p.sketch.constrain(this.loc.x+drift.x,0,this.p.sketch.width);
+                        this.loc.y = this.p.sketch.constrain(this.loc.y+drift.y,0,this.p.sketch.height);
+                        if (this.p.edgeBehavior == 0){
+                            if (this.loc.x == 0 || this.loc.x == this.p.sketch.width){
+                                this.vel.x *= -1;
+                            }
+                            if (this.loc.y == 0 || this.loc.y == this.p.sketch.height){
+                                this.vel.y *= -1;
+                            }
+                        }
+                        else {
+                            if (this.loc.x == 0){
+                                this.loc.x = this.p.sketch.width - 1;
+                            }
+                            if (this.loc.x == this.p.sketch.width){
+                                this.loc.x = 1;
+                            }
+                            if (this.loc.y == 0){
+                                this.loc.y = this.p.sketch.height - 1;
+                            }
+                            if (this.loc.y == this.p.sketch.height){
+                                this.loc.y = 1;
+                            }
+                        }
+                        if (this.p.displayNode){
+                            if (this.p.colorUniformity){
+                                this.p.sketch.stroke(this.p.uniformColor);
+                                this.p.sketch.fill(this.p.uniformColor);
+                            }
+                            else {
+                                this.p.sketch.stroke(this.nodeColor);
+                                this.p.sketch.fill(this.nodeColor);
+                            }
+                            this.p.sketch.ellipse(this.loc.x,this.loc.y,10,10);
+                        }
+                        if (this.p.displayRange){
+                            this.p.sketch.noFill();
+                            this.p.sketch.strokeWeight(2);
+                            if (this.p.colorUniformity){
+                                this.p.sketch.stroke(this.p.uniformColor);
+                            }
+                            else{
+                                this.p.sketch.stroke(this.nodeColor);
+                            }
+                            if (this.p.rangeUniformity){
+                                this.p.sketch.ellipse(this.loc.x,this.loc.y,this.p.uniformRange*2,this.p.uniformRange*2);
+                            }
+                            else {
+                                this.p.sketch.ellipse(this.loc.x,this.loc.y,actRange*2,actRange*2);
+                            }
+                        }
+                    }
+                }
+                class Graph{
+                    constructor(s){
+                        this.sketch = s;
+                        this.maxRange = 300;
+                        this.minRange = 25;
+                        this.uniformRange = 100;
+                        this.nodeCount = 10;
+                        this.driftLimit = 5;
+                        this.sparkSize = 3;
+                        this.sparkleDisplacement = 10;
+                        this.showConnections = true;
+                        this.colorUniformity = false;
+                        this.rangeUniformity = false;
+                        this.displayNode = true;
+                        this.displayRange = true;
+                        this.displaySparks = true;
+                        this.edgeBehavior = 0;
+                        this.uniformColor = this.sketch.color(66,66,207);
+                        this.bg = this.sketch.color(0,50);
+                        this.sparkStyle = 0;
+                        this.sparkColor = this.sketch.color(255);
+                        this.nodes = []
+                        for (let i = 0; i < this.nodeCount; i++){
+                            this.nodes.push(new Node(this));
+                        }
+
+                    }
+
+                    update(){
+                        if (this.nodeCount != 0){
+                            if (this.nodeCount > 30){
+                                this.nodeCount = 30;
+                            }
+                            if (this.nodeCount > this.nodes.length){
+                                for (let i = 0; i < this.nodeCount; i++){
+                                    if (this.nodes[i]==undefined){
+                                        this.nodes[i] = new Node(this);
+                                    }
+                                }
+                            }
+                            else if (this.nodeCount < this.nodes.length){
+                                let limit = this.nodes.length - this.nodeCount;
+                                for (let i = 0; i < limit; i++){
+                                    this.nodes.splice(this.sketch.random(this.nodes.length),1);
+                                }
+                            }
+                        }
+                        for (let n of this.nodes){
+                            let distance;
+                            let lineAlpha;
+                            for (let n2 of this.nodes){
+                                distance = this.sketch.dist(n.loc.x,n.loc.y,n2.loc.x,n2.loc.y);
+                            if (this.rangeUniformity){
+                                lineAlpha = this.sketch.map(distance,1,this.uniformRange,255,0);
+                            }
+                            else {
+                                lineAlpha = this.sketch.map(distance,1,this.sketch.map(n.range,0,1,this.minRange,this.maxRange),255,0);
+                            }
+                            if (!this.rangeUniformity){
+                                if (distance<=this.sketch.map(n.range,0,1,this.minRange,this.maxRange) && distance <= this.sketch.map(n2.range,0,1,this.minRange,this.maxRange) && distance!=0){
+                                    if (this.displaySparks){
+                                        this.sketch.strokeWeight(this.sparkSize);
+                                        if (this.sparkStyle == 0){
+                                            this.sketch.stroke(this.sketch.red(this.sparkColor),this.sketch.green(this.sparkColor),this.sketch.blue(this.sparkColor),lineAlpha);
+                                        }
+                                        else if (this.sparkStyle == 1){
+                                            if (this.colorUniformity){
+                                                this.sketch.stroke(this.sketch.red(this.uniformColor),this.sketch.green(this.uniformColor),this.sketch.blue(this.uniformColor),lineAlpha);
+                                            }
+                                            else {
+                                                this.sketch.stroke(this.sketch.red(n.nodeColor),this.sketch.green(n.nodeColor),this.sketch.blue(n.nodeColor),lineAlpha);
+                                            }
+                                        }
+                                        else{
+                                            this.sketch.stroke(this.sketch.random(255),this.sketch.random(255),this.sketch.random(255),lineAlpha);
+                                        }
+                                        this.sketch.point((n.loc.x + n2.loc.x)/2+this.sketch.random(-this.sparkleDisplacement,this.sparkleDisplacement),(n.loc.y+n2.loc.y)/2+this.sketch.random(-this.sparkleDisplacement,this.sparkleDisplacement));
+                                    }
+                                    if (this.showConnections){
+                                        this.sketch.strokeWeight(this.sparkSize);
+                                        if (this.colorUniformity){
+                                            this.sketch.stroke(this.sketch.red(this.uniformColor),this.sketch.green(this.uniformColor),this.sketch.blue(this.uniformColor),lineAlpha);
+                                        }
+                                        else {
+                                            this.sketch.stroke(this.sketch.red(n.nodeColor),this.sketch.green(n.nodeColor),this.sketch.blue(n.nodeColor),lineAlpha);
+                                        }
+                                        this.sketch.line(n.loc.x,n.loc.y,(n.loc.x + n2.loc.x) / 2, (n.loc.y + n2.loc.y) / 2);
+                                    }
+                                } else if (distance <= this.sketch.map(n.range,0,1,this.minRange,this.maxRange) && distance != 0 && this.showConnections){
+                                    if (this.colorUniformity){
+                                        this.sketch.stroke(this.sketch.red(this.uniformColor),this.sketch.green(this.uniformColor),this.sketch.blue(this.uniformColor),lineAlpha);
+                                    }
+                                    else {
+                                        this.sketch.stroke(this.sketch.red(n.nodeColor),this.sketch.green(n.nodeColor),this.sketch.blue(n.nodeColor),lineAlpha);
+                                    }
+                                    this.sketch.line(n.loc.x, n.loc.y, n2.loc.x, n2.loc.y);
+                                }
+                            }
+                            else {
+                                if (distance <= this.uniformRange && distance != 0){
+                                    if (this.displaySparks){
+                                        this.sketch.strokeWeight(this.sparkSize);
+                                        if (this.sparkStyle == 0){
+                                            this.sketch.stroke(this.sparkColor);
+                                        }
+                                        else if (this.sparkStyle == 1){
+                                            if (this.colorUniformity){
+                                                this.sketch.stroke(this.sketch.red(this.uniformColor),this.sketch.green(this.uniformColor),this.sketch.blue(this.uniformColor),lineAlpha);
+                                            }
+                                            else {
+                                                this.sketch.stroke(this.sketch.red(n.nodeColor),this.sketch.green(n.nodeColor),this.sketch.blue(n.nodeColor),lineAlpha);
+                                            }
+                                        }
+                                        else{
+                                            this.sketch.stroke(this.sketch.random(255),this.sketch.random(255),this.sketch.random(255),lineAlpha);
+                                        }
+                                        this.sketch.point((n.loc.x + n2.loc.x)/2+this.sketch.random(-this.sparkleDisplacement,this.sparkleDisplacement),(n.loc.y + n2.loc.y)/2+this.sketch.random(-this.sparkleDisplacement,this.sparkleDisplacement));
+                                    }
+                                    if (this.showConnections){
+                                        this.sketch.strokeWeight(this.sparkSize);
+                                        if (this.colorUniformity){
+                                            this.sketch.stroke(this.sketch.red(this.uniformColor),this.sketch.green(this.uniformColor),this.sketch.blue(this.uniformColor),lineAlpha);
+                                        }
+                                        else {
+                                            this.sketch.stroke(this.sketch.red(n.nodeColor),this.sketch.green(n.nodeColor),this.sketch.blue(n.nodeColor),lineAlpha);
+                                        }
+                                        this.sketch.line(n.loc.x, n.loc.y, (n.loc.x+n2.loc.x)/2, (n.loc.y+n2.loc.y)/2);
+                                    }
+                                }
+                            }
+                            }
+                            n.update();
+                        }
+                    }
+                }
+                const nodesV1 = new p5((sketch) => {
+                    let g;
+                    sketch.setup = () => {
+                        let c = sketch.createCanvas(sketch.windowWidth*0.5-10, sketch.windowHeight-120)
+                        c.parent("nodes1canvasContainer");
+                        sketch.select("#nodes1canvasContainer").size(sketch.width,sketch.height);
+                        sketch.background(25);
+                        g = new Graph(sketch);
+                    }
+
+                    sketch.draw = () => {
+                        sketch.background(25);
+                        g.update();
+                        g.nodeCount = sketch.select("#nodeSlide").value();
+                        sketch.select("#nodeCount").html(sketch.select("#nodeSlide").value());
+                        g.driftLimit = sketch.select("#speedSlide").value();
+                        sketch.select("#driftSpeed").html(sketch.select("#speedSlide").value());
+
+                    }
+
+                    sketch.windowResized = () => {
+                        sketch.resizeCanvas(sketch.windowWidth*0.5-10, sketch.windowHeight-120);
+                        sketch.select("#nodes1canvasContainer").size(sketch.width,sketch.height);;
+                    }
+
+                });
+            </script>
+            <div class="sideText">
+                <p>The first of these things was somehing I called "Nodes," and I developed it in an attempt to recreate the graphic that seemed to be popular for Processing 2 and 3. (You can still see it on the <a href="https://forum.processing.org/two/index.html">old Processing Forum</a>). The rules behind it are actually simple: have a bunch of objects with a constant vector for motion, and some "range." When a node falls into another's range, it draws a line. If the relationship goes both ways, then make each draw a line to meet at the halfway point, and add a little sparkle effect. Additionally, if a node goes outside of the visible range, have it loop over. The results of this system are very pleasing. But another interesting thing is that, changing the numbers and booleans that define it could produce very different results.</p>
+                <div class="optionHint">
+                    <p>Node count:</p>
+                    <p id="nodeCount"></p>
+                </div>
+                <div class="slidecontainer">
+                    <input type="range" min="1" max="20" value="10" class="slider" id="nodeSlide">
+                </div>
+                <div class="optionHint">
+                    <p>Drift Speed:</p>
+                    <p id="driftSpeed"></p>
+                </div>
+                <div class="slidecontainer">
+                    <input type="range" min="0" max="30" value="5" class="slider" id="speedSlide">
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock content %}

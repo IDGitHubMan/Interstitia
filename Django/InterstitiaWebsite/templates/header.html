@@ -3,11 +3,8 @@
     {% url 'index' as index_url %}
     {% url 'colindex' as col_url %}
     {% url 'about' as about_url %}
-    <div  class="top">
-        <p>Interstitia Studios</p>
-    </div>
     <div class="head">
-        <a class="navButton" href="{{ index_url }}"><div class="homeBTN"><img src="{% static 'images/favicon/logoBase.svg' %}" width="50" height="auto" alt="logo"/><span>Home</span></div></a>
+        <a class="navButton" href="{{ index_url }}"><div class="homeBTN"><img src="{% static 'images/favicon/logoBase.svg' %}" width="50" height="auto" alt="logo"/><span>Interstitia</span></div></a>
         <a class="navButton" href="{{ col_url }}"><div><p class="navLink">Collection</p></div></a>
         <a  class="navButton" href="{{ about_url }}"><div><p class="navLink">About</p></div></a>
     </div>

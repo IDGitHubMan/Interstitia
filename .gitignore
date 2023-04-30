@@ -143,5 +143,5 @@ Django/InterstitiaWebsite/views.py
 Django/projects.csv
 *.csv
 
-/interstitia/firebase*
-/interstitia/tailwind.config.js
+interstitia/firebase*
+interstitia/tailwind.config.js

@@ -30,15 +30,13 @@ body {
   background-color: #00b7ff;
 }
 #defaultCanvas1 {
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
+  z-index: -10;
+  position: fixed;
+  top: 0px;
 }
 
 #defaultCanvas0 {
-  z-index: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
+  z-index: -10;
+  position: fixed;
+  top: 0px;
 }

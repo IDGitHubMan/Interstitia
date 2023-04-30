@@ -142,3 +142,6 @@ GitHub.sublime-settings
 Django/InterstitiaWebsite/views.py
 Django/projects.csv
 *.csv
+
+/interstitia/firebase*
+/interstitia/tailwind.config.js

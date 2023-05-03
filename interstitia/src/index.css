@@ -2,19 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#app,
+#app > div {
+  height: 100%;
+}
+
 body {
   background-color: #000042;
   color: white;
-}
-
-.topBody {
-  display: flex;
-  justify-content: center;
   width: 100%;
 }
-.overlay {
-  flex-grow: 1;
-}
+
 .bodySection {
   height: 500px;
   margin: 10px;
@@ -39,4 +39,23 @@ body {
   z-index: -10;
   position: fixed;
   top: 0px;
+}
+
+.bodySection {
+  opacity: 0;
+  width: 0;
+}
+
+.bodySection.active {
+  opacity: 1;
+  width: 100%;
+  transition: opacity 1s;
+}
+
+.bodyText {
+  width: 0;
+}
+
+.bodyText.active {
+  width: 100%;
 }

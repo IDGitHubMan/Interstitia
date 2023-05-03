@@ -7,8 +7,6 @@ export const Nav = () => {
           <span>Interstitia</span>
         </Link>
         <Link to="/genera">Genera</Link>
-        <Link to="/neuron">Neuron</Link>
-        <Link to="/tales">Tales</Link>
         <Link to="/collection">Collection</Link>
         <Link to="/about">About</Link>
       </nav>

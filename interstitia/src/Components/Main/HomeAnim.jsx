@@ -16,10 +16,15 @@ export const Preview = (props) => {
   };
 
   const draw = (p5) => {
-    if (p5.millis() - time >= 5000) {
+    if (p5.millis() - time >= 10000) {
       f.randomize();
       time = p5.millis();
       current += 1;
+      if (props.slideNum + 1 >= props.slides.length) {
+        props.slideSet(0);
+      } else {
+        props.slideSet(props.slideNum + 1);
+      }
     }
     if (current >= 3) {
       current = 0;

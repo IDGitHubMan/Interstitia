@@ -22,20 +22,10 @@ export const Home = () => {
       linkDestination: "/about",
     },
   ];
-  clearInterval();
-  useEffect(() => {
-    setInterval(() => {
-      if (slide + 1 >= slideContent.length) {
-        setSlide(0);
-      } else {
-        setSlide(slide + 1);
-      }
-    }, 10000);
-  }, [slide]);
   return (
     <div>
       <div className="absolute top-0 left-0 w-full">
-        <Preview />
+        <Preview slideSet={setSlide} slides={slideContent} slideNum={slide} />
       </div>
       <div className="absolute top-0 left-0 w-full">
         <Nav />

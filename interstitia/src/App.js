@@ -1,8 +1,8 @@
 import "./App.css";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
-import { Home } from "./Components/Home";
+import { Home } from "./Components/Main/Home";
 import { useState } from "react";
-import NotFound from "./Components/NotFound";
+import NotFound from "./Components/Main/NotFound";
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);

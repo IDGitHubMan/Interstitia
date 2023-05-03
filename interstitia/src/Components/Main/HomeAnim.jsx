@@ -1,6 +1,6 @@
 import React from "react";
 import Sketch from "react-p5";
-import { FlowSet, Graph, NoiseWave } from "./classes";
+import { FlowSet, Graph, NoiseWave } from "../classes";
 let g;
 let f;
 let r;

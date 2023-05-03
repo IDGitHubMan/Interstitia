@@ -1,6 +1,6 @@
 import React from "react";
 import Sketch from "react-p5";
-import { Star } from "./classes";
+import { Star } from "../classes";
 let points = [];
 export const Stars = (props) => {
   const setup = (p5, canvasParentRef) => {

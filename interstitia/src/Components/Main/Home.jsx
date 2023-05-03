@@ -1,6 +1,6 @@
 import Nav from "./Nav";
 import Preview from "./HomeAnim";
-import HomeSlides from "./HomeSlides";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const Home = () => {
@@ -25,12 +25,13 @@ export const Home = () => {
   clearInterval();
   useEffect(() => {
     setInterval(() => {
-      setSlide(slide + 1);
+      if (slide + 1 >= slideContent.length) {
+        setSlide(0);
+      } else {
+        setSlide(slide + 1);
+      }
     }, 10000);
   }, [slide]);
-  if (slide >= slideContent.length) {
-    setSlide(0);
-  }
   return (
     <div>
       <div className="absolute top-0 left-0 w-full">
@@ -38,7 +39,21 @@ export const Home = () => {
       </div>
       <div className="absolute top-0 left-0 w-full">
         <Nav />
-        <HomeSlides slideNum={slide} slides={slideContent} />
+        <div className="flex">
+          <div className="bodySection flex justify-center align-middle items-center active">
+            <div className="bodyText flex text-center align-middle justify-center rounded-md h-full flex-col items-center active">
+              <p className="text-3xl">{slideContent[slide].text}</p>
+              <div className="buttonLink p-3 rounded-md text-black">
+                <Link to={slideContent[slide].linkDestination}>
+                  {slideContent[slide].linkText}
+                </Link>
+              </div>
+            </div>
+            <div className="previewSlides">
+              <img id="previewImage" src="" width="" height="" alt="" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

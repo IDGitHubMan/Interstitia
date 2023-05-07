@@ -4,6 +4,7 @@ import { Graph } from "./classes";
 let f;
 export const NodeGen = (props) => {
   const setup = (p5, canvasParentRef) => {
+    p5.colorMode(p5.HSL, 360);
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
     f = new Graph(p5);
   };

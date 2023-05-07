@@ -34,6 +34,10 @@ export const Node = () => {
     bgB: 0,
     bgA: 50,
   });
-  return <form></form>;
+  return (
+    <div>
+      <NodeGen></NodeGen>
+    </div>
+  );
 };
 export default Node;

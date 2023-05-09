@@ -40,6 +40,7 @@ export const Preview = (props) => {
 
   const windowResized = (p5) => {
     p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    r.resize();
   };
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;

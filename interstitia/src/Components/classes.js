@@ -256,13 +256,13 @@ export class Node {
     );
   }
   update() {
-    if (this.cont.colorMode == 0) {
+    if (this.cont.colorMode === 0) {
       this.col = this.sketch.color(
         this.sketch.map(this.col1, 0, 1, this.cont.col1[0], this.cont.col2[0]),
         this.sketch.map(this.col2, 0, 1, this.cont.col1[1], this.cont.col2[1]),
         this.sketch.map(this.col3, 0, 1, this.cont.col1[2], this.cont.col2[2])
       );
-    } else if (this.cont.colorMode == 1) {
+    } else if (this.cont.colorMode === 1) {
       this.col = this.sketch.color(
         this.cont.col1[0],
         this.cont.col1[1],
@@ -271,7 +271,7 @@ export class Node {
     } else {
       this.col = this.cont.interpColor;
     }
-    if (this.cont.rangeMode == 0) {
+    if (this.cont.rangeMode === 0) {
       this.range = this.sketch.map(
         this.preRange,
         0,
@@ -279,7 +279,7 @@ export class Node {
         this.cont.rangeMin,
         this.cont.rangeMax
       );
-    } else if (this.cont.rangeMode == 1) {
+    } else if (this.cont.rangeMode === 1) {
       this.range = this.cont.rangeMin;
     } else {
       this.range = this.cont.interpRange;
@@ -342,7 +342,7 @@ export class Graph {
   }
   update() {
     this.sketch.background(this.bg);
-    if (this.colorMode == 2) {
+    if (this.colorMode === 2) {
       this.interpColor = this.sketch.lerpColor(
         this.sketch.color(this.col1[0], this.col1[1], this.col1[2]),
         this.sketch.color(this.col2[0], this.col2[1], this.col2[2]),
@@ -363,7 +363,7 @@ export class Graph {
         )
       );
     }
-    if (this.rangeMode == 2) {
+    if (this.rangeMode === 2) {
       this.interpRange = this.sketch.map(
         this.sketch.sin(
           this.sketch.map(
@@ -420,9 +420,9 @@ export class Graph {
         }
       }
     }
-    if (this.sparkleWeightMode == 0) {
+    if (this.sparkleWeightMode === 0) {
       this.sketch.strokeWeight(this.sparkleWeightMin);
-    } else if (this.sparkleWeightMode == 1) {
+    } else if (this.sparkleWeightMode === 1) {
       this.sketch.strokeWeight(
         this.sketch.random(this.sparkleWeightMin, this.sparkleWeightMax)
       );
@@ -446,22 +446,13 @@ export class Graph {
       );
     }
     if (this.sparkles) {
-      for (var node of this.nodeStore) {
-        for (var node2 of this.nodeStore) {
-          let distance = this.sketch.dist(
-            node.loc.x,
-            node.loc.y,
-            node2.loc.x,
-            node2.loc.y
-          );
-          if (
-            distance <= node2.range &&
-            distance <= node.range &&
-            distance != 0
-          ) {
-            if (this.sparkleDisplacementMode == 0) {
+      for (var n of this.nodeStore) {
+        for (var n2 of this.nodeStore) {
+          let distance = this.sketch.dist(n.loc.x, n.loc.y, n2.loc.x, n2.loc.y);
+          if (distance <= n2.range && distance <= n.range && distance !== 0) {
+            if (this.sparkleDisplacementMode === 0) {
               this.sparkleDisp = this.sparkleDisplacementMin;
-            } else if (this.sparkleDisplacementMode == 1) {
+            } else if (this.sparkleDisplacementMode === 1) {
               this.sparkleDisp = this.sketch.random(
                 this.sparkleDisplacementMin,
                 this.sparkleDisplacementMax
@@ -484,13 +475,11 @@ export class Graph {
                 this.sparkleDisplacementMax
               );
             }
-            if (this.sparkleColSystem == 0) {
+            if (this.sparkleColSystem === 0) {
               this.sketch.stroke(this.sparkleCol1);
-            } else if (this.sparkleColSystem == 1) {
-              this.sketch.stroke(
-                this.sketch.lerpColor(node.col, node2.col, 0.5)
-              );
-            } else if (this.sparkleColSystem == 2) {
+            } else if (this.sparkleColSystem === 1) {
+              this.sketch.stroke(this.sketch.lerpColor(n.col, n2.col, 0.5));
+            } else if (this.sparkleColSystem === 2) {
               this.sketch.stroke(
                 this.sketch.random(this.sparkleCol1[0], this.sparkleCol2[0]),
                 this.sketch.random(this.sparkleCol1[1], this.sparkleCol2[1]),
@@ -528,9 +517,9 @@ export class Graph {
               );
             }
             this.sketch.point(
-              (node.loc.x + node2.loc.x) / 2 +
+              (n.loc.x + n2.loc.x) / 2 +
                 this.sketch.random(-this.sparkleDisp, this.sparkleDisp),
-              (node.loc.y + node2.loc.y) / 2 +
+              (n.loc.y + n2.loc.y) / 2 +
                 this.sketch.random(-this.sparkleDisp, this.sparkleDisp)
             );
           }
@@ -767,5 +756,20 @@ export class NoiseWave {
         this.sketch.height
       );
     }
+  }
+
+  resize() {
+    if (this.sketch.width / this.size > this.cols) {
+      for (let i = 0; i < this.cols - this.sketch.width / this.size; i++) {
+        this.colors.push(
+          this.sketch.color(
+            this.sketch.random(64),
+            this.sketch.random(128),
+            this.sketch.random(128, 255)
+          )
+        );
+      }
+    }
+    this.cols = this.sketch.width / this.size;
   }
 }

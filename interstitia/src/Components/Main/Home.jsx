@@ -1,7 +1,7 @@
 import Nav from "./Nav";
 import Preview from "./HomeAnim";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const Home = () => {
   const [slide, setSlide] = useState(0);

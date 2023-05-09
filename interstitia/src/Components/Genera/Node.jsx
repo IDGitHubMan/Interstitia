@@ -29,6 +29,7 @@ export const Node = () => {
     sparkleDisplacementMin: 0,
     sparkleDisplacementMax: 50,
     sparkleColSystem: 0,
+    sparkleColInterval: 5,
     bgH: 0,
     bgS: 0,
     bgB: 0,

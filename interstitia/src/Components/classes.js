@@ -307,7 +307,7 @@ export class Node {
 export class Graph {
   constructor(s) {
     this.sketch = s;
-    this.nodeCount = 75;
+    this.nodeCount = 15;
     this.nodeSpeed = 5;
     this.coreVisibility = true;
     this.connectionVisibility = true;
@@ -587,8 +587,8 @@ export class FlowSet {
     this.sketch = s;
     this.xInc = this.sketch.random(0.5);
     this.yInc = this.sketch.random(0.5);
-    this.resolution = this.sketch.random(5);
-    this.flows = new Array(2500);
+    this.resolution = 1;
+    this.flows = new Array(500);
     for (let i = 0; i < this.flows.length; i++) {
       this.flows[i] = new Flow(this.sketch);
       this.flows[i].xInc = this.xInc;
@@ -771,5 +771,146 @@ export class NoiseWave {
       }
     }
     this.cols = this.sketch.width / this.size;
+  }
+}
+
+export class Arc {
+  constructor(parent, s) {
+    this.sketch = s;
+    this.core = parent;
+    this.reach = 0;
+    this.c1 = this.sketch.random();
+    this.c2 = this.sketch.random();
+    this.c3 = this.sketch.random();
+    this.start = this.sketch.random(this.sketch.TWO_PI);
+    this.end = this.sketch.random(this.sketch.PI / 3);
+    this.pitch = this.sketch.random(this.sketch.TWO_PI); // X Rotation
+    this.pitchIncrement = this.sketch.random(-1, 1) / 100;
+    this.yaw = this.sketch.random(this.sketch.TWO_PI); // Y Rotation
+    this.yawIncrement = this.sketch.random(-1, 1) / 100;
+    this.roll = this.sketch.random(this.sketch.TWO_PI); // Z Rotation
+    this.rollIncrement = this.sketch.random(-1, 1) / 100;
+    this.w = this.sketch.random(5, 25);
+  }
+
+  show() {
+    this.sketch.stroke(
+      this.sketch.map(this.c1, 0, 1, this.core.col1[0], this.core.col2[0]),
+      this.sketch.map(this.c2, 0, 1, this.core.col1[1], this.core.col2[1]),
+      this.sketch.map(this.c3, 0, 1, this.core.col1[2], this.core.col2[2])
+    );
+    this.sketch.noFill();
+    this.sketch.strokeWeight(
+      this.sketch.map(
+        this.reach,
+        0,
+        2 *
+          this.sketch.dist(0, 0, this.sketch.width / 2, this.sketch.height / 2),
+        0.1,
+        this.w
+      )
+    );
+    this.sketch.push();
+    if (this.core.rotateZ) {
+      this.sketch.rotateZ(this.roll);
+    }
+    if (this.core.rotateY) {
+      this.sketch.rotateY(this.yaw);
+    }
+    if (this.core.rotateX) {
+      this.sketch.rotateX(this.pitch);
+    }
+    if (this.core.displayShapes) {
+      this.sketch.beginShape();
+      for (let i = 0; i < this.core.vertices; i++) {
+        let theta = this.sketch.map(
+          i,
+          0,
+          this.core.vertices,
+          0,
+          this.sketch.TWO_PI
+        );
+        this.sketch.vertex(
+          (this.sketch.cos(theta) * this.reach) / 2,
+          (this.sketch.sin(theta) * this.reach) / 2
+        );
+      }
+      this.sketch.vertex(
+        (this.sketch.cos(0) * this.reach) / 2,
+        (this.sketch.sin(0) * this.reach) / 2
+      );
+      this.sketch.endShape();
+    }
+    if (this.core.displayAster) {
+      for (let i = 0; i < this.core.vertices; i++) {
+        let theta = this.sketch.map(
+          i,
+          0,
+          this.core.vertices,
+          0,
+          this.sketch.TWO_PI
+        );
+        this.sketch.line(
+          (this.sketch.cos(theta) * this.reach) / 2,
+          (this.sketch.sin(theta) * this.reach) / 2,
+          0,
+          0,
+          0,
+          0
+        );
+      }
+    }
+    if (this.core.displayArc) {
+      if (this.core.fullArc) {
+        this.sketch.ellipse(0, 0, this.reach, this.reach);
+      } else {
+        this.sketch.arc(0, 0, this.reach, this.reach, this.start, this.end);
+      }
+    }
+    this.sketch.pop();
+    this.reach += 1;
+    this.roll += this.rollIncrement;
+    this.pitch += this.pitchIncrement;
+    this.yaw += this.yawIncrement;
+  }
+}
+
+export class Core {
+  constructor(s) {
+    this.sketch = s;
+    this.col1 = [200, 360, 360];
+    this.col2 = [240, 0, 0];
+    this.pulseTime = 1000.0;
+    this.lastPulse = this.sketch.millis();
+    this.arcs = [];
+    this.pulseCount = 5;
+    this.rotateZ = true;
+    this.rotateY = false;
+    this.rotateX = false;
+    this.vertices = 4;
+    this.displayShapes = true;
+    this.displayAster = true;
+    this.displayArc = true;
+    this.fullArc = true;
+  }
+
+  update() {
+    this.sketch.background(0);
+    if (this.sketch.millis() - this.lastPulse >= this.pulseTime) {
+      this.lastPulse = this.sketch.millis();
+      for (let i = 0; i < this.pulseCount; i++) {
+        this.arcs.push(new Arc(this, this.sketch));
+      }
+    }
+    for (let i = 0; i < this.arcs.length; i++) {
+      this.arcs[i].show();
+      if (
+        this.arcs[i].reach >=
+        2 *
+          this.sketch.dist(0, 0, this.sketch.width / 2, this.sketch.height / 2)
+      ) {
+        this.arcs.splice(i, 1);
+      }
+    }
   }
 }

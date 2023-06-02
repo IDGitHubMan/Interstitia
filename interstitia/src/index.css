@@ -15,6 +15,10 @@ body {
   width: 100%;
 }
 
+#root {
+  width: 100%;
+}
+
 .bodySection {
   height: 500px;
   margin: 10px;
@@ -29,16 +33,10 @@ body {
 .buttonLink:hover {
   background-color: #00b7ff;
 }
-#defaultCanvas1 {
-  z-index: -10;
-  position: fixed;
-  top: 0px;
-}
 
-#defaultCanvas0 {
+.p5Canvas {
   z-index: -10;
-  position: fixed;
-  top: 0px;
+  position: relative;
 }
 
 .bodySection {

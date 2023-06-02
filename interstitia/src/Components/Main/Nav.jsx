@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 export const Nav = () => {
   return (
-    <span>
+    <span className="w-full">
       <nav className="flex justify-around sticky top-0 z-50 w-full">
         <Link to="/">
           <span>Interstitia</span>

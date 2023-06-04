@@ -31,7 +31,6 @@ export const Stars = (props) => {
       ["rotate(", p5.sin(p5.millis() / 1000) * 4, "deg)"],
       ""
     );
-    p5.print(styleString);
     navbar.style("transform", styleString);
     navbar.position(navbar.position().x, 80);
   };

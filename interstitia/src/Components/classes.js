@@ -922,7 +922,8 @@ export class Core {
     dp = true,
     ds = true,
     da = true,
-    fa = true
+    fa = true,
+    bg = [0, 0, 0, 360]
   ) {
     this.sketch = s;
     this.col1 = c1;
@@ -939,6 +940,7 @@ export class Core {
     this.displayAster = ds;
     this.displayArc = da;
     this.fullArc = fa;
+    this.bg = bg;
   }
 
   update() {

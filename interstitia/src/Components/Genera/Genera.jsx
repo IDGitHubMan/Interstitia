@@ -37,15 +37,15 @@ export const Genera = () => {
         several inputs, then adds some randomness and chaos to produce vibrant,
         dynamic graphics.
       </p>
-      <div className="flex text-center flex-wrap w-full items-center">
+      <div className="flex text-center flex-wrap w-full justify-center">
         {gens.map((gen) => {
           return (
-            <Link to={`/${gen.genName.toLowerCase()}`}>
-              <div>
-                <div>{gen.display}</div>
+            <Link to={`/genera/${gen.genName.toLowerCase()}`}>
+              <div className="relative top-0 left-0">
                 <h3>{gen.genName}</h3>
                 <p>{gen.genDescription}</p>
               </div>
+              <div>{gen.display}</div>
             </Link>
           );
         })}

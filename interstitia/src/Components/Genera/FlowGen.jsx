@@ -8,7 +8,7 @@ export const FlowGen = (props) => {
     p5canvases = p5.selectAll(".react-p5");
     p5.createCanvas(
       p5canvases[0].size().width,
-      p5canvases[0].size().width
+      p5.min(p5canvases[0].size().width, p5.windowHeight)
     ).parent(canvasParentRef);
     f = new FlowSet(p5);
   };
@@ -18,7 +18,10 @@ export const FlowGen = (props) => {
   };
 
   const windowResized = (p5) => {
-    p5.resizeCanvas(p5canvases[0].size().width, p5canvases[0].size().width);
+    p5.resizeCanvas(
+      p5canvases[0].size().width,
+      p5.min(p5canvases[0].size().width, p5.windowHeight)
+    );
   };
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;

@@ -9,7 +9,7 @@ export const NodeGen = (props) => {
     p5.colorMode(p5.HSL, 360);
     p5.createCanvas(
       p5canvases[0].size().width,
-      p5canvases[0].size().width
+      p5.min(p5canvases[0].size().width, p5.windowHeight)
     ).parent(canvasParentRef);
     if (props.params == null) {
       f = new Graph(p5, 15);
@@ -73,7 +73,10 @@ export const NodeGen = (props) => {
   };
 
   const windowResized = (p5) => {
-    p5.resizeCanvas(p5canvases[0].size().width, p5canvases[0].size().width);
+    p5.resizeCanvas(
+      p5canvases[0].size().width,
+      p5.min(p5canvases[0].size().width, p5.windowHeight)
+    );
   };
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;

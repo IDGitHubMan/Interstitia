@@ -269,6 +269,7 @@ export class Node {
         this.cont.col1[2]
       );
     } else {
+      console.log(this.cont.interpColor);
       this.col = this.cont.interpColor;
     }
     if (this.cont.rangeMode === 0) {
@@ -305,42 +306,75 @@ export class Node {
 }
 
 export class Graph {
-  constructor(s) {
+  constructor(
+    s,
+    nc = 50,
+    ns = 5,
+    crv = true,
+    cnv = true,
+    rv = false,
+    cm = 0,
+    ci = 5,
+    c1 = [0, 360, 360],
+    c2 = [360, 0, 0],
+    rm = 0,
+    ri = 5,
+    rmin = 100,
+    rmax = 300,
+    sparkles = true,
+    swm = 0,
+    swi = 5,
+    swmin = 2,
+    swmax = 10,
+    sdm = 0,
+    sdi = 5,
+    sdmin = 0,
+    sdmax = 50,
+    scs = 1,
+    sci = 5,
+    sc1 = [0, 360, 360],
+    sc2 = [0, 0, 0],
+    bg = [0, 0, 0, 50]
+  ) {
     this.sketch = s;
-    this.nodeCount = 15;
-    this.nodeSpeed = 5;
-    this.coreVisibility = true;
-    this.connectionVisibility = true;
-    this.rangeVisibility = false;
-    this.colorMode = 0;
-    this.colorInterval = 5;
-    this.col1 = [0, 360, 360];
-    this.col2 = [360, 0, 0];
-    this.rangeMode = 0;
-    this.rangeInterval = 5;
-    this.rangeMin = 100;
-    this.rangeMax = 300;
-    this.sparkles = true;
-    this.sparkleWeightMode = 0;
-    this.sparkleWeightInterval = 5;
-    this.sparkleWeightMin = 2;
-    this.sparkleWeightMax = 10;
-    this.sparkleDisplacementMode = 0;
-    this.sparkleDisplacementInterval = 5;
-    this.sparkleDisplacementMin = 0;
-    this.sparkleDisplacementMax = 50;
-    this.sparkleColSystem = 1;
-    this.sparkleColInterval = 5;
-    this.sparkleCol1 = [0, 360, 360];
-    this.sparkleCol2 = [0, 0, 0];
-    this.bg = [0, 0, 0, 50];
+    this.nodeCount = nc;
+    this.nodeSpeed = ns;
+    this.coreVisibility = crv;
+    this.connectionVisibility = cnv;
+    this.rangeVisibility = rv;
+    this.colorMode = cm;
+    this.colorInterval = ci;
+    this.col1 = c1;
+    this.col2 = c2;
+    this.rangeMode = rm;
+    this.rangeInterval = ri;
+    this.rangeMin = rmin;
+    this.rangeMax = rmax;
+    this.sparkles = sparkles;
+    this.sparkleWeightMode = swm;
+    this.sparkleWeightInterval = swi;
+    this.sparkleWeightMin = swmin;
+    this.sparkleWeightMax = swmax;
+    this.sparkleDisplacementMode = sdm;
+    this.sparkleDisplacementInterval = sdi;
+    this.sparkleDisplacementMin = sdmin;
+    this.sparkleDisplacementMax = sdmax;
+    this.sparkleColSystem = scs;
+    this.sparkleColInterval = sci;
+    this.sparkleCol1 = sc1;
+    this.sparkleCol2 = sc2;
+    this.bg = bg;
     this.nodeStore = [];
+    this.interpColor = this.sketch.color(0, 0, 0);
     for (let i = 0; i < this.nodeCount; i++) {
       let n = new Node(this.sketch, this);
       this.nodeStore[i] = n;
     }
   }
   update() {
+    for (var node of this.nodeStore) {
+      node.update();
+    }
     this.sketch.background(this.bg);
     if (this.colorMode === 2) {
       this.interpColor = this.sketch.lerpColor(
@@ -382,7 +416,6 @@ export class Graph {
     }
     if (this.connectionVisibility) {
       for (var node of this.nodeStore) {
-        node.update();
         this.sketch.strokeWeight(1);
         for (var node2 of this.nodeStore) {
           let distance = this.sketch.dist(
@@ -880,7 +913,7 @@ export class Core {
     this.sketch = s;
     this.col1 = [200, 360, 360];
     this.col2 = [240, 0, 0];
-    this.pulseTime = 1000.0;
+    this.pulseTime = 2000.0;
     this.lastPulse = this.sketch.millis();
     this.arcs = [];
     this.pulseCount = 5;

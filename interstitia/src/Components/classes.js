@@ -312,7 +312,7 @@ export class Graph {
     ns = 5,
     crv = true,
     cnv = true,
-    rv = false,
+    rv = true,
     cm = 0,
     ci = 5,
     c1 = [0, 360, 360],
@@ -372,7 +372,7 @@ export class Graph {
     }
   }
   update() {
-    for (var node of this.nodeStore) {
+    for (let node of this.nodeStore) {
       node.update();
     }
     this.sketch.background(this.bg);
@@ -415,7 +415,7 @@ export class Graph {
       );
     }
     if (this.connectionVisibility) {
-      for (var node of this.nodeStore) {
+      for (let node of this.nodeStore) {
         this.sketch.strokeWeight(1);
         for (var node2 of this.nodeStore) {
           let distance = this.sketch.dist(
@@ -429,9 +429,9 @@ export class Graph {
             this.sketch.noStroke();
           } else if (distance <= node.range) {
             this.sketch.stroke(
-              this.sketch.red(node.col),
-              this.sketch.green(node.col),
-              this.sketch.blue(node.col),
+              this.sketch.hue(node.col),
+              this.sketch.saturation(node.col),
+              this.sketch.brightness(node.col),
               a
             );
             if (distance <= node2.range) {
@@ -909,22 +909,36 @@ export class Arc {
 }
 
 export class Core {
-  constructor(s) {
+  constructor(
+    s,
+    c1 = [200, 360, 360],
+    c2 = [240, 0, 0],
+    pt = 2000,
+    pc = 5,
+    rz = true,
+    ry = false,
+    rx = false,
+    v = 4,
+    dp = true,
+    ds = true,
+    da = true,
+    fa = true
+  ) {
     this.sketch = s;
-    this.col1 = [200, 360, 360];
-    this.col2 = [240, 0, 0];
-    this.pulseTime = 2000.0;
+    this.col1 = c1;
+    this.col2 = c2;
+    this.pulseTime = pt;
     this.lastPulse = this.sketch.millis();
     this.arcs = [];
-    this.pulseCount = 5;
-    this.rotateZ = true;
-    this.rotateY = false;
-    this.rotateX = false;
-    this.vertices = 4;
-    this.displayShapes = true;
-    this.displayAster = true;
-    this.displayArc = true;
-    this.fullArc = true;
+    this.pulseCount = pc;
+    this.rotateZ = rz;
+    this.rotateY = ry;
+    this.rotateX = rx;
+    this.vertices = v;
+    this.displayShapes = dp;
+    this.displayAster = ds;
+    this.displayArc = da;
+    this.fullArc = fa;
   }
 
   update() {

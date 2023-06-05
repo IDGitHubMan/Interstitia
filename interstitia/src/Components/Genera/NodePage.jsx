@@ -1,6 +1,9 @@
 import { useState } from "react";
+import NodeGen from "./NodeGen";
+import { useSearchParams } from "react-router-dom";
+import Nav from "../Main/Nav";
 
-export const Node = () => {
+export const NodePage = () => {
   const [nodePrefs, setNodePrefs] = useState({
     nodeCount: 30,
     speed: 5,
@@ -35,10 +38,17 @@ export const Node = () => {
     bgB: 0,
     bgA: 50,
   });
-  return (
+  const [genParams, setGenParams] = useSearchParams();
+  return genParams.size !== 0 ? (
     <div>
-      <NodeGen></NodeGen>
+      <NodeGen params={genParams} />
+    </div>
+  ) : (
+    <div>
+      <Nav />
+      <NodeGen />
+      <div></div>
     </div>
   );
 };
-export default Node;
+export default NodePage;

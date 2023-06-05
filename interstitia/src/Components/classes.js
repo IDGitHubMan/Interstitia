@@ -944,7 +944,7 @@ export class Core {
   }
 
   update() {
-    this.sketch.background(0);
+    this.sketch.background(this.bg);
     if (this.sketch.millis() - this.lastPulse >= this.pulseTime) {
       this.lastPulse = this.sketch.millis();
       for (let i = 0; i < this.pulseCount; i++) {

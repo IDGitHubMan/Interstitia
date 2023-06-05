@@ -40,7 +40,6 @@ export const CoreGen = (props) => {
           parseInt(props.params.get("bgA")),
           parseInt(props.params.get("bgB")),
           parseInt(props.params.get("bgC")),
-          parseInt(props.params.get("bgD")),
         ]
       );
     }

@@ -1,24 +1,21 @@
 import React from "react";
 import Sketch from "react-p5";
-import { Star } from "../classes";
+import { Starfield } from "../classes";
 let points = [];
 export const Stars = (props) => {
   let text;
   let navbar;
+  let f;
   const setup = (p5, canvasParentRef) => {
     text = p5.select(".text404");
     navbar = p5.select("nav");
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
-    for (let i = 0; i < 1000; i++) {
-      points.push(new Star(p5));
-    }
+    f = new Starfield(p5);
   };
 
   const draw = (p5) => {
     p5.background(0);
-    for (let s of points) {
-      s.twinkle();
-    }
+    f.update();
     text.position(
       p5.width / 2 +
         p5.cos(p5.millis() / 1000) * p5.atan(p5.millis() / 1000) * 15 -

@@ -1,7 +1,6 @@
 import "./App.css";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Home } from "./Components/Main/Home";
-import { useState } from "react";
 import NotFound from "./Components/Main/NotFound";
 import Genera from "./Components/Genera/Genera";
 import NodePage from "./Components/Genera/NodePage";
@@ -10,7 +9,6 @@ import CorePage from "./Components/Genera/CorePage";
 import StarPage from "./Components/Genera/StarPage";
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
   return (
     <BrowserRouter>
       <Routes>

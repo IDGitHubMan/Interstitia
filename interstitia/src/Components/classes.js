@@ -1,90 +1,283 @@
 export class Star {
-  constructor(sketch) {
-    this.p5 = sketch;
-    this.loc = this.p5.createVector(this.p5.random(1), this.p5.random(1));
-    this.points = this.p5.random(4, 6);
-    this.rotation = this.p5.random(this.p5.TWO_PI);
-    this.starType = this.p5.random(1);
+  constructor(s, sf) {
+    this.sketch = s;
+    this.parent = sf;
+    this.loc = this.sketch.createVector(
+      this.sketch.random(1),
+      this.sketch.random(1)
+    );
+    this.points = this.sketch.int(
+      this.sketch.random(this.parent.pointsMin, this.parent.pointsMax)
+    );
+    this.rotation = this.sketch.random(this.sketch.TWO_PI);
+    this.starType = this.sketch.random(1);
     this.growth = 0;
-    if (this.starType <= 0.7645) {
-      this.startCol = this.p5.color(255, 204, 111);
-      this.endCol = this.p5.color(255, 210, 161);
-    } else if (this.starType <= 0.8855) {
-      this.startCol = this.p5.color(255, 210, 161);
-      this.endCol = this.p5.color(255, 244, 234);
-    } else if (this.starType <= 0.9615) {
-      this.startCol = this.p5.color(255, 244, 234);
-      this.endCol = this.p5.color(248, 247, 255);
-    } else if (this.starType <= 0.9915) {
-      this.startCol = this.p5.color(248, 247, 255);
-      this.endCol = this.p5.color(202, 215, 255);
-    } else if (this.starType <= 0.9975) {
-      this.startCol = this.p5.color(202, 215, 255);
-      this.endCol = this.p5.color(170, 191, 255);
-    } else {
-      this.startCol = this.p5.color(170, 191, 255);
-      this.endCol = this.p5.color(155, 176, 255);
-    }
-    this.intensity = this.p5.random(1);
+    this.intensity = this.sketch.random(1);
     this.twinkling = false;
     this.timing = 0;
-    this.rotationIncrement = this.p5.random(0.01, 0.1);
+    this.rotationIncrement = this.sketch.random(0.01, 0.1);
+    if (this.starType <= this.parent.t1) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else if (this.starType <= this.parent.t2) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else if (this.starType <= this.parent.t3) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else if (this.starType <= this.parent.t4) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else if (this.starType <= this.parent.t5) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    }
   }
 
   twinkle() {
+    if (this.starType <= this.parent.t1) {
+      this.startCol = this.sketch.color(
+        this.parent.c1[0],
+        this.parent.c1[1],
+        this.parent.c1[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+    } else if (this.starType <= this.parent.t2) {
+      this.startCol = this.sketch.color(
+        this.parent.c2[0],
+        this.parent.c2[1],
+        this.parent.c2[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c3[0],
+        this.parent.c3[1],
+        this.parent.c3[2]
+      );
+    } else if (this.starType <= this.parent.t3) {
+      this.startCol = this.sketch.color(
+        this.parent.c3[0],
+        this.parent.c3[1],
+        this.parent.c3[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c4[0],
+        this.parent.c4[1],
+        this.parent.c4[2]
+      );
+    } else if (this.starType <= this.parent.t4) {
+      this.startCol = this.sketch.color(
+        this.parent.c4[0],
+        this.parent.c4[1],
+        this.parent.c4[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c5[0],
+        this.parent.c5[1],
+        this.parent.c5[2]
+      );
+    } else if (this.starType <= this.parent.t5) {
+      this.startCol = this.sketch.color(
+        this.parent.c5[0],
+        this.parent.c5[1],
+        this.parent.c5[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c6[0],
+        this.parent.c6[1],
+        this.parent.c6[2]
+      );
+    } else {
+      this.startCol = this.sketch.color(
+        this.parent.c6[0],
+        this.parent.c6[1],
+        this.parent.c6[2]
+      );
+      this.endCol = this.sketch.color(
+        this.parent.c7[0],
+        this.parent.c7[1],
+        this.parent.c7[2]
+      );
+    }
     this.rotation += this.rotationIncrement;
     if (this.timing >= 200) {
       this.twinkling = false;
       this.timing = 0;
-      this.rotationIncrement = this.p5.random(0.01, 0.1);
+      this.rotationIncrement = this.sketch.random(0.01, 0.1);
+      this.points = this.sketch.int(
+        this.sketch.random(this.parent.pointsMin, this.parent.pointsMax)
+      );
       this.growth = 0;
     }
-    this.p5.strokeWeight(this.intensity);
-    this.p5.stroke(
-      this.p5.lerpColor(this.startCol, this.endCol, this.intensity)
+    this.sketch.strokeWeight(this.intensity);
+    this.sketch.stroke(
+      this.sketch.lerpColor(this.startCol, this.endCol, this.intensity)
     );
-    this.p5.point(this.loc.x * this.p5.width, this.loc.y * this.p5.height);
-    this.p5.strokeWeight(1);
+    this.sketch.point(
+      this.loc.x * this.sketch.width,
+      this.loc.y * this.sketch.height
+    );
+    this.sketch.strokeWeight(1);
     if (!this.twinkling) {
-      let choice = this.p5.random(1);
+      let choice = this.sketch.random(1);
       if (choice >= 0.999) {
         this.twinkling = true;
       }
     } else {
-      this.p5.beginShape();
+      this.sketch.beginShape();
       for (let i = 0; i < this.points * 3; i++) {
         if (this.timing < 100) {
-          this.growth = this.p5.map(this.timing, 0, 100, 0, 10);
+          this.growth = this.sketch.map(this.timing, 0, 100, 0, 10);
         } else {
-          this.growth = this.p5.map(this.timing, 100, 200, 10, 0);
+          this.growth = this.sketch.map(this.timing, 100, 200, 10, 0);
         }
-        let position = this.p5.map(i, 0, this.points * 3, 0, this.p5.TWO_PI);
+        let position = this.sketch.map(
+          i,
+          0,
+          this.points * 3,
+          0,
+          this.sketch.TWO_PI
+        );
         position += this.rotation;
         if (i % 3 === 0) {
-          this.p5.vertex(
-            this.p5.cos(position - 0.01) * this.intensity +
-              this.loc.x * this.p5.width,
-            this.p5.sin(position - 0.01) * this.intensity +
-              this.loc.y * this.p5.height
+          this.sketch.vertex(
+            this.sketch.cos(position - 0.01) * this.intensity +
+              this.loc.x * this.sketch.width,
+            this.sketch.sin(position - 0.01) * this.intensity +
+              this.loc.y * this.sketch.height
           );
         } else if (i % 3 === 1) {
-          this.p5.vertex(
-            this.p5.cos(position) * this.growth * this.intensity +
-              this.loc.x * this.p5.width,
-            this.p5.sin(position) * this.growth * this.intensity +
-              this.loc.y * this.p5.height
+          this.sketch.vertex(
+            this.sketch.cos(position) * this.growth * this.intensity +
+              this.loc.x * this.sketch.width,
+            this.sketch.sin(position) * this.growth * this.intensity +
+              this.loc.y * this.sketch.height
           );
         } else {
-          this.p5.vertex(
-            this.p5.cos(position + 0.01) * this.intensity +
-              this.loc.x * this.p5.width,
-            this.p5.sin(position + 0.01) * this.intensity +
-              this.loc.y * this.p5.height
+          this.sketch.vertex(
+            this.sketch.cos(position + 0.01) * this.intensity +
+              this.loc.x * this.sketch.width,
+            this.sketch.sin(position + 0.01) * this.intensity +
+              this.loc.y * this.sketch.height
           );
         }
       }
-      this.p5.endShape();
+      this.sketch.endShape();
       this.timing += 1;
+    }
+  }
+}
+
+export class Starfield {
+  constructor(
+    s,
+    pmin = 4,
+    pmax = 7,
+    rmin = 0.01,
+    rmax = 0.1,
+    ti = 200,
+    tc = 0.999,
+    t1 = 0.7645,
+    t2 = 0.8855,
+    t3 = 0.9615,
+    t4 = 0.9915,
+    t5 = 0.9975,
+    c1 = [255, 244, 111],
+    c2 = [255, 210, 161],
+    c3 = [255, 244, 234],
+    c4 = [248, 247, 255],
+    c5 = [202, 215, 255],
+    c6 = [170, 191, 255],
+    c7 = [155, 176, 255],
+    sc = 1000,
+    bgA = 50
+  ) {
+    this.sketch = s;
+    this.pointsMin = pmin;
+    this.pointsMax = pmax;
+    this.rotMin = rmin;
+    this.rotMax = rmax;
+    this.twinkleInterval = ti;
+    this.twinkleChance = tc;
+    this.t1 = t1;
+    this.t2 = t2;
+    this.t3 = t3;
+    this.t4 = t4;
+    this.t5 = t5;
+    this.c1 = c1;
+    this.c2 = c2;
+    this.c4 = c4;
+    this.c3 = c3;
+    this.c5 = c5;
+    this.c6 = c6;
+    this.c7 = c7;
+    this.count = sc;
+    this.bgA = bgA;
+    this.stars = [];
+    for (let i = 0; i < this.count; i++) {
+      let s = new Star(this.sketch, this);
+      this.stars.push(s);
+    }
+  }
+
+  update() {
+    this.sketch.background(0, this.bgA);
+    for (let star of this.stars) {
+      star.twinkle();
     }
   }
 }
@@ -914,12 +1107,12 @@ export class Core {
     c1 = [200, 360, 360],
     c2 = [240, 0, 0],
     pt = 2000,
-    pc = 5,
+    pc = 1,
     rz = true,
     ry = false,
     rx = false,
-    v = 4,
-    dp = true,
+    v = 8,
+    dp = false,
     ds = true,
     da = true,
     fa = true,

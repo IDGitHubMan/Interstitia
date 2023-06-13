@@ -57,3 +57,15 @@ body {
 .bodyText.active {
   width: 100%;
 }
+
+.controls {
+  position: absolute;
+  left: 0px;
+  top: 50px;
+}
+
+.description {
+  position: absolute;
+  right: 0px;
+  top: 50px;
+}

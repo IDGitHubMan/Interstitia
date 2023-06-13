@@ -154,7 +154,7 @@ export class Star {
       );
     }
     this.rotation += this.rotationIncrement;
-    if (this.timing >= 200) {
+    if (this.timing >= this.parent.twinkleInterval) {
       this.twinkling = false;
       this.timing = 0;
       this.rotationIncrement = this.sketch.random(0.01, 0.1);
@@ -180,10 +180,22 @@ export class Star {
     } else {
       this.sketch.beginShape();
       for (let i = 0; i < this.points * 3; i++) {
-        if (this.timing < 100) {
-          this.growth = this.sketch.map(this.timing, 0, 100, 0, 10);
+        if (this.timing <= this.parent.twinkleInterval / 2) {
+          this.growth = this.sketch.map(
+            this.timing,
+            0,
+            this.parent.twinkleInterval / 2,
+            0,
+            10
+          );
         } else {
-          this.growth = this.sketch.map(this.timing, 100, 200, 10, 0);
+          this.growth = this.sketch.map(
+            this.timing,
+            this.parent.twinkleInterval / 2,
+            this.parent.twinkleInterval,
+            10,
+            0
+          );
         }
         let position = this.sketch.map(
           i,

@@ -451,8 +451,8 @@ export class Node {
     this.col3 = this.sketch.random(0, 1);
     this.preRange = this.sketch.random(0, 1);
     this.drift = this.sketch.createVector(
-      this.sketch.random(-2, 2),
-      this.sketch.random(-2, 2)
+      this.sketch.random(-this.cont.nodeSpeed, this.cont.nodeSpeed),
+      this.sketch.random(-this.cont.nodeSpeed, this.cont.nodeSpeed)
     );
 
     this.loc = this.sketch.createVector(

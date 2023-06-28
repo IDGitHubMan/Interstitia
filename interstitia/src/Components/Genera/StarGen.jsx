@@ -100,7 +100,7 @@ export const StarGen = (props) => {
   const draw = (p5) => {
     if (locals.s) {
       locals.s.forEach((item) => {
-        if (item != Object.values(props.settings)[locals.s.indexOf(item)]) {
+        if (item !== Object.values(props.settings)[locals.s.indexOf(item)]) {
           p5.print("The sketch needs to update.");
           setLocals({
             ...locals,

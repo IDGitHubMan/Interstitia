@@ -256,7 +256,8 @@ export class Starfield {
     c6 = [170, 191, 255],
     c7 = [155, 176, 255],
     sc = 1000,
-    bgA = 50
+    bgA = 50,
+    rs
   ) {
     this.sketch = s;
     this.pointsMin = pmin;
@@ -280,6 +281,9 @@ export class Starfield {
     this.count = sc;
     this.bgA = bgA;
     this.stars = [];
+    if (rs) {
+      this.sketch.randomSeed(rs);
+    }
     for (let i = 0; i < this.count; i++) {
       let s = new Star(this.sketch, this);
       this.stars.push(s);

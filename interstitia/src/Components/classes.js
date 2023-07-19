@@ -543,7 +543,8 @@ export class Graph {
     sci = 5,
     sc1 = [0, 360, 360],
     sc2 = [0, 0, 0],
-    bg = [0, 0, 0, 50]
+    bg = [0, 0, 0, 50],
+    rs
   ) {
     this.sketch = s;
     this.nodeCount = nc;
@@ -575,6 +576,9 @@ export class Graph {
     this.bg = bg;
     this.nodeStore = [];
     this.interpColor = this.sketch.color(0, 0, 0);
+    if (rs) {
+      this.sketch.randomSeed(rs);
+    }
     for (let i = 0; i < this.nodeCount; i++) {
       let n = new Node(this.sketch, this);
       this.nodeStore[i] = n;

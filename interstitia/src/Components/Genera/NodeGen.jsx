@@ -17,53 +17,54 @@ export const NodeGen = (props) => {
       f = new Graph(
         p5,
         parseInt(props.params.get("nc")),
-        parseInt(props.params.get("ns")),
+        parseFloat(props.params.get("ns")),
         props.params.get("crv") === "true",
         props.params.get("cnv") === "true",
         props.params.get("rv") === "true",
         parseInt(props.params.get("cm")),
-        parseInt(props.params.get("ci")),
+        parseFloat(props.params.get("ci")),
         [
-          parseInt(props.params.get("c1A")),
-          parseInt(props.params.get("c1B")),
-          parseInt(props.params.get("c1C")),
+          parseFloat(props.params.get("c1A")),
+          parseFloat(props.params.get("c1B")),
+          parseFloat(props.params.get("c1C")),
         ],
         [
-          parseInt(props.params.get("c2A")),
-          parseInt(props.params.get("c2B")),
-          parseInt(props.params.get("c2C")),
+          parseFloat(props.params.get("c2A")),
+          parseFloat(props.params.get("c2B")),
+          parseFloat(props.params.get("c2C")),
         ],
         parseInt(props.params.get("rm")),
-        parseInt(props.params.get("ri")),
-        parseInt(props.params.get("rmin")),
-        parseInt(props.params.get("rmax")),
+        parseFloat(props.params.get("ri")),
+        parseFloat(props.params.get("rmin")),
+        parseFloat(props.params.get("rmax")),
         props.params.get("s") === "true",
         parseInt(props.params.get("swm")),
-        parseInt(props.params.get("swi")),
-        parseInt(props.params.get("swmin")),
-        parseInt(props.params.get("swmax")),
+        parseFloat(props.params.get("swi")),
+        parseFloat(props.params.get("swmin")),
+        parseFloat(props.params.get("swmax")),
         parseInt(props.params.get("sdm")),
-        parseInt(props.params.get("sdi")),
-        parseInt(props.params.get("sdmin")),
-        parseInt(props.params.get("sdmax")),
+        parseFloat(props.params.get("sdi")),
+        parseFloat(props.params.get("sdmin")),
+        parseFloat(props.params.get("sdmax")),
         parseInt(props.params.get("scs")),
-        parseInt(props.params.get("sci")),
+        parseFloat(props.params.get("sci")),
         [
-          parseInt(props.params.get("sc1A")),
-          parseInt(props.params.get("sc1B")),
-          parseInt(props.params.get("sc1C")),
+          parseFloat(props.params.get("sc1A")),
+          parseFloat(props.params.get("sc1B")),
+          parseFloat(props.params.get("sc1C")),
         ],
         [
-          parseInt(props.params.get("sc2A")),
-          parseInt(props.params.get("sc2B")),
-          parseInt(props.params.get("sc2C")),
+          parseFloat(props.params.get("sc2A")),
+          parseFloat(props.params.get("sc2B")),
+          parseFloat(props.params.get("sc2C")),
         ],
         [
-          parseInt(props.params.get("bgA")),
-          parseInt(props.params.get("bgB")),
-          parseInt(props.params.get("bgC")),
-          parseInt(props.params.get("bgD")),
-        ]
+          parseFloat(props.params.get("bgA")),
+          parseFloat(props.params.get("bgB")),
+          parseFloat(props.params.get("bgC")),
+          parseFloat(props.params.get("bgD")),
+        ],
+        parseFloat(props.params.get("rs"))
       );
     }
   };
@@ -73,10 +74,14 @@ export const NodeGen = (props) => {
   };
 
   const windowResized = (p5) => {
-    p5.resizeCanvas(
-      p5canvases[0].size().width,
-      p5.min(p5canvases[0].size().width, p5.windowHeight)
-    );
+    if (props.params != null) {
+      p5.resizeCanvas(p5canvases[0].size().width, p5.windowHeight);
+    } else {
+      p5.resizeCanvas(
+        p5canvases[0].size().width,
+        p5.min(p5canvases[0].size().width, p5.windowHeight)
+      );
+    }
   };
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;

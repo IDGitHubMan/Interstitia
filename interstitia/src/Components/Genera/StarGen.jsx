@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Sketch from "react-p5";
 import { Starfield } from "../classes";
 export const StarGen = (props) => {
+  let p5canvases;
   const [locals, setLocals] = useState({});
   const setup = (p5, canvasParentRef) => {
-    let p5canvases = p5.selectAll(".react-p5");
+    p5canvases = p5.selectAll(".react-p5");
     p5.createCanvas(
       p5canvases[0].size().width,
       p5.min(p5canvases[0].size().width, p5.windowHeight)
@@ -61,7 +62,8 @@ export const StarGen = (props) => {
             parseInt(props.params.get("c7C")),
           ],
           parseInt(props.params.get("sc")),
-          parseInt(props.params.get("bgA"))
+          parseInt(props.params.get("bgA")),
+          parseFloat(props.params.get("rs"))
         ),
       });
     } else if (props.settings) {
@@ -136,11 +138,14 @@ export const StarGen = (props) => {
   };
 
   const windowResized = (p5) => {
-    let p5canvases = p5.selectAll(".react-p5");
-    p5.resizeCanvas(
-      p5canvases[0].size().width,
-      p5.min(p5canvases[0].size().width, p5.windowHeight)
-    );
+    if (props.params != null) {
+      p5.resizeCanvas(p5canvases[0].size().width, p5.windowHeight);
+    } else {
+      p5.resizeCanvas(
+        p5canvases[0].size().width,
+        p5.min(p5canvases[0].size().width, p5.windowHeight)
+      );
+    }
   };
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;

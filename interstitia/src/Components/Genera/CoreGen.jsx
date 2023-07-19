@@ -17,14 +17,14 @@ export const CoreGen = (props) => {
       f = new Core(
         p5,
         [
-          parseInt(props.params.get("c1A")),
-          parseInt(props.params.get("c1B")),
-          parseInt(props.params.get("c1C")),
+          parseFloat(props.params.get("c1A")),
+          parseFloat(props.params.get("c1B")),
+          parseFloat(props.params.get("c1C")),
         ],
         [
-          parseInt(props.params.get("c2A")),
-          parseInt(props.params.get("c2B")),
-          parseInt(props.params.get("c2C")),
+          parseFloat(props.params.get("c2A")),
+          parseFloat(props.params.get("c2B")),
+          parseFloat(props.params.get("c2C")),
         ],
         parseInt(props.params.get("pt")),
         parseInt(props.params.get("pc")),
@@ -36,11 +36,14 @@ export const CoreGen = (props) => {
         props.params.get("ds") === "true",
         props.params.get("da") === "true",
         props.params.get("fa") === "true",
+        parseFloat(props.params.get("init")),
+        parseFloat(props.params.get("r")),
         [
           parseInt(props.params.get("bgA")),
           parseInt(props.params.get("bgB")),
           parseInt(props.params.get("bgC")),
-        ]
+        ],
+        parseFloat(props.params.get("rs"))
       );
     }
   };

@@ -1024,7 +1024,7 @@ export class Arc {
   constructor(parent, s) {
     this.sketch = s;
     this.core = parent;
-    this.reach = 0;
+    this.reach = this.core.initVal;
     this.c1 = this.sketch.random();
     this.c2 = this.sketch.random();
     this.c3 = this.sketch.random();
@@ -1114,7 +1114,7 @@ export class Arc {
       }
     }
     this.sketch.pop();
-    this.reach += 1;
+    this.reach += this.core.rate;
     this.roll += this.rollIncrement;
     this.pitch += this.pitchIncrement;
     this.yaw += this.yawIncrement;
@@ -1136,7 +1136,10 @@ export class Core {
     ds = true,
     da = true,
     fa = true,
-    bg = [0, 0, 0, 360]
+    init = 100,
+    r = 5,
+    bg = [0, 0, 0, 360],
+    rs
   ) {
     this.sketch = s;
     this.col1 = c1;
@@ -1153,7 +1156,12 @@ export class Core {
     this.displayAster = ds;
     this.displayArc = da;
     this.fullArc = fa;
+    this.initVal = init;
+    this.rate = r;
     this.bg = bg;
+    if (rs) {
+      this.sketch.randomSeed(rs);
+    }
   }
 
   update() {
@@ -1168,8 +1176,14 @@ export class Core {
       this.arcs[i].show();
       if (
         this.arcs[i].reach >=
-        2 *
-          this.sketch.dist(0, 0, this.sketch.width / 2, this.sketch.height / 2)
+          2 *
+            this.sketch.dist(
+              0,
+              0,
+              this.sketch.width / 2,
+              this.sketch.height / 2
+            ) ||
+        this.arcs[i].reach < 0
       ) {
         this.arcs.splice(i, 1);
       }

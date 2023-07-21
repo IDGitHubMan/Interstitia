@@ -1,8 +1,8 @@
 import Nav from "../Main/Nav";
 import { Link } from "react-router-dom";
-import FlowGen from "./FlowGen";
+import FlowNoiseGen from "./FlowNoiseGen";
 import NodeGen from "./NodeGen";
-import { CoreGen } from "./CoreGen";
+import CoreGen from "./CoreGen";
 import StarGen from "./StarGen";
 
 export const Genera = () => {
@@ -13,9 +13,9 @@ export const Genera = () => {
       display: <NodeGen />,
     },
     {
-      genName: "Flow",
-      genDescription: "A gen that constructs a flow field.",
-      display: <FlowGen />,
+      genName: "FlowNoise",
+      genDescription: "A gen that constructs a flow field with Perlin Noise.",
+      display: <FlowNoiseGen />,
     },
     {
       genName: "Core",

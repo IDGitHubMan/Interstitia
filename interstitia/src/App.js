@@ -7,6 +7,7 @@ import NodePage from "./Components/Genera/NodePage";
 import FlowPage from "./Components/Genera/FlowPage";
 import CorePage from "./Components/Genera/CorePage";
 import StarPage from "./Components/Genera/StarPage";
+import FlowNoisePage from "./Components/Genera/FlowNoisePage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/genera/flow" element={<FlowPage />} />
         <Route path="/genera/core" element={<CorePage />} />
         <Route path="/genera/stars" element={<StarPage />} />
+        <Route path="/genera/flowNoise" element={<FlowNoisePage />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -828,13 +828,216 @@ export class Flow {
   }
 }
 
+export class FlowNoise {
+  constructor(s, parent) {
+    this.sketch = s;
+    this.controller = parent;
+    this.loc = this.sketch.createVector(
+      this.sketch.random(this.sketch.width),
+      this.sketch.random(this.sketch.height)
+    );
+    this.acc = this.sketch.createVector(0, 0);
+    this.vel = this.sketch.createVector(0, 0);
+    this.col = this.sketch.random();
+    this.size = this.sketch.random();
+  }
+
+  update() {
+    var theta = this.sketch.map(
+      this.sketch.noise(
+        this.sketch.floor(this.loc.x / this.controller.resolution) *
+          this.controller.xInc,
+        this.sketch.floor(this.loc.y / this.controller.resolution) *
+          this.controller.yInc,
+        this.controller.steady
+          ? this.sketch.millis() / 1000
+          : this.sketch.floor(this.sketch.millis() / this.controller.rate)
+      ),
+      0,
+      1,
+      this.controller.full ? -this.sketch.TWO_PI : 0,
+      this.sketch.TWO_PI
+    );
+    var flowForce = this.sketch.createVector(
+      this.sketch.cos(theta),
+      this.sketch.sin(theta)
+    );
+    flowForce.mult(this.controller.strength);
+    this.acc.add(flowForce);
+    this.vel.add(this.acc);
+    this.vel.limit(this.controller.lim);
+    this.loc.add(this.vel);
+    if (this.loc.x > this.sketch.width) {
+      this.loc.x = 0;
+    }
+    if (this.loc.x < 0) {
+      this.loc.x = this.sketch.width;
+    }
+    if (this.loc.y > this.sketch.height) {
+      this.loc.y = 0;
+    }
+    if (this.loc.y < 0) {
+      this.loc.y = this.sketch.height;
+    }
+    this.acc.mult(0);
+    this.sketch.strokeWeight(this.controller.size);
+    if (this.controller.colSystem == 0) {
+      this.sketch.stroke(this.controller.col0);
+    } else if (this.controller.colSystem == 1) {
+      this.sketch.stroke(
+        this.sketch.lerpColor(
+          this.controller.col0,
+          this.controller.col1,
+          this.sketch.map(this.loc.x, 0, this.sketch.width, 0, 1)
+        )
+      );
+    } else if (this.controller.colSystem == 2) {
+      this.sketch.stroke(
+        this.sketch.lerpColor(
+          this.controller.col0,
+          this.controller.col1,
+          this.sketch.map(this.loc.y, 0, this.sketch.height, 0, 1)
+        )
+      );
+    } else if (this.controller.colSystem == 3) {
+      this.sketch.print(
+        (this.loc.x / this.sketch.width + this.loc.y / this.sketch.height) / 2
+      );
+      this.sketch.stroke(
+        this.sketch.lerpColor(
+          this.sketch.lerpColor(
+            this.controller.col0,
+            this.controller.col1,
+            this.sketch.map(this.loc.x, 0, this.sketch.width, 0, 1)
+          ),
+          this.sketch.lerpColor(
+            this.controller.col2,
+            this.controller.col3,
+            this.sketch.map(this.loc.y, 0, this.sketch.height, 0, 1)
+          ),
+          0.5
+        )
+      );
+    } else {
+      this.sketch.stroke(
+        this.sketch.lerpColor(
+          this.controller.col0,
+          this.controller.col1,
+          this.col
+        )
+      );
+    }
+    if (this.controller.sm == 0) {
+      this.sketch.strokeWeight(
+        this.sketch.map(
+          this.size,
+          0,
+          1,
+          this.controller.minSize,
+          this.controller.maxSize
+        )
+      );
+    } else {
+      this.sketch.strokeWeight(this.controller.size);
+    }
+    this.sketch.point(this.loc.x, this.loc.y);
+  }
+}
+
+export class FlowSetNoise {
+  constructor(
+    s,
+    cs = 3,
+    res = 5,
+    x = 0.001,
+    y = 100,
+    st = false,
+    r = 5000,
+    f = true,
+    sm = 0,
+    smin = 1,
+    smax = 10,
+    si = 5000,
+    fc = 1,
+    lim = 5,
+    c0 = [255, 255, 0],
+    c1 = [0, 0, 255],
+    c2 = [255, 0, 255],
+    c3 = [0, 255, 255],
+    bga = 10,
+    rs,
+    ns
+  ) {
+    this.sketch = s;
+    this.colSystem = cs;
+    this.resolution = res;
+    this.xInc = x;
+    this.yInc = y;
+    this.steady = st;
+    this.rate = r;
+    this.full = f;
+    this.sm = sm;
+    this.minSize = smin;
+    this.maxSize = smax;
+    this.strength = fc;
+    this.lim = lim;
+    this.col0 = this.sketch.color(c0[0], c0[1], c0[2]);
+    this.col1 = this.sketch.color(c1[0], c1[1], c1[2]);
+    this.col2 = this.sketch.color(c2[0], c0[1], c0[2]);
+    this.col3 = this.sketch.color(c3[0], c3[1], c3[2]);
+    this.alpha = bga;
+    this.size = 0;
+    this.sizeInterval = si;
+    if (rs) {
+      this.sketch.randomSeed(rs);
+    }
+    if (ns) {
+      this.sketch.noiseSeed(ns);
+    }
+    this.flows = new Array(500);
+    for (let i = 0; i < this.flows.length; i++) {
+      this.flows[i] = new FlowNoise(this.sketch, this);
+    }
+  }
+
+  update() {
+    if (this.sm == 1) {
+      this.size = this.sketch.map(
+        this.sketch.sin(
+          this.sketch.map(
+            this.sketch.millis() % this.sizeInterval,
+            0,
+            this.sizeInterval,
+            0,
+            this.sketch.TWO_PI
+          )
+        ),
+        -1,
+        1,
+        this.minSize,
+        this.maxSize
+      );
+    } else if (this.sm == 2) {
+      this.size = this.minSize;
+    }
+    this.sketch.background(0, this.alpha);
+    for (var flow of this.flows) {
+      flow.update();
+    }
+  }
+}
+
+export class FlowPoint {}
+
+export class FlowSetPoint {}
+
 export class FlowSet {
   constructor(s) {
     this.sketch = s;
     this.xInc = this.sketch.random(0.5);
     this.yInc = this.sketch.random(0.5);
     this.resolution = 1;
-    this.flows = new Array(500);
+    this.flows = new Array(10000);
     for (let i = 0; i < this.flows.length; i++) {
       this.flows[i] = new Flow(this.sketch);
       this.flows[i].xInc = this.xInc;

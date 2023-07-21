@@ -61,3 +61,4 @@ export const CoreGen = (props) => {
 
   return <Sketch setup={setup} draw={draw} windowResized={windowResized} />;
 };
+export default CoreGen;

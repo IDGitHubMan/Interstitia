@@ -775,59 +775,6 @@ export class Graph {
   }
 }
 
-export class Flow {
-  constructor(s) {
-    this.sketch = s;
-    this.loc = this.sketch.createVector(
-      this.sketch.random(this.sketch.width),
-      this.sketch.random(this.sketch.height)
-    );
-    this.acc = this.sketch.createVector(0, 0);
-    this.vel = this.sketch.createVector(0, 0);
-    this.xInc = 0.01;
-    this.yInc = 10;
-    this.resolution = 1;
-  }
-  update() {
-    var theta = this.sketch.map(
-      this.sketch.noise(
-        this.sketch.floor(this.loc.x / this.resolution) * this.xInc,
-        this.sketch.floor(this.loc.y / this.resolution) * this.yInc,
-        this.sketch.millis() / 1000
-      ),
-      0,
-      1,
-      -this.sketch.TWO_PI,
-      this.sketch.TWO_PI
-    );
-    var flowForce = this.sketch.createVector(
-      this.sketch.cos(theta),
-      this.sketch.sin(theta)
-    );
-    flowForce.mult(100);
-    this.acc.add(flowForce);
-    this.vel.add(this.acc);
-    this.vel.limit(5);
-    this.loc.add(this.vel);
-    if (this.loc.x > this.sketch.width) {
-      this.loc.x = 0;
-    }
-    if (this.loc.x < 0) {
-      this.loc.x = this.sketch.width;
-    }
-    if (this.loc.y > this.sketch.height) {
-      this.loc.y = 0;
-    }
-    if (this.loc.y < 0) {
-      this.loc.y = this.sketch.height;
-    }
-    this.acc.mult(0);
-    this.sketch.strokeWeight(1);
-    this.sketch.stroke(255);
-    this.sketch.point(this.loc.x, this.loc.y);
-  }
-}
-
 export class FlowNoise {
   constructor(s, parent) {
     this.sketch = s;
@@ -881,9 +828,9 @@ export class FlowNoise {
     }
     this.acc.mult(0);
     this.sketch.strokeWeight(this.controller.size);
-    if (this.controller.colSystem == 0) {
+    if (this.controller.colSystem === 0) {
       this.sketch.stroke(this.controller.col0);
-    } else if (this.controller.colSystem == 1) {
+    } else if (this.controller.colSystem === 1) {
       this.sketch.stroke(
         this.sketch.lerpColor(
           this.controller.col0,
@@ -891,7 +838,7 @@ export class FlowNoise {
           this.sketch.map(this.loc.x, 0, this.sketch.width, 0, 1)
         )
       );
-    } else if (this.controller.colSystem == 2) {
+    } else if (this.controller.colSystem === 2) {
       this.sketch.stroke(
         this.sketch.lerpColor(
           this.controller.col0,
@@ -899,7 +846,7 @@ export class FlowNoise {
           this.sketch.map(this.loc.y, 0, this.sketch.height, 0, 1)
         )
       );
-    } else if (this.controller.colSystem == 3) {
+    } else if (this.controller.colSystem === 3) {
       this.sketch.print(
         (this.loc.x / this.sketch.width + this.loc.y / this.sketch.height) / 2
       );
@@ -927,7 +874,7 @@ export class FlowNoise {
         )
       );
     }
-    if (this.controller.sm == 0) {
+    if (this.controller.sm === 0) {
       this.sketch.strokeWeight(
         this.sketch.map(
           this.size,
@@ -1001,7 +948,7 @@ export class FlowSetNoise {
   }
 
   update() {
-    if (this.sm == 1) {
+    if (this.sm === 1) {
       this.size = this.sketch.map(
         this.sketch.sin(
           this.sketch.map(
@@ -1017,7 +964,7 @@ export class FlowSetNoise {
         this.minSize,
         this.maxSize
       );
-    } else if (this.sm == 2) {
+    } else if (this.sm === 2) {
       this.size = this.minSize;
     }
     this.sketch.background(0, this.alpha);
@@ -1030,39 +977,6 @@ export class FlowSetNoise {
 export class FlowPoint {}
 
 export class FlowSetPoint {}
-
-export class FlowSet {
-  constructor(s) {
-    this.sketch = s;
-    this.xInc = this.sketch.random(0.5);
-    this.yInc = this.sketch.random(0.5);
-    this.resolution = 1;
-    this.flows = new Array(10000);
-    for (let i = 0; i < this.flows.length; i++) {
-      this.flows[i] = new Flow(this.sketch);
-      this.flows[i].xInc = this.xInc;
-      this.flows[i].yInc = this.yInc;
-      this.flows[i].resolution = this.resolution;
-    }
-  }
-  update() {
-    this.sketch.background(0, 40);
-    for (var flow of this.flows) {
-      flow.update();
-    }
-  }
-
-  randomize() {
-    this.xInc = this.sketch.random(0.5);
-    this.yInc = this.sketch.random(0.5);
-    this.resolution = this.sketch.random(5);
-    for (let i = 0; i < this.flows.length; i++) {
-      this.flows[i].xInc = this.xInc;
-      this.flows[i].yInc = this.yInc;
-      this.flows[i].resolution = this.resolution;
-    }
-  }
-}
 
 export class RandGraphs {
   constructor(s) {

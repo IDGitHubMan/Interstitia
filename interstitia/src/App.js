@@ -4,7 +4,6 @@ import { Home } from "./Components/Main/Home";
 import NotFound from "./Components/Main/NotFound";
 import Genera from "./Components/Genera/Genera";
 import NodePage from "./Components/Genera/NodePage";
-import FlowPage from "./Components/Genera/FlowPage";
 import CorePage from "./Components/Genera/CorePage";
 import StarPage from "./Components/Genera/StarPage";
 import FlowNoisePage from "./Components/Genera/FlowNoisePage";
@@ -16,7 +15,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/genera" element={<Genera />} />
         <Route path="/genera/nodes" element={<NodePage />} />
-        <Route path="/genera/flow" element={<FlowPage />} />
         <Route path="/genera/core" element={<CorePage />} />
         <Route path="/genera/stars" element={<StarPage />} />
         <Route path="/genera/flowNoise" element={<FlowNoisePage />} />

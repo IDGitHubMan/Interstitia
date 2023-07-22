@@ -1,6 +1,6 @@
 import React from "react";
 import Sketch from "react-p5";
-import { FlowSet, Graph, NoiseWave } from "../classes";
+import { FlowSetNoise, Graph, NoiseWave } from "../classes";
 let g;
 let f;
 let r;
@@ -10,14 +10,13 @@ export const Preview = (props) => {
   const setup = (p5, canvasParentRef) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
     g = new Graph(p5);
-    f = new FlowSet(p5);
+    f = new FlowSetNoise(p5);
     r = new NoiseWave(p5);
     time = p5.millis();
   };
 
   const draw = (p5) => {
     if (p5.millis() - time >= 10000) {
-      f.randomize();
       time = p5.millis();
       current += 1;
       if (props.slideNum + 1 >= props.slides.length) {

@@ -797,7 +797,7 @@ export class FlowNoise {
         this.sketch.floor(this.loc.y / this.controller.resolution) *
           this.controller.yInc,
         this.controller.steady
-          ? this.sketch.millis() / 1000
+          ? this.sketch.millis() / this.controller.rate
           : this.sketch.floor(this.sketch.millis() / this.controller.rate)
       ),
       0,
@@ -896,8 +896,8 @@ export class FlowSetNoise {
     x = 0.001,
     y = 100,
     st = false,
-    r = 5000,
     f = true,
+    r = 5000,
     sm = 0,
     smin = 1,
     smax = 10,

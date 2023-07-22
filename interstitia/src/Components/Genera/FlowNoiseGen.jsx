@@ -25,10 +25,13 @@ export const FlowNoiseGen = (props) => {
         parseFloat(props.params.get("y")),
         props.params.get("st") === "true",
         props.params.get("f") === "true",
+        parseInt(props.params.get("r")),
         parseInt(props.params.get("sm")),
         parseFloat(props.params.get("smin")),
         parseFloat(props.params.get("smax")),
         parseInt(props.params.get("si")),
+        parseFloat(props.params.get("fc")),
+        parseFloat(props.params.get("lim")),
         [
           parseFloat(props.params.get("c0A")),
           parseFloat(props.params.get("c0B")),
@@ -49,7 +52,7 @@ export const FlowNoiseGen = (props) => {
           parseFloat(props.params.get("c3B")),
           parseFloat(props.params.get("c3C")),
         ],
-        parseFloat(props.params.get("bgA")),
+        parseFloat(props.params.get("bga")),
         parseFloat(props.params.get("rs")),
         parseFloat(props.params.get("ns"))
       );

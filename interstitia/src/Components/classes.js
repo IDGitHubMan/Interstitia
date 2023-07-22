@@ -847,9 +847,6 @@ export class FlowNoise {
         )
       );
     } else if (this.controller.colSystem === 3) {
-      this.sketch.print(
-        (this.loc.x / this.sketch.width + this.loc.y / this.sketch.height) / 2
-      );
       this.sketch.stroke(
         this.sketch.lerpColor(
           this.sketch.lerpColor(

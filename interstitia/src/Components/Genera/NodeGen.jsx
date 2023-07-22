@@ -7,10 +7,15 @@ export const NodeGen = (props) => {
   const setup = (p5, canvasParentRef) => {
     p5canvases = p5.selectAll(".react-p5");
     p5.colorMode(p5.HSL, 360);
-    p5.createCanvas(
-      p5canvases[0].size().width,
-      p5.min(p5canvases[0].size().width, p5.windowHeight)
-    ).parent(canvasParentRef);
+    if (props.params != null) {
+      p5.createCanvas(p5canvases[0].size().width, p5.windowHeight);
+    } else {
+      p5.createCanvas(
+        p5canvases[0].size().width,
+        p5.min(p5canvases[0].size().width, p5.windowHeight)
+      ).parent(canvasParentRef);
+    }
+
     if (props.params == null) {
       f = new Graph(p5, 15);
     } else {

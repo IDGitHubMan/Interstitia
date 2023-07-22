@@ -6,11 +6,15 @@ export const CoreGen = (props) => {
   let p5canvases;
   const setup = (p5, canvasParentRef) => {
     p5canvases = p5.selectAll(".react-p5");
-    p5.createCanvas(
-      p5canvases[0].size().width,
-      p5.min(p5canvases[0].size().width, p5.windowHeight),
-      p5.WEBGL
-    ).parent(canvasParentRef);
+    if (props.params != null) {
+      p5.createCanvas(p5canvases[0].size().width, p5.windowHeight, p5.WEBGL);
+    } else {
+      p5.createCanvas(
+        p5canvases[0].size().width,
+        p5.min(p5canvases[0].size().width, p5.windowHeight),
+        p5.WEBGL
+      ).parent(canvasParentRef);
+    }
     if (props.params == null) {
       f = new Core(p5);
     } else {

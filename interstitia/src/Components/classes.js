@@ -478,7 +478,6 @@ export class Node {
         this.cont.col1[2]
       );
     } else {
-      console.log(this.cont.interpColor);
       this.col = this.cont.interpColor;
     }
     if (this.cont.rangeMode === 0) {
@@ -515,69 +514,52 @@ export class Node {
 }
 
 export class Graph {
-  constructor(
-    s,
-    nc = 50,
-    ns = 5,
-    crv = true,
-    cnv = true,
-    rv = true,
-    cm = 0,
-    ci = 5,
-    c1 = [0, 360, 360],
-    c2 = [360, 0, 0],
-    rm = 0,
-    ri = 5,
-    rmin = 100,
-    rmax = 300,
-    sparkles = true,
-    swm = 0,
-    swi = 5,
-    swmin = 2,
-    swmax = 10,
-    sdm = 0,
-    sdi = 5,
-    sdmin = 0,
-    sdmax = 50,
-    scs = 1,
-    sci = 5,
-    sc1 = [0, 360, 360],
-    sc2 = [0, 0, 0],
-    bg = [0, 0, 0, 50],
-    rs
-  ) {
-    this.sketch = s;
-    this.nodeCount = nc;
-    this.nodeSpeed = ns;
-    this.coreVisibility = crv;
-    this.connectionVisibility = cnv;
-    this.rangeVisibility = rv;
-    this.colorMode = cm;
-    this.colorInterval = ci;
-    this.col1 = c1;
-    this.col2 = c2;
-    this.rangeMode = rm;
-    this.rangeInterval = ri;
-    this.rangeMin = rmin;
-    this.rangeMax = rmax;
-    this.sparkles = sparkles;
-    this.sparkleWeightMode = swm;
-    this.sparkleWeightInterval = swi;
-    this.sparkleWeightMin = swmin;
-    this.sparkleWeightMax = swmax;
-    this.sparkleDisplacementMode = sdm;
-    this.sparkleDisplacementInterval = sdi;
-    this.sparkleDisplacementMin = sdmin;
-    this.sparkleDisplacementMax = sdmax;
-    this.sparkleColSystem = scs;
-    this.sparkleColInterval = sci;
-    this.sparkleCol1 = sc1;
-    this.sparkleCol2 = sc2;
-    this.bg = bg;
+  constructor(settings) {
+    this.sketch = settings.sketch;
+    this.nodeCount = settings.nc ?? 50;
+    this.nodeSpeed = settings.ns ?? 5;
+    this.coreVisibility = settings.crv ?? true;
+    this.connectionVisibility = settings.cnv ?? true;
+    this.rangeVisibility = settings.rv ?? false;
+    this.colorMode = settings.cm ?? 0;
+    this.colorInterval = settings.ci ?? 5;
+    this.col1 = [settings.c1A ?? 0, settings.c1B ?? 360, settings.c1C ?? 360];
+    this.col2 = [settings.c2A ?? 360, settings.c2B ?? 0, settings.c2C ?? 0];
+    this.rangeMode = settings.rm ?? 0;
+    this.rangeInterval = settings.ri ?? 5;
+    this.rangeMin = settings.rmin ?? 100;
+    this.rangeMax = settings.rmax ?? 300;
+    this.sparkles = settings.sparkles ?? true;
+    this.sparkleWeightMode = settings.swm ?? 0;
+    this.sparkleWeightInterval = settings.swi ?? 5;
+    this.sparkleWeightMin = settings.swmin ?? 2;
+    this.sparkleWeightMax = settings.swmax ?? 5;
+    this.sparkleDisplacementMode = settings.sdm ?? 0;
+    this.sparkleDisplacementInterval = settings.sdi ?? 5;
+    this.sparkleDisplacementMin = settings.sdmin ?? 0;
+    this.sparkleDisplacementMax = settings.sdmax ?? 50;
+    this.sparkleColSystem = settings.scs ?? 1;
+    this.sparkleColInterval = settings.sci ?? 5;
+    this.sparkleCol1 = [
+      settings.sc1A ?? 0,
+      settings.sc1B ?? 360,
+      settings.sc1C ?? 360,
+    ];
+    this.sparkleCol2 = [
+      settings.sc2A ?? 0,
+      settings.sc2B ?? 0,
+      settings.sc2C ?? 0,
+    ];
+    this.bg = [
+      settings.bgA ?? 0,
+      settings.bgB ?? 0,
+      settings.bgC ?? 0,
+      settings.bgc ?? 50,
+    ];
     this.nodeStore = [];
     this.interpColor = this.sketch.color(0, 0, 0);
-    if (rs) {
-      this.sketch.randomSeed(rs);
+    if (settings.rs) {
+      this.sketch.randomSeed(settings.rs);
     }
     for (let i = 0; i < this.nodeCount; i++) {
       let n = new Node(this.sketch, this);
@@ -1196,6 +1178,50 @@ export class Core {
       ) {
         this.arcs.splice(i, 1);
       }
+    }
+  }
+}
+
+export class DirectedGraph {}
+
+export class GrowNode {
+  constructor(s, parent, prev, indices) {
+    this.sketch = s;
+    this.parent = parent;
+    this.children = [];
+    if (prev) {
+      this.col = this.sketch.color(
+        this.sketch.red(this.prev.col) +
+          this.sketch.random(-this.parent.colorShift, this.parent.colorShift),
+        this.sketch.green(this.prev.col) +
+          this.sketch.random(-this.parent.colorShift, this.parent.colorShift),
+        this.sketch.blue(this.prev.col) +
+          this.sketch.random(-this.parent.colorShift, this.parent.colorShift)
+      );
+      this.size = this.sketch.constrain(
+        prev.size - this.parent.decrement,
+        -this.parent.maxSize,
+        this.parent.maxSize
+      );
+    } else {
+      this.col = this.parent.startColor;
+      this.size = -this.parent.maxSize;
+    }
+
+    if (indices) {
+      this.indices = indices;
+    } else {
+      this.indices = this.sketch.createVector(
+        this.sketch.ceil(this.sketch.width / this.parent.maxSize / 2),
+        this.sketch.ceil(this.sketch.height / this.parent.maxSize / 2)
+      );
+    }
+  }
+
+  show() {
+    this.size += this.parent.growthRate;
+    if (this.size >= this.parent.maxSize) {
+      this.size = this.parent.resetSize;
     }
   }
 }

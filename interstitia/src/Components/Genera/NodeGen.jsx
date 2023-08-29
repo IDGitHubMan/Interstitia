@@ -16,11 +16,13 @@ export const NodeGen = (props) => {
       ).parent(canvasParentRef);
     }
     let settings = { sketch: p5 };
-    for (let entry of props.params.entries()) {
-      const [param, value] = entry;
-      settings[param] = isNaN(parseFloat(value))
-        ? value === true
-        : parseFloat(value);
+    if (props.params) {
+      for (let entry of props.params.entries()) {
+        const [param, value] = entry;
+        settings[param] = isNaN(parseFloat(value))
+          ? value === true
+          : parseFloat(value);
+      }
     }
 
     f = new Graph(settings);

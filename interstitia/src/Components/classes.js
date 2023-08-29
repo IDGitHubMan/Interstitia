@@ -871,54 +871,48 @@ export class FlowNoise {
 }
 
 export class FlowSetNoise {
-  constructor(
-    s,
-    cs = 3,
-    res = 5,
-    x = 0.001,
-    y = 100,
-    st = false,
-    f = true,
-    r = 5000,
-    sm = 0,
-    smin = 1,
-    smax = 10,
-    si = 5000,
-    fc = 1,
-    lim = 5,
-    c0 = [255, 255, 0],
-    c1 = [0, 0, 255],
-    c2 = [255, 0, 255],
-    c3 = [0, 255, 255],
-    bga = 10,
-    rs,
-    ns
-  ) {
-    this.sketch = s;
-    this.colSystem = cs;
-    this.resolution = res;
-    this.xInc = x;
-    this.yInc = y;
-    this.steady = st;
-    this.rate = r;
-    this.full = f;
-    this.sm = sm;
-    this.minSize = smin;
-    this.maxSize = smax;
-    this.strength = fc;
-    this.lim = lim;
-    this.col0 = this.sketch.color(c0[0], c0[1], c0[2]);
-    this.col1 = this.sketch.color(c1[0], c1[1], c1[2]);
-    this.col2 = this.sketch.color(c2[0], c0[1], c0[2]);
-    this.col3 = this.sketch.color(c3[0], c3[1], c3[2]);
-    this.alpha = bga;
+  constructor(settings) {
+    this.sketch = settings.sketch;
+    this.colSystem = settings.cs ?? 3;
+    this.resolution = settings.res ?? 5;
+    this.xInc = settings.x ?? 0.001;
+    this.yInc = settings.y ?? 100;
+    this.steady = settings.st ?? false;
+    this.rate = settings.r ?? 5;
+    this.full = settings.f ?? true;
+    this.sm = settings.sm ?? 0;
+    this.minSize = settings.smin ?? 1;
+    this.maxSize = settings.smax ?? 10;
+    this.strength = settings.fc ?? 1;
+    this.lim = settings.lim ?? 5;
+    this.col0 = this.sketch.color(
+      settings.c0A ?? 255,
+      settings.c0B ?? 255,
+      settings.c0C ?? 0
+    );
+    this.col1 = this.sketch.color(
+      settings.c1A ?? 0,
+      settings.c1B ?? 0,
+      settings.c1C ?? 255
+    );
+    this.col2 = this.sketch.color(
+      settings.c2A ?? 255,
+      settings.c2B ?? 0,
+      settings.c2C ?? 255
+    );
+    this.col3 = this.sketch.color(
+      settings.c3A ?? 0,
+      settings.c3B ?? 255,
+      settings.c3C ?? 0
+    );
+    this.alpha = settings.bga ?? 10;
     this.size = 0;
-    this.sizeInterval = si;
-    if (rs) {
-      this.sketch.randomSeed(rs);
+    this.sizeInterval = settings.si ?? 5;
+    if (settings.rs) {
+      this.sketch.randomSeed(settings.rs);
     }
-    if (ns) {
-      this.sketch.noiseSeed(ns);
+    if (settings.ns) {
+      this.sketch.noiseSeed(settings.ns);
     }
     this.flows = new Array(500);
     for (let i = 0; i < this.flows.length; i++) {

@@ -11,7 +11,7 @@ export const Preview = (props) => {
     p5.createCanvas(p5.windowWidth, p5.windowHeight).parent(canvasParentRef);
     let settings = { sketch: p5 };
     g = new Graph(settings);
-    f = new FlowSetNoise(p5);
+    f = new FlowSetNoise(settings);
     r = new NoiseWave(p5);
     time = p5.millis();
   };

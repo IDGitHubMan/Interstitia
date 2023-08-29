@@ -142,9 +142,10 @@ export const StarGen = (props) => {
   };
 
   const windowResized = (p5) => {
-    if (props.params != null) {
+    if (props.params) {
       p5.resizeCanvas(p5canvases[0].size().width, p5.windowHeight);
     } else {
+      p5canvases = p5.selectAll(".react-p5");
       p5.resizeCanvas(
         p5canvases[0].size().width,
         p5.min(p5canvases[0].size().width, p5.windowHeight)

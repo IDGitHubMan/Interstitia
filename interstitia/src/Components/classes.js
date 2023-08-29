@@ -450,10 +450,11 @@ export class Node {
   constructor(s, parent) {
     this.cont = parent;
     this.sketch = s;
-    this.col1 = this.sketch.random(0, 1);
-    this.col2 = this.sketch.random(0, 1);
-    this.col3 = this.sketch.random(0, 1);
-    this.preRange = this.sketch.random(0, 1);
+    this.preMaxConnections = this.sketch.random();
+    this.col1 = this.sketch.random();
+    this.col2 = this.sketch.random();
+    this.col3 = this.sketch.random();
+    this.preRange = this.sketch.random();
     this.drift = this.sketch.createVector(
       this.sketch.random(-this.cont.nodeSpeed, this.cont.nodeSpeed),
       this.sketch.random(-this.cont.nodeSpeed, this.cont.nodeSpeed)
@@ -465,6 +466,19 @@ export class Node {
     );
   }
   update() {
+    if (this.cont.connectAmountMode === 0) {
+      this.maxConnections = this.sketch.ceil(
+        this.sketch.map(
+          this.preMaxConnections,
+          0,
+          1,
+          this.cont.minConnects,
+          this.cont.maxConnects
+        )
+      );
+    } else {
+      this.maxConnections = this.cont.minConnects;
+    }
     if (this.cont.colorMode === 0) {
       this.col = this.sketch.color(
         this.sketch.map(this.col1, 0, 1, this.cont.col1[0], this.cont.col2[0]),
@@ -493,6 +507,222 @@ export class Node {
     } else {
       this.range = this.cont.interpRange;
     }
+    if (this.cont.connectionVisibility) {
+      let visible = this.cont.nodeStore.filter(
+        (node) =>
+          this.sketch.dist(node.loc.x, node.loc.y, this.loc.x, this.loc.y) <=
+            this.range &&
+          this.sketch.dist(node.loc.x, node.loc.y, this.loc.x, this.loc.y) > 0
+      );
+      this.cont.nearest
+        ? visible.sort((n1, n2) => {
+            return (
+              this.sketch.dist(n1.loc.x, n1.loc.y, this.loc.x, this.loc.y) -
+              this.sketch.dist(n2.loc.x, n2.loc.y, this.loc.x, this.loc.y)
+            );
+          })
+        : visible.sort((n1, n2) => {
+            return (
+              this.sketch.dist(n2.loc.x, n2.loc.y, this.loc.x, this.loc.y) -
+              this.sketch.dist(n1.loc.x, n1.loc.y, this.loc.x, this.loc.y)
+            );
+          });
+      if (this.cont.connectionMode === 0) {
+        for (let n of visible) {
+          let distance = this.sketch.dist(
+            n.loc.x,
+            n.loc.y,
+            this.loc.x,
+            this.loc.y
+          );
+          let a;
+          this.cont.nearest
+            ? (a = this.sketch.map(distance, 0, this.range, 360, 0))
+            : (a = this.sketch.map(distance, 0, this.range, 0, 360));
+          this.sketch.strokeWeight(1);
+          this.sketch.stroke(
+            this.sketch.hue(this.col),
+            this.sketch.saturation(this.col),
+            this.sketch.brightness(this.col),
+            a
+          );
+          if (distance <= n.range) {
+            this.sketch.line(
+              this.loc.x,
+              this.loc.y,
+              (this.loc.x + n.loc.x) / 2,
+              (this.loc.y + n.loc.y) / 2
+            );
+          } else {
+            this.sketch.line(this.loc.x, this.loc.y, n.loc.x, n.loc.y);
+          }
+        }
+      } else {
+        if (visible.length > 0) {
+          for (
+            let i = 0;
+            i < this.sketch.min(visible.length - 1, this.maxConnections);
+            i++
+          ) {
+            let distance = this.sketch.dist(
+              visible[i].loc.x,
+              visible[i].loc.y,
+              this.loc.x,
+              this.loc.y
+            );
+            let a;
+            this.cont.nearest
+              ? (a = this.sketch.map(distance, 0, this.range, 360, 0))
+              : (a = this.sketch.map(distance, 0, this.range, 0, 360));
+            this.sketch.strokeWeight(1);
+            this.sketch.stroke(
+              this.sketch.hue(this.col),
+              this.sketch.saturation(this.col),
+              this.sketch.brightness(this.col),
+              a
+            );
+            if (distance <= visible[i].range) {
+              this.sketch.line(
+                this.loc.x,
+                this.loc.y,
+                (this.loc.x + visible[i].loc.x) / 2,
+                (this.loc.y + visible[i].loc.y) / 2
+              );
+            } else {
+              this.sketch.line(
+                this.loc.x,
+                this.loc.y,
+                visible[i].loc.x,
+                visible[i].loc.y
+              );
+            }
+          }
+        }
+      }
+    }
+    if (this.cont.sparkles) {
+      let visible = this.cont.nodeStore.filter(
+        (node) =>
+          this.sketch.dist(node.loc.x, node.loc.y, this.loc.x, this.loc.y) <=
+            this.range &&
+          this.sketch.dist(node.loc.x, node.loc.y, this.loc.x, this.loc.y) >
+            0 &&
+          this.sketch.dist(node.loc.x, node.loc.y, this.loc.x, this.loc.y) <=
+            node.range
+      );
+      if (this.cont.sparkleWeightMode === 0) {
+        this.sketch.strokeWeight(this.cont.sparkleWeightMin);
+      } else if (this.cont.sparkleWeightMode === 1) {
+        this.sketch.strokeWeight(
+          this.sketch.random(
+            this.cont.sparkleWeightMin,
+            this.cont.sparkleWeightMax
+          )
+        );
+      } else {
+        this.sketch.strokeWeight(
+          this.sketch.map(
+            this.sketch.sin(
+              this.sketch.map(
+                this.sketch.millis() % (this.cont.sparkleWeightInterval * 1000),
+                0,
+                this.cont.sparkleWeightInterval * 1000,
+                0,
+                this.sketch.TWO_PI
+              )
+            ),
+            -1,
+            1,
+            this.cont.sparkleWeightMin,
+            this.cont.sparkleWeightMax
+          )
+        );
+      }
+      if (this.cont.sparkleDisplacementMode === 0) {
+        this.sparkleDisp = this.cont.sparkleDisplacementMin;
+      } else if (this.cont.sparkleDisplacementMode === 1) {
+        this.sparkleDisp = this.sketch.random(
+          this.cont.sparkleDisplacementMin,
+          this.cont.sparkleDisplacementMax
+        );
+      } else {
+        this.sparkleDisp = this.sketch.map(
+          this.sketch.sin(
+            this.sketch.map(
+              this.sketch.millis() %
+                (this.cont.sparkleDisplacementInterval * 1000),
+              0,
+              this.cont.sparkleDisplacementInterval * 1000,
+              0,
+              this.sketch.TWO_PI
+            )
+          ),
+          -1,
+          1,
+          this.cont.sparkleDisplacementMin,
+          this.cont.sparkleDisplacementMax
+        );
+      }
+      for (let n of visible) {
+        if (this.cont.sparkleColSystem === 0) {
+          this.sketch.stroke(this.cont.sparkleCol1);
+        } else if (this.cont.sparkleColSystem === 1) {
+          this.sketch.stroke(this.sketch.lerpColor(this.col, n.col, 0.5));
+        } else if (this.sparkleColSystem === 2) {
+          this.sketch.stroke(
+            this.sketch.random(
+              this.cont.sparkleCol1[0],
+              this.cont.sparkleCol2[0]
+            ),
+            this.sketch.random(
+              this.cont.sparkleCol1[1],
+              this.cont.sparkleCol2[1]
+            ),
+            this.sketch.random(
+              this.cont.sparkleCol1[2],
+              this.cont.sparkleCol2[2]
+            )
+          );
+        } else {
+          this.sketch.stroke(
+            this.sketch.lerpColor(
+              this.sketch.color(
+                this.cont.sparkleCol1[0],
+                this.cont.sparkleCol1[1],
+                this.cont.sparkleCol1[2]
+              ),
+              this.sketch.color(
+                this.cont.sparkleCol2[0],
+                this.cont.sparkleCol2[1],
+                this.cont.sparkleCol2[2]
+              ),
+              this.sketch.map(
+                this.sketch.sin(
+                  this.sketch.map(
+                    this.sketch.millis() %
+                      (this.cont.sparkleColInterval * 1000),
+                    0,
+                    this.cont.sparkleColInterval * 1000,
+                    0,
+                    this.sketch.TWO_PI
+                  )
+                ),
+                -1,
+                1,
+                0,
+                1
+              )
+            )
+          );
+        }
+        this.sketch.point(
+          (n.loc.x + this.loc.x) / 2 +
+            this.sketch.random(-this.sparkleDisp, this.sparkleDisp),
+          (n.loc.y + this.loc.y) / 2 +
+            this.sketch.random(-this.sparkleDisp, this.sparkleDisp)
+        );
+      }
+    }
     this.loc.add(this.drift);
     if (this.loc.x > this.sketch.width || this.loc.x < 0) {
       this.drift.x *= -1;
@@ -516,10 +746,15 @@ export class Node {
 export class Graph {
   constructor(settings) {
     this.sketch = settings.sketch;
+    this.nearest = settings.n ?? true;
     this.nodeCount = settings.nc ?? 50;
     this.nodeSpeed = settings.ns ?? 2;
+    this.maxConnects = settings.maxc ?? 10;
+    this.minConnects = settings.minc ?? 2;
+    this.connectAmountMode = settings.cam ?? 0;
     this.coreVisibility = settings.crv ?? true;
     this.connectionVisibility = settings.cnv ?? true;
+    this.connectionMode = settings.cnm ?? 0;
     this.rangeVisibility = settings.rv ?? false;
     this.colorMode = settings.cm ?? 0;
     this.colorInterval = settings.ci ?? 5;
@@ -608,151 +843,6 @@ export class Graph {
         this.rangeMin,
         this.rangeMax
       );
-    }
-    if (this.connectionVisibility) {
-      for (let node of this.nodeStore) {
-        this.sketch.strokeWeight(1);
-        for (var node2 of this.nodeStore) {
-          let distance = this.sketch.dist(
-            node.loc.x,
-            node.loc.y,
-            node2.loc.x,
-            node2.loc.y
-          );
-          let a = this.sketch.map(distance, 0, node.range, 360, 0);
-          if (distance === 0) {
-            this.sketch.noStroke();
-          } else if (distance <= node.range) {
-            this.sketch.stroke(
-              this.sketch.hue(node.col),
-              this.sketch.saturation(node.col),
-              this.sketch.brightness(node.col),
-              a
-            );
-            if (distance <= node2.range) {
-              this.sketch.line(
-                node.loc.x,
-                node.loc.y,
-                (node.loc.x + node2.loc.x) / 2,
-                (node.loc.y + node2.loc.y) / 2
-              );
-            } else {
-              this.sketch.line(
-                node.loc.x,
-                node.loc.y,
-                node2.loc.x,
-                node2.loc.y
-              );
-            }
-          }
-        }
-      }
-    }
-    if (this.sparkleWeightMode === 0) {
-      this.sketch.strokeWeight(this.sparkleWeightMin);
-    } else if (this.sparkleWeightMode === 1) {
-      this.sketch.strokeWeight(
-        this.sketch.random(this.sparkleWeightMin, this.sparkleWeightMax)
-      );
-    } else {
-      this.sketch.strokeWeight(
-        this.sketch.map(
-          this.sketch.sin(
-            this.sketch.map(
-              this.sketch.millis() % (this.sparkleWeightInterval * 1000),
-              0,
-              this.sparkleWeightInterval * 1000,
-              0,
-              this.sketch.TWO_PI
-            )
-          ),
-          -1,
-          1,
-          this.sparkleWeightMin,
-          this.sparkleWeightMax
-        )
-      );
-    }
-    if (this.sparkles) {
-      for (var n of this.nodeStore) {
-        for (var n2 of this.nodeStore) {
-          let distance = this.sketch.dist(n.loc.x, n.loc.y, n2.loc.x, n2.loc.y);
-          if (distance <= n2.range && distance <= n.range && distance !== 0) {
-            if (this.sparkleDisplacementMode === 0) {
-              this.sparkleDisp = this.sparkleDisplacementMin;
-            } else if (this.sparkleDisplacementMode === 1) {
-              this.sparkleDisp = this.sketch.random(
-                this.sparkleDisplacementMin,
-                this.sparkleDisplacementMax
-              );
-            } else {
-              this.sparkleDisp = this.sketch.map(
-                this.sketch.sin(
-                  this.sketch.map(
-                    this.sketch.millis() %
-                      (this.sparkleDisplacementInterval * 1000),
-                    0,
-                    this.sparkleDisplacementInterval * 1000,
-                    0,
-                    this.sketch.TWO_PI
-                  )
-                ),
-                -1,
-                1,
-                this.sparkleDisplacementMin,
-                this.sparkleDisplacementMax
-              );
-            }
-            if (this.sparkleColSystem === 0) {
-              this.sketch.stroke(this.sparkleCol1);
-            } else if (this.sparkleColSystem === 1) {
-              this.sketch.stroke(this.sketch.lerpColor(n.col, n2.col, 0.5));
-            } else if (this.sparkleColSystem === 2) {
-              this.sketch.stroke(
-                this.sketch.random(this.sparkleCol1[0], this.sparkleCol2[0]),
-                this.sketch.random(this.sparkleCol1[1], this.sparkleCol2[1]),
-                this.sketch.random(this.sparkleCol1[2], this.sparkleCol2[2])
-              );
-            } else {
-              this.sketch.stroke(
-                this.sketch.lerpColor(
-                  this.sketch.color(
-                    this.sparkleCol1[0],
-                    this.sparkleCol1[1],
-                    this.sparkleCol1[2]
-                  ),
-                  this.sketch.color(
-                    this.sparkleCol2[0],
-                    this.sparkleCol2[1],
-                    this.sparkleCol2[2]
-                  ),
-                  this.sketch.map(
-                    this.sketch.sin(
-                      this.sketch.map(
-                        this.sketch.millis() % (this.sparkleColInterval * 1000),
-                        0,
-                        this.sparkleColInterval * 1000,
-                        0,
-                        this.sketch.TWO_PI
-                      )
-                    ),
-                    -1,
-                    1,
-                    0,
-                    1
-                  )
-                )
-              );
-            }
-            this.sketch.point(
-              (n.loc.x + n2.loc.x) / 2 +
-                this.sketch.random(-this.sparkleDisp, this.sparkleDisp),
-              (n.loc.y + n2.loc.y) / 2 +
-                this.sketch.random(-this.sparkleDisp, this.sparkleDisp)
-            );
-          }
-        }
-      }
     }
   }
 }
@@ -877,8 +967,8 @@ export class FlowSetNoise {
     this.sketch = settings.sketch;
     this.colSystem = settings.cs ?? 3;
     this.resolution = settings.res ?? 5;
-    this.xInc = settings.x ?? 0.001;
-    this.yInc = settings.y ?? 100;
+    this.xInc = settings.x ?? 0.1;
+    this.yInc = settings.y ?? 0.1;
     this.steady = settings.st ?? true;
     this.rate = settings.r ?? 5;
     this.full = settings.f ?? true;

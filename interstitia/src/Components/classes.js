@@ -517,7 +517,7 @@ export class Graph {
   constructor(settings) {
     this.sketch = settings.sketch;
     this.nodeCount = settings.nc ?? 50;
-    this.nodeSpeed = settings.ns ?? 5;
+    this.nodeSpeed = settings.ns ?? 2;
     this.coreVisibility = settings.crv ?? true;
     this.connectionVisibility = settings.cnv ?? true;
     this.rangeVisibility = settings.rv ?? false;

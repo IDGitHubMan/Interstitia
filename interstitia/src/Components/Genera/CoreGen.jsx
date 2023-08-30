@@ -6,6 +6,15 @@ export const CoreGen = (props) => {
   let p5canvases;
   const setup = (p5, canvasParentRef) => {
     p5canvases = p5.selectAll(".react-p5");
+    let settings = { sketch: p5 };
+    if (props.params) {
+      for (let entry of props.params.entries()) {
+        const [param, value] = entry;
+        settings[param] = isNaN(parseFloat(value))
+          ? value === true
+          : parseFloat(value);
+      }
+    }
     if (props.params != null) {
       p5.createCanvas(p5canvases[0].size().width, p5.windowHeight, p5.WEBGL);
     } else {
@@ -15,41 +24,7 @@ export const CoreGen = (props) => {
         p5.WEBGL
       ).parent(canvasParentRef);
     }
-    if (props.params == null) {
-      f = new Core(p5);
-    } else {
-      f = new Core(
-        p5,
-        [
-          parseFloat(props.params.get("c1A")),
-          parseFloat(props.params.get("c1B")),
-          parseFloat(props.params.get("c1C")),
-        ],
-        [
-          parseFloat(props.params.get("c2A")),
-          parseFloat(props.params.get("c2B")),
-          parseFloat(props.params.get("c2C")),
-        ],
-        parseInt(props.params.get("pt")),
-        parseInt(props.params.get("pc")),
-        props.params.get("rz") === "true",
-        props.params.get("ry") === "true",
-        props.params.get("rx") === "true",
-        parseInt(props.params.get("v")),
-        props.params.get("dp") === "true",
-        props.params.get("ds") === "true",
-        props.params.get("da") === "true",
-        props.params.get("fa") === "true",
-        parseFloat(props.params.get("init")),
-        parseFloat(props.params.get("r")),
-        [
-          parseInt(props.params.get("bgA")),
-          parseInt(props.params.get("bgB")),
-          parseInt(props.params.get("bgC")),
-        ],
-        parseFloat(props.params.get("rs"))
-      );
-    }
+    f = new Core(settings);
   };
 
   const draw = (p5) => {

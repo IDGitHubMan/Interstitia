@@ -255,7 +255,7 @@ export class Starfield {
     c5 = [202, 215, 255],
     c6 = [170, 191, 255],
     c7 = [155, 176, 255],
-    sc = 1000,
+    sc = 500,
     bgA = 50,
     rs
   ) {
@@ -747,7 +747,7 @@ export class Graph {
   constructor(settings) {
     this.sketch = settings.sketch;
     this.nearest = settings.n ?? true;
-    this.nodeCount = settings.nc ?? 50;
+    this.nodeCount = settings.nc ?? 25;
     this.nodeSpeed = settings.ns ?? 2;
     this.maxConnects = settings.maxc ?? 10;
     this.minConnects = settings.minc ?? 2;
@@ -1006,7 +1006,7 @@ export class FlowSetNoise {
     if (settings.ns) {
       this.sketch.noiseSeed(settings.ns);
     }
-    this.flows = new Array(500);
+    this.flows = new Array(250);
     for (let i = 0; i < this.flows.length; i++) {
       this.flows[i] = new FlowNoise(this.sketch, this);
     }
@@ -1199,51 +1199,38 @@ export class Arc {
 }
 
 export class Core {
-  constructor(
-    s,
-    c1 = [200, 360, 360],
-    c2 = [240, 0, 0],
-    pt = 2000,
-    pc = 1,
-    rz = true,
-    ry = false,
-    rx = false,
-    v = 8,
-    dp = false,
-    ds = true,
-    da = true,
-    fa = true,
-    init = 100,
-    r = 5,
-    bg = [0, 0, 0, 360],
-    rs
-  ) {
-    this.sketch = s;
-    this.col1 = c1;
-    this.col2 = c2;
-    this.pulseTime = pt;
+  constructor(settings, bg = [0, 0, 0, 360]) {
+    this.sketch = settings.sketch;
+    this.col1 = [settings.c1A ?? 200, settings.c1B ?? 360, settings.c1C ?? 360];
+    this.col2 = [settings.c2A ?? 200, settings.c2B ?? 360, settings.c2C ?? 360];
+    this.pulseTime = settings.pt ?? 2;
     this.lastPulse = this.sketch.millis();
     this.arcs = [];
-    this.pulseCount = pc;
-    this.rotateZ = rz;
-    this.rotateY = ry;
-    this.rotateX = rx;
-    this.vertices = v;
-    this.displayShapes = dp;
-    this.displayAster = ds;
-    this.displayArc = da;
-    this.fullArc = fa;
-    this.initVal = init;
-    this.rate = r;
-    this.bg = bg;
-    if (rs) {
-      this.sketch.randomSeed(rs);
+    this.pulseCount = settings.pc ?? 1;
+    this.rotateZ = settings.rz ?? true;
+    this.rotateY = settings.ry ?? false;
+    this.rotateX = settings.rx ?? false;
+    this.vertices = settings.v ?? 4;
+    this.displayShapes = settings.dp ?? false;
+    this.displayAster = settings.ds ?? true;
+    this.displayArc = settings.da ?? true;
+    this.fullArc = settings.fa ?? true;
+    this.initVal = settings.init ?? 100;
+    this.rate = settings.r ?? 5;
+    this.bg = this.sketch.color(
+      settings.bgA ?? 0,
+      settings.bgB ?? 0,
+      settings.bgC ?? 0,
+      settings.bgD ?? 360
+    );
+    if (settings.rs) {
+      this.sketch.randomSeed(settings.rs);
     }
   }
 
   update() {
     this.sketch.background(this.bg);
-    if (this.sketch.millis() - this.lastPulse >= this.pulseTime) {
+    if (this.sketch.millis() - this.lastPulse >= this.pulseTime * 1000) {
       this.lastPulse = this.sketch.millis();
       for (let i = 0; i < this.pulseCount; i++) {
         this.arcs.push(new Arc(this, this.sketch));
